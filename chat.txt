@@ -1,0 +1,7 @@
+perfetto!
+adesso devo scrivere una relazione sul codice
+
+Devo spiegare come ho recuperato i dati, come li ho elaborati e il significato del risultato ottenuto
+
+Potresti scrivere la relazione il latex (metti il codicce qua sotto che poi lo incollo direttamente su Overleaf)
+
