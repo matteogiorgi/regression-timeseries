@@ -1,7 +1,7 @@
-perfetto!
-adesso devo scrivere una relazione sul codice
+Con il mio gruppo avevamo pensato di descrivere con regressione lineare l'effetto gennaio
+Enrico proponeva di mettere come variabile in ascissa i ritorni delle azioni a dicembre e come ordinata i ritorni delle azioni a gennaio
+Abbiamo pensato di usare yfinance e prendere un dataset di small cap
+Questo è quello che abbiamo scritto:
 
-Devo spiegare come ho recuperato i dati, come li ho elaborati e il significato del risultato ottenuto
-
-Potresti scrivere la relazione il latex (metti il codicce qua sotto che poi lo incollo direttamente su Overleaf)
-
+Con il mio gruppo avevamo pensato di descrivere con regressione lineare la correlazione tra indebitamento (variabile libera) e PIL
+Questo è quello che abbiamo scritto:
