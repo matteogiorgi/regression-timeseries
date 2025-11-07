@@ -1,0 +1,12 @@
+# prediction for the regression line
+y_pred = model.predict(X)
+
+plt.figure(figsize=(7, 5))
+plt.scatter(df["AI_Adoption"], df["Layoffs"], label="Observed data")
+plt.plot(df["AI_Adoption"], y_pred, color="red", label="Fitted line")
+plt.xlabel("AI Adoption Level (%)")
+plt.ylabel("Number of Layoffs")
+plt.title("Relationship between AI Adoption and Layoffs")
+plt.legend()
+plt.tight_layout()
+plt.show()

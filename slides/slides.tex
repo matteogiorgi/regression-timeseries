@@ -1,12 +1,35 @@
 \documentclass{beamer}
 
-\usetheme{Madrid} % va bene anche CambridgeUS o Warsaw
+\usetheme{Warsaw} % Madrid, CambridgeUS, Warsaw
+\setbeamersize{text margin left=0.7cm, text margin right=0.7cm}
+\setbeamertemplate{navigation symbols}{}
 \usepackage[utf8]{inputenc}
 \usepackage{booktabs}
 \usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegray}{rgb}{0.95,0.95,0.95}
+\definecolor{commentgreen}{rgb}{0,0.6,0}
+\definecolor{keywordblue}{rgb}{0.2,0.2,0.8}
+\definecolor{stringred}{rgb}{0.7,0,0}
+
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{codegray},
+    commentstyle=\color{commentgreen}\itshape,
+    keywordstyle=\color{keywordblue}\bfseries,
+    stringstyle=\color{stringred},
+    basicstyle=\ttfamily\scriptsize,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{gray},
+    captionpos=b,
+    language=Python
+}
 
 \title[AI Adoption \& Layoffs]{AI Adoption and Layoffs}
-\author{Your Team}
+\author{\textbf{Group 10}\\\textit{The ARIMAgeddon}}
 \date{\today}
 
 \begin{document}
@@ -32,7 +55,7 @@
 %     \end{itemize}
 %   \end{itemize}
 \begin{itemize}
-    \item Does a higher level of AI adoption in firms correlate with a higher number of layoffs?
+  \item Does a higher level of AI adoption in firms correlate with a higher number of layoffs?
   \item We build a simple cross-sectional linear regression with synthetic data using the following model:
   \[
     \text{Layoffs}_i = \beta_0 + \beta_1 \, \text{AI\_Adoption}_i + \varepsilon_i
@@ -88,15 +111,33 @@
 %   \footnotesize
 %   Note: standard errors assume correctly specified covariance matrix.
 % \end{frame}
+
 %=================================================
 
-\begin{frame}{Scatter Plot and Fitted Line}
-  \begin{center}
-    \includegraphics[width=0.9\linewidth]{image.png}
-  \end{center}
-  \footnotesize
-  The fitted line closely follows the data, confirming the positive linear relationship.
+\begin{frame}[fragile]{OLS Estimation Code}
+In the following slides, we show selected Python code snippets to illustrate 
+the main steps of our regression analysis.
+
+\vspace{1.0cm}
+\lstset{style=pythonstyle}
+\begin{lstlisting}
+# Add a constant term to include the intercept in the model
+# and define the dependent variable (layoffs)
+X = sm.add_constant(df["AI_Adoption"])
+y = df["Layoffs"]
+
+# Fit the OLS regression model
+# Dand display the regression summary
+model = sm.OLS(y, X).fit()
+print(model.summary())
+\end{lstlisting}
+
+\vspace{0.3cm}
+\scriptsize
+The complete and reproducible code is available at:
+\texttt{https://github.com/matteogiorgi/regression-timeseries}
 \end{frame}
+
 %=================================================
 
 \begin{frame}[fragile]{OLS Model Output}
@@ -129,29 +170,100 @@ Kurtosis:                       2.929   Cond. No.                         104.
 
 %=================================================
 
-\begin{frame}{Interpretation}
+\begin{frame}[fragile]{Plot Fitted Model}
+\lstset{style=pythonstyle}
+\begin{lstlisting}
+# Predict fitted values based on the estimated model
+y_pred = model.predict(X)
+
+# Create scatter plot (observed data)
+# and add regression line (predicted values)
+plt.figure(figsize=(7, 5))
+plt.scatter(
+    df["AI_Adoption"],
+    df["Layoffs"],
+    label="Observed data"
+)
+plt.plot(
+    df["AI_Adoption"],
+    y_pred,
+    color="red",
+    label="Fitted line"
+)
+plt.xlabel("AI Adoption Level (%)")
+plt.ylabel("Number of Layoffs")
+plt.title("Relationship between AI Adoption and Layoffs")
+plt.legend()
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+\end{frame}
+%=================================================
+
+\begin{frame}{Scatter Plot and Fitted Line}
+  \begin{center}
+    \includegraphics[width=0.9\linewidth]{image.png}
+  \end{center}
+  \footnotesize
+%   The fitted line closely follows the data, confirming the positive linear relationship.
+\end{frame}
+
+%=================================================
+
+% \begin{frame}{Interpretation}
+%   \begin{itemize}
+%     \item The coefficient on AI adoption is \textbf{1.4310} and it is highly significant.
+%     \item This means: for a 1-point increase in the AI adoption score, layoffs increase on average by about 1.43 units.
+%     \item Very high $R^2 = 0.908$ because the data were constructed to reflect a strong positive relationship.
+%     \item In real data we would expect more noise and lower $R^2$.
+%   \end{itemize}
+% \end{frame}
+
+%=================================================
+
+% \begin{frame}{Conclusions and AI usage}
+%   \begin{itemize}
+%     \item Our synthetic example shows a clear positive correlation between AI adoption and layoffs.
+%     \item The result is statistically strong (very small p-value).
+%     \item For an applied project, we would:
+%       \begin{itemize}
+%         \item collect real firm-level data,
+%         \item add control variables (firm size, sector, profitability),
+%         \item test robustness.
+%       \end{itemize}
+%   \end{itemize}
+% \end{frame}
+
+%=================================================
+
+\begin{frame}{Interpretation of the Regression Results}
   \begin{itemize}
-    \item The coefficient on AI adoption is \textbf{1.4665} and it is highly significant.
-    \item This means: for a 1-point increase in the AI adoption score, layoffs increase on average by about 1.47 units.
-    \item Very high $R^2 = 0.905$ because the data were constructed to reflect a strong positive relationship.
-    \item In real data we would expect more noise and lower $R^2$.
+    \item The estimated coefficient for \textbf{AI\_Adoption} is \textbf{1.43}, statistically significant at the 1\% level ($p < 0.001$).
+    \item Interpretation: for each one–point increase in the AI adoption index, the number of layoffs increases on average by about 1.43 employees.
+    \item The intercept ($\beta_0 \approx 23.2$) indicates the expected number of layoffs for firms with no AI adoption at all.
+    \item The $R^2 = 0.91$ shows that roughly \textbf{91\% of the variation in layoffs} across firms is explained by differences in AI adoption levels.
+    \item These results suggest a strong positive association between automation intensity and workforce reduction — consistent with the hypothesis that higher AI adoption may substitute part of human labor.
   \end{itemize}
 \end{frame}
 
 %=================================================
 
-\begin{frame}{Conclusions and AI usage}
+\begin{frame}{Discussion and Takeaways}
   \begin{itemize}
-    \item Our synthetic example shows a clear positive correlation between AI adoption and layoffs.
-    \item The result is statistically strong (very small p-value).
-    \item For an applied project, we would:
+    \item The model highlights how AI-driven automation could lead to higher layoffs, at least in the short run.
+    \item However, this synthetic example only captures a simplified linear relationship:
       \begin{itemize}
-        \item collect real firm-level data,
-        \item add control variables (firm size, sector, profitability),
-        \item test robustness.
+        \item Real-world dynamics may depend on sector, firm size, and type of AI integration.
+        \item In some industries, AI adoption may create new roles (data analysis, system maintenance) rather than destroy jobs.
       \end{itemize}
+    \item Future empirical work should:
+      \begin{itemize}
+        \item use panel data or time-series evidence to distinguish correlation from causality;
+        \item include control variables (e.g., productivity, profitability, R\&D intensity);
+        \item test for nonlinear or threshold effects in AI adoption.
+      \end{itemize}
+    \item Overall, the analysis illustrates how regression methods can be used to quantify economic effects of technological innovation.
   \end{itemize}
 \end{frame}
-%=================================================
 
 \end{document}
