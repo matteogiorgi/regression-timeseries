@@ -1,0 +1,157 @@
+\documentclass{beamer}
+
+\usetheme{Madrid} % va bene anche CambridgeUS o Warsaw
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{graphicx}
+
+\title[AI Adoption \& Layoffs]{AI Adoption and Layoffs}
+\author{Your Team}
+\date{\today}
+
+\begin{document}
+
+%=================================================
+\begin{frame}
+  \titlepage
+\end{frame}
+%=================================================
+
+\begin{frame}{Research Question and Model Definition}
+%   \begin{itemize}
+%     \item Does a higher level of AI adoption in firms correlate with a higher number of layoffs?
+%     \item We build a simple cross-sectional linear regression with synthetic data using the following law:
+%     \[
+%       \text{Layoffs}_i = \beta_0 + \beta_1 \text{AI\_Adoption}_i + \varepsilon_i
+%     \]
+%     \begin{itemize}
+%         \item we simulate 50 firms total
+%         \item $\text{AI\_Adoption}_i$ represents uniform score in \([0,100]\)
+%         \item $\text{Layoffs}_i$ represents the baseline $20$ + $1.5 \times$ AI adoption + noise $\mathcal{N}(0,15)$
+%     \item Noise added to avoid a perfect linear cloud.
+%     \end{itemize}
+%   \end{itemize}
+\begin{itemize}
+    \item Does a higher level of AI adoption in firms correlate with a higher number of layoffs?
+  \item We build a simple cross-sectional linear regression with synthetic data using the following model:
+  \[
+    \text{Layoffs}_i = \beta_0 + \beta_1 \, \text{AI\_Adoption}_i + \varepsilon_i
+  \]
+  \item \textbf{AI\_Adoption$_i$}: represents the degree of AI integration within firm $i$  
+        (e.g., automation of processes, use of machine learning tools, or AI-driven decision systems), scaled between 0 and 100
+  \item \textbf{Layoffs$_i$}: number of employees laid off by firm $i$ during the year
+  \item Simulated dataset: 100 firms
+    % \begin{itemize}
+    %   \item $\text{AI\_Adoption}_i \sim U(0, 100)$
+    %   \item $\text{Layoffs}_i = 20 + 1.5 \times \text{AI\_Adoption}_i + \mathcal{N}(0,15)$
+    %   \item Noise added to avoid a perfect linear cloud
+    % \end{itemize}
+\end{itemize}
+\end{frame}
+%=================================================
+
+% \begin{frame}{Data Generation (Synthetic)}
+%   \begin{itemize}
+%     \item 50 firms.
+%     \item \textbf{AI\_Adoption}: uniform score in \([0,100]\).
+%     \item \textbf{Layoffs}: baseline $20$ + $1.5 \times$ AI adoption + noise $\mathcal{N}(0,15)$.
+%     \item Noise added to avoid a perfect linear cloud.
+%   \end{itemize}
+% \end{frame}
+%=================================================
+
+% \begin{frame}{Model Specification}
+%   \begin{itemize}
+%     \item Dependent variable: \textbf{Layoffs} (number of layoffs in the firm).
+%     \item Independent variable: \textbf{AI\_Adoption} (0--100 score).
+%     \item Estimation method: OLS.
+%     \item Software: Python, \texttt{statsmodels}.
+%   \end{itemize}
+% \end{frame}
+%=================================================
+
+% \begin{frame}{OLS Results (summary)}
+%   \small
+%   \begin{tabular}{lccc}
+%     \toprule
+%     & Coef. & Std. Err. & p-value \\
+%     \midrule
+%     Constant & 21.4503 & 3.639 & 0.000 \\
+%     AI\_Adoption & 1.4665 & 0.069 & 0.000 \\
+%     \midrule
+%     \multicolumn{4}{l}{R-squared = 0.905 \quad Adj. R-squared = 0.903} \\
+%     \multicolumn{4}{l}{F-statistic = 455.9 \quad Prob(F) = 3.75e-26} \\
+%     \bottomrule
+%   \end{tabular}
+
+%   \vspace{0.3cm}
+%   \footnotesize
+%   Note: standard errors assume correctly specified covariance matrix.
+% \end{frame}
+%=================================================
+
+\begin{frame}{Scatter Plot and Fitted Line}
+  \begin{center}
+    \includegraphics[width=0.9\linewidth]{image.png}
+  \end{center}
+  \footnotesize
+  The fitted line closely follows the data, confirming the positive linear relationship.
+\end{frame}
+%=================================================
+
+\begin{frame}[fragile]{OLS Model Output}
+\scriptsize
+\begin{verbatim}
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                Layoffs   R-squared:                       0.908
+Model:                            OLS   Adj. R-squared:                  0.907
+Method:                 Least Squares   F-statistic:                     968.9
+Date:                Fri, 07 Nov 2025   Prob (F-statistic):           1.31e-52
+Time:                        11:59:07   Log-Likelihood:                -401.95
+No. Observations:                 100   AIC:                             807.9
+Df Residuals:                      98   BIC:                             813.1
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+===============================================================================
+                  coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------
+const          23.2264      2.554      9.093      0.000      18.158      28.295
+AI_Adoption     1.4310      0.046     31.127      0.000       1.340       1.522
+==============================================================================
+Omnibus:                        0.900   Durbin-Watson:                   2.285
+Prob(Omnibus):                  0.638   Jarque-Bera (JB):                0.808
+Skew:                           0.217   Prob(JB):                        0.668
+Kurtosis:                       2.929   Cond. No.                         104.
+==============================================================================
+\end{verbatim}
+\end{frame}
+
+%=================================================
+
+\begin{frame}{Interpretation}
+  \begin{itemize}
+    \item The coefficient on AI adoption is \textbf{1.4665} and it is highly significant.
+    \item This means: for a 1-point increase in the AI adoption score, layoffs increase on average by about 1.47 units.
+    \item Very high $R^2 = 0.905$ because the data were constructed to reflect a strong positive relationship.
+    \item In real data we would expect more noise and lower $R^2$.
+  \end{itemize}
+\end{frame}
+
+%=================================================
+
+\begin{frame}{Conclusions and AI usage}
+  \begin{itemize}
+    \item Our synthetic example shows a clear positive correlation between AI adoption and layoffs.
+    \item The result is statistically strong (very small p-value).
+    \item For an applied project, we would:
+      \begin{itemize}
+        \item collect real firm-level data,
+        \item add control variables (firm size, sector, profitability),
+        \item test robustness.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+%=================================================
+
+\end{document}
