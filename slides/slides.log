@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2025.9.17)  7 NOV 2025 15:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Debian) (preloaded format=pdflatex 2025.9.17)  8 NOV 2025 14:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -582,12 +582,7 @@ File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
 File: listings.cfg 2020/03/24 1.8d listings configuration
 ))
 Package: listings 2020/03/24 1.8d (Carsten Heinz)
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 32.
-
-(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+ (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count346
 \l__pdf_internal_box=\box78
@@ -866,7 +861,7 @@ Overfull \hbox (7.14308pt too wide) in paragraph at lines 26--26
  (./slides.vrb) [5
 
 ]
-<image.png, id=79, 692.5875pt x 491.8375pt>
+<image.png, id=77, 692.5875pt x 491.8375pt>
 File: image.png Graphic file (type png)
 <use image.png>
 Package pdftex.def Info: image.png  used on input line 209.
@@ -892,18 +887,18 @@ Package rerunfilecheck Info: File `slides.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 23869 strings out of 476091
- 457754 string characters out of 5794081
+ 23864 strings out of 476091
+ 457702 string characters out of 5794081
  2040330 words of memory out of 5000000
- 43741 multiletter control sequences out of 15000+600000
- 521447 words of font info for 65 fonts, out of 8000000 for 9000
+ 43738 multiletter control sequences out of 15000+600000
+ 520740 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,15n,122p,415b,1437s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on slides.pdf (8 pages, 169837 bytes).
+Output written on slides.pdf (8 pages, 164616 bytes).
 PDF statistics:
- 153 PDF objects out of 1000 (max. 8388607)
- 100 compressed objects within 1 object stream
+ 147 PDF objects out of 1000 (max. 8388607)
+ 96 compressed objects within 1 object stream
  17 named destinations out of 1000 (max. 500000)
  120 words of extra memory for PDF output out of 10000 (max. 10000000)
 

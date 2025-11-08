@@ -1282,10 +1282,8 @@ INPUT slides.nav
 INPUT slides.nav
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmss8.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmssbx10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmssi8.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmss12.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmssbx10.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmssi10.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmss8.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmss8.tfm
 INPUT /var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map

@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1762526570 "/home/mattegiorgi/docs/rts/slides/slides.tex" "slides.pdf" "slides" 1762526570 0
+["pdflatex"] 1762607644 "/home/mattegiorgi/docs/rts/slides/slides.tex" "slides.pdf" "slides" 1762607645 0
   "/etc/texmf/web2c/texmf.cnf" 1758075698 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/mattegiorgi/docs/rts/slides/slides.tex" 1762526569 10934 7ccc0620fa28a521c49c0183a9895b5b ""
+  "/home/mattegiorgi/docs/rts/slides/slides.tex" 1762607644 10905 475b46959fcf5b2f27f39ae961d67f9c ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -20,8 +20,6 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmss8.tfm" 1136768653 1296 d77f431d10d47c8ea2cc18cf45346274 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmss9.tfm" 1136768653 1320 49357c421c0d469f88b867dd0c3d10e8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmssbx10.tfm" 1136768653 1272 e2d13f0df30bf3ad990bb9d028e37f34 ""
-  "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmssi10.tfm" 1136768653 1520 ca2bb4b78ac9800bd686e30c6d19ef95 ""
-  "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmssi8.tfm" 1136768653 1500 7f49257eca65a87057f17452e9fe3ef5 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm" 1136768653 1124 6c73e740cf17375f03eec0ee63599741 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1136768653 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
@@ -214,11 +212,11 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1758075741 4623309 82ee5d777482be164acd86bb957845af ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1758075756 7880338 8d1b82a53a938024917afae2df73f27e ""
   "image.png" 1762513399 40946 bf990caaaacb044fadcff0e732e2953c ""
-  "slides.aux" 1762526570 1855 a919e2247839d4a8202d7732d4a6a88e "pdflatex"
-  "slides.nav" 1762526570 923 02772eacdfe77d67b79e45a640fd18ab "pdflatex"
-  "slides.out" 1762526570 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "slides.tex" 1762526569 10934 7ccc0620fa28a521c49c0183a9895b5b ""
-  "slides.vrb" 1762526570 624 3283999d9b4837b14cc4c16e09259fe7 "pdflatex"
+  "slides.aux" 1762607645 1855 a919e2247839d4a8202d7732d4a6a88e "pdflatex"
+  "slides.nav" 1762607645 923 02772eacdfe77d67b79e45a640fd18ab "pdflatex"
+  "slides.out" 1762607645 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "slides.tex" 1762607644 10905 475b46959fcf5b2f27f39ae961d67f9c ""
+  "slides.vrb" 1762607645 624 3283999d9b4837b14cc4c16e09259fe7 "pdflatex"
   (generated)
   "slides.aux"
   "slides.log"
