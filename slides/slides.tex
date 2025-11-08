@@ -1,6 +1,7 @@
 \documentclass{beamer}
 
 \usetheme{Warsaw} % Madrid, CambridgeUS, Warsaw
+% \setbeamercolor{title in head/foot}{bg=lightgray,fg=black}
 \setbeamersize{text margin left=0.7cm, text margin right=0.7cm}
 \setbeamertemplate{navigation symbols}{}
 \usepackage[utf8]{inputenc}
@@ -8,6 +9,13 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    urlcolor=blue!60!black,
+    linkcolor=black,
+    citecolor=black
+}
 
 \definecolor{codegray}{rgb}{0.95,0.95,0.95}
 \definecolor{commentgreen}{rgb}{0,0.6,0}
@@ -61,7 +69,7 @@
     \text{Layoffs}_i = \beta_0 + \beta_1 \, \text{AI\_Adoption}_i + \varepsilon_i
   \]
   \item \textbf{AI\_Adoption$_i$}: represents the degree of AI integration within firm $i$  
-        (e.g., automation of processes, use of machine learning tools, or AI-driven decision systems), scaled between 0 and 100
+        (e.g., automation of processes, use of machine learning tools, or AI-driven decision systems), expressed as a percentage
   \item \textbf{Layoffs$_i$}: number of employees laid off by firm $i$ during the year
   \item Simulated dataset: 100 firms
     % \begin{itemize}
@@ -135,7 +143,8 @@ print(model.summary())
 \vspace{0.3cm}
 \scriptsize
 The complete and reproducible code is available at:
-\texttt{https://github.com/matteogiorgi/regression-timeseries}
+\href{https://github.com/matteogiorgi/regression-timeseries/blob/main/layoff.ipynb}{\textcolor{blue!70!black}{github.com/matteogiorgi/regression-timeseries/.../layoff.ipynb}}
+% \texttt{https://github.com/matteogiorgi/regression-timeseries}
 \end{frame}
 
 %=================================================
@@ -239,10 +248,29 @@ plt.show()
 \begin{frame}{Interpretation of the Regression Results}
   \begin{itemize}
     \item The estimated coefficient for \textbf{AI\_Adoption} is \textbf{1.43}, statistically significant at the 1\% level ($p < 0.001$).
-    \item Interpretation: for each one–point increase in the AI adoption index, the number of layoffs increases on average by about 1.43 employees.
+    \item Interpretation: for each one-point percentage increase in the AI adoption index, the number of layoffs increases on average by about 1.43 employees.
     \item The intercept ($\beta_0 \approx 23.2$) indicates the expected number of layoffs for firms with no AI adoption at all.
     \item The $R^2 = 0.91$ shows that roughly \textbf{91\% of the variation in layoffs} across firms is explained by differences in AI adoption levels.
     \item These results suggest a strong positive association between automation intensity and workforce reduction — consistent with the hypothesis that higher AI adoption may substitute part of human labor.
+  \end{itemize}
+\end{frame}
+
+%=================================================
+
+\begin{frame}{Our use of LLM}
+  \begin{itemize}
+    \item We employed \textit{ChatGPT} from \textit{OpenAI} as AI peer-wise support tool during the preparation of this work
+    \item Specifically, the model was asked to:
+      \begin{itemize}
+        \item generate a set of \textbf{synthetic yet realistic data} for 100 firms,  
+              including a measure of AI adoption (\texttt{AI\_Adoption}) and the corresponding number of layoffs (\texttt{Layoffs})
+        \item propose and explain a \textbf{linear regression model} where:
+          \begin{itemize}
+            \item the independent variable is the degree of AI adoption
+            \item the dependent variable is the number of layoffs per firm
+          \end{itemize}
+      \end{itemize}
+    \item All results were than independently reviewed and verified by our group, together with the interpretations provided
   \end{itemize}
 \end{frame}
 
@@ -264,6 +292,21 @@ plt.show()
       \end{itemize}
     \item Overall, the analysis illustrates how regression methods can be used to quantify economic effects of technological innovation.
   \end{itemize}
+\end{frame}
+
+%=================================================
+
+\begin{frame}{}
+  \begin{center}
+    % \vspace{1.5cm}
+    % \Large
+    This work was conceived and developed by:\\[0.3cm]
+    \Large\textit{Mattia Zanin, Matteo Giorgi, Enrico Zanello,\\Klea Kule, Luca Lo Buono}\\[1.0cm]
+    \normalsize
+    University of Padova\\2025/2026
+    % \textit{Regression and Time Series\\University of Padova}%\\[0.2cm]
+    % Academic Year 2025/2026
+  \end{center}
 \end{frame}
 
 \end{document}
