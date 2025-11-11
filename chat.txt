@@ -5,3 +5,12 @@ Questo è quello che abbiamo scritto:
 
 Con il mio gruppo avevamo pensato di descrivere con regressione lineare la correlazione tra indebitamento (variabile libera) e PIL
 Questo è quello che abbiamo scritto:
+
+variazione annuale del fatturato
+variabile binaria per acquisizione/fusione nell'ultimo anno
+valore della capitlizzazione di mercato
+settore azienda
+tasse che vengono pagate
+numero di foreign direct investements
+
+jupyter nbconvert layoff_multiple_group10.ipynb --to html --TagRemovePreprocessor.enabled=True --TagRemovePreprocessor.remove_cell_tags='["hide"]'

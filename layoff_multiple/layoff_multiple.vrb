@@ -1,0 +1,18 @@
+\frametitle{Model Reduction and Comparison}
+\lstset{style=pythonstyle}
+\begin{lstlisting}
+# keep only significant regressors
+X_red = df[[
+    "AI_Adoption", "Merger", "MarketCap", "Taxes", "FDI"
+]]
+X_red = sm.add_constant(X_red)
+
+model_red = sm.OLS(y, X_red).fit()
+
+print(model_red.summary())
+\end{lstlisting}
+
+\small
+We compare the two models using AIC, BIC, adjusted $R^2$ and an F-test for nested models.
+The reduced model has slightly lower AIC/BIC and almost the same adjusted $R^2$,
+so it is preferred for parsimony.

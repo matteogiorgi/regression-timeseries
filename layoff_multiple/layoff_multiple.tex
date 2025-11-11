@@ -1,0 +1,180 @@
+\documentclass{beamer}
+
+\usetheme{Warsaw} % Madrid, CambridgeUS, Warsaw
+% \setbeamercolor{title in head/foot}{bg=lightgray,fg=black}
+\setbeamersize{text margin left=0.7cm, text margin right=0.7cm}
+\setbeamertemplate{navigation symbols}{}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    urlcolor=blue!60!black,
+    linkcolor=black,
+    citecolor=black
+}
+
+\definecolor{codegray}{rgb}{0.95,0.95,0.95}
+\definecolor{commentgreen}{rgb}{0,0.6,0}
+\definecolor{keywordblue}{rgb}{0.2,0.2,0.8}
+\definecolor{stringred}{rgb}{0.7,0,0}
+
+\lstdefinestyle{pythonstyle}{
+    backgroundcolor=\color{codegray},
+    commentstyle=\color{commentgreen}\itshape,
+    keywordstyle=\color{keywordblue}\bfseries,
+    stringstyle=\color{stringred},
+    basicstyle=\ttfamily\scriptsize,
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{gray},
+    captionpos=b,
+    language=Python
+}
+
+\title[AI Adoption \& Layoffs]{AI Adoption and Layoffs}
+\author{\textbf{Group 10}}
+\date{\today}
+
+\begin{document}
+
+%=================================================
+\begin{frame}{Extension to Multiple Regression}
+  \begin{itemize}
+    \item The simple model with only \texttt{AI\_Adoption} is useful to show the baseline relationship.
+    \item However, firms differ along many dimensions (size, sector, M\&A activity, international exposure).
+    \item To control for these factors, we extend the model to a \textbf{multiple linear regression}:
+    \[
+      \text{Layoffs}_i
+      = \beta_0
+      + \beta_1 \text{AI\_Adoption}_i
+      + \beta_2 \text{RevenueGrowth}_i
+      + \beta_3 \text{Merger}_i
+      + \beta_4 \text{MarketCap}_i
+      + \beta_5 \text{Taxes}_i
+      + \beta_6 \text{FDI}_i
+      + \gamma'\text{SectorDummies}_i
+      + \varepsilon_i
+    \]
+    \item Aim: check whether the AI effect remains strong after adding controls.
+  \end{itemize}
+\end{frame}
+%=================================================
+
+\begin{frame}{New Explanatory Variables}
+  \begin{itemize}
+    \item \textbf{RevenueGrowth}: yearly percentage change in firm turnover (proxy for business dynamics)
+    \item \textbf{Merger}: binary indicator = 1 if the firm was involved in a merger/acquisition in the last year
+    \item \textbf{MarketCap}: market capitalization (firm size)
+    \item \textbf{Taxes}: total taxes paid (another size/profitability proxy)
+    \item \textbf{FDI}: number of foreign direct investments
+    \item \textbf{Sector dummies}: Tech / Manufacturing (Finance as baseline)
+  \end{itemize}
+  \vspace{0.2cm}
+  \small
+  All these variables were generated synthetically to obtain a richer cross-section of 100 firms.
+\end{frame}
+%=================================================
+
+\begin{frame}[fragile]{Data Generation in Python}
+\lstset{style=pythonstyle}
+\begin{lstlisting}
+# Synthetic dataset with 100 firms
+n = 100
+ai_adoption    = np.random.uniform(0, 100, n)
+revenue_growth = np.random.normal(5, 10, n)
+merger         = np.random.binomial(1, 0.2, n)
+market_cap     = np.random.lognormal(mean=2, sigma=0.7, size=n)
+taxes          = np.random.normal(50, 15, n)
+fdi            = np.random.poisson(3, n)
+sector         = np.random.choice(
+    ["Tech", "Finance", "Manufacturing"], size=n
+)
+
+# Layoffs depends on AI + other covariates + noise
+layoffs = (20 + 1.4*ai_adoption - 0.3*revenue_growth
+           + 10*merger + 0.8*market_cap + 0.2*taxes
+           + 3*fdi + np.random.normal(0, 15, n))
+\end{lstlisting}
+\small
+We then converted \texttt{Sector} into dummies with \texttt{pd.get\_dummies(..., drop\_first=True)}.
+\end{frame}
+%=================================================
+
+\begin{frame}[fragile]{Full OLS Specification}
+\lstset{style=pythonstyle}
+\begin{lstlisting}
+# Build DataFrame
+df = pd.DataFrame({
+    "Layoffs": layoffs,
+    "AI_Adoption": ai_adoption,
+    "RevenueGrowth": revenue_growth,
+    "Merger": merger,
+    "MarketCap": market_cap,
+    "Taxes": taxes,
+    "FDI": fdi,
+    "Sector": sector
+})
+
+# Convert sector to dummies
+df = pd.get_dummies(df, columns=["Sector"], drop_first=True)
+
+y = df["Layoffs"]
+X = df.drop(columns=["Layoffs"]).astype(float)
+X = sm.add_constant(X)
+
+model_full = sm.OLS(y, X).fit()
+print(model_full.summary())
+\end{lstlisting}
+\small
+This is our \textbf{full model}, including all candidate regressors.
+\end{frame}
+%=================================================
+
+\begin{frame}{Full Model: Main Findings}
+  \begin{itemize}
+    \item \textbf{AI\_Adoption} remains highly significant ($p < 0.001$): the original relationship is robust.
+    \item \textbf{Merger}, \textbf{MarketCap}, \textbf{Taxes}, and \textbf{FDI} are also statistically significant.
+    \item \textbf{RevenueGrowth} and the \textbf{sector dummies} show high p-values ($p > 0.1$) and are not individually significant.
+    \item $R^2 \approx 0.93$ and Adjusted $R^2 \approx 0.926$: the model explains most of the cross-sectional variation in layoffs.
+  \end{itemize}
+\end{frame}
+%=================================================
+
+\begin{frame}[fragile]{Model Reduction and Comparison}
+\lstset{style=pythonstyle}
+\begin{lstlisting}
+# keep only significant regressors
+X_red = df[[
+    "AI_Adoption", "Merger", "MarketCap", "Taxes", "FDI"
+]]
+X_red = sm.add_constant(X_red)
+
+model_red = sm.OLS(y, X_red).fit()
+
+print(model_red.summary())
+\end{lstlisting}
+
+\small
+We compare the two models using AIC, BIC, adjusted $R^2$ and an F-test for nested models.
+The reduced model has slightly lower AIC/BIC and almost the same adjusted $R^2$,
+so it is preferred for parsimony.
+\end{frame}
+%=================================================
+
+\begin{frame}{Interpretation of the Multiple Regression}
+  \begin{itemize}
+    \item Even after controlling for size, M\&A and international activity, \textbf{firms with higher AI adoption still lay off more workers}.
+    \item Some controls capture “structural” reasons for layoffs (e.g. M\&A $\Rightarrow$ restructuring).
+    \item Insignificant variables were dropped to avoid overfitting and to present a cleaner specification.
+    \item This mirrors standard econometric practice: start from a rich model, then select the variables that actually explain the outcome.
+  \end{itemize}
+\end{frame}
+%=================================================
+
+\end{document}
