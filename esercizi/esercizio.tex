@@ -1,0 +1,366 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\title{Example 1 -- Soluzione completa}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Testo del problema (riassunto)}
+
+Un ricercatore ha stimato il seguente modello di regressione lineare multipla:
+\begin{equation}
+y_t = \alpha + \beta_1 x_{1,t} + \beta_2 x_{2,t} + \beta_3 x_{3,t} + \beta_4 x_{4,t} + \beta_5 x_{5,t} + \varepsilon_t.
+\end{equation}
+
+L'output di stima fornisce:
+
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+Parametro & Coefficiente & Errore Std. & Z-statistic & p-value \\
+\midrule
+$\alpha$   & 1.436  & 0.264 & 5.439  & 0.000 \\
+$\beta_1$  & -0.645 & 0.536 & -1.203 & 0.229 \\
+$\beta_2$  & 2.664  & 1.132 & (manc.)& 0.019 \\
+$\beta_3$  & 3.623  & 1.187 & (manc.)& (manc.) \\
+$\beta_4$  & 0.994  & 0.226 & 4.398  & 0.000 \\
+$\beta_5$  & -2.644 & 6.624 & -0.399 & (manc.) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Sono richiesti i seguenti punti:
+
+\begin{enumerate}
+  \item Test di significatività del coefficiente $\beta_2$.
+  \item Numero di parametri (inclusa l'intercetta) significativi all'1\%.
+  \item Rappresentazione del vincolo $\beta_3 - \beta_2 = \beta_4$ nella forma $R\beta = r$ e forma dell'F-test (tipo Wald).
+  \item Scrivere il modello sotto la restrizione e la forma dell'F-test basato sul confronto tra modello ristretto e non ristretto.
+  \item Dati $RSS_U = 543{,}2$, $RSS_R = 552{,}12$, $T = 240$, calcolare la statistica F e decidere il rifiuto di $H_0$ al 5\%.
+\end{enumerate}
+
+Nel seguito risolviamo passo-passo tutti i punti.
+
+\section*{Punto 1: test di significatività per $\beta_2$}
+
+\subsection*{1. Formulazione delle ipotesi}
+
+Il test di significatività di un coefficiente di regressione è, salvo diversa indicazione, un test a due code. Per $\beta_2$:
+
+\[
+H_0: \beta_2 = 0,
+\qquad
+H_1: \beta_2 \neq 0.
+\]
+
+L'ipotesi nulla afferma che il regressore $x_{2,t}$ non ha effetto lineare (statisticamente rilevante) su $y_t$.
+
+\subsection*{2. Statistica test teorica}
+
+La statistica del test (tipo $Z$ o $t$) per un singolo coefficiente è:
+\begin{equation}
+Z = \frac{\hat\beta_2 - \beta_2^{(0)}}{SE(\hat\beta_2)},
+\end{equation}
+dove $\beta_2^{(0)}$ è il valore imposto da $H_0$. Qui $\beta_2^{(0)} = 0$, quindi
+\begin{equation}
+Z = \frac{\hat\beta_2}{SE(\hat\beta_2)}.
+\end{equation}
+Sotto $H_0$, in grandi campioni, $Z$ ha approssimativamente distribuzione normale standard $N(0,1)$.
+
+\subsection*{3. Calcolo della statistica empirica}
+
+Dalla tabella:
+\[
+\hat\beta_2 = 2.664, \qquad SE(\hat\beta_2) = 1.132.
+\]
+Sostituendo:
+\begin{equation}
+Z_{\text{emp}} = \frac{2.664}{1.132} \approx 2.35.
+\end{equation}
+
+Questa è la Z-statistic mancante per $\beta_2$.
+
+\subsection*{4. Valori critici e decisione}
+
+Per un test a due code:
+
+\begin{itemize}
+  \item livello di significatività 5\%: valore critico $|z_{0.975}| \approx 1.96$;
+  \item livello di significatività 1\%: valore critico $|z_{0.995}| \approx 2.576$.
+\end{itemize}
+
+Confrontiamo il valore assoluto:
+\[
+|Z_{\text{emp}}| \approx 2.35.
+\]
+
+\begin{itemize}
+  \item Al 5\%: $2.35 > 1.96 \Rightarrow$ \textbf{rigettiamo $H_0$}.
+  \item All'1\%: $2.35 < 2.576 \Rightarrow$ \textbf{non rigettiamo $H_0$}.
+\end{itemize}
+
+La conclusione è coerente con il p-value riportato (0.019):
+\begin{itemize}
+  \item $0.019 < 0.05 \Rightarrow$ rigetto a livello 5\%;
+  \item $0.019 > 0.01 \Rightarrow$ non rigetto a livello 1\%.
+\end{itemize}
+
+\paragraph{Conclusione punto 1.}
+Il coefficiente $\beta_2$ è statisticamente significativo al 5\%, ma non è significativo all'1\%.
+
+\section*{Punto 2: numero di parametri significativi all'1\%}
+
+Vogliamo sapere quanti parametri (inclusa l'intercetta) risultano significativi al livello di significatività $\alpha = 0.01$, cioè al 99\% di confidence level, usando test a due code.
+
+\subsection*{1. Regola di decisione all'1\%}
+
+Per ciascun coefficiente (inclusa l'intercetta) consideriamo:
+\[
+H_0: \beta_j = 0, \qquad H_1: \beta_j \neq 0.
+\]
+La statistica è:
+\[
+Z_j = \frac{\hat\beta_j}{SE(\hat\beta_j)}.
+\]
+Per un test a due code al livello $\alpha = 0.01$:
+\[
+\text{rigetto di } H_0 \iff |Z_j| > 2.576.
+\]
+
+\subsection*{2. Z-statistics (calcolate dove mancano)}
+
+\begin{itemize}
+  \item Intercetta: $|Z_\alpha| = |5.439| = 5.439$.
+  \item $\beta_1$: $|Z_1| = |-1.203| = 1.203$.
+  \item $\beta_2$: già calcolato al punto 1:
+  \[
+  Z_2 = \frac{2.664}{1.132} \approx 2.35.
+  \]
+  \item $\beta_3$:
+  \[
+  Z_3 = \frac{3.623}{1.187} \approx 3.05.
+  \]
+  \item $\beta_4$: $|Z_4| = |4.398| = 4.398$.
+  \item $\beta_5$: $|Z_5| = |-0.399| = 0.399$.
+\end{itemize}
+
+\subsection*{3. Confronto con la soglia $2.576$}
+
+\begin{itemize}
+  \item $\alpha$: $5.439 > 2.576$ $\Rightarrow$ significativo all'1\%.
+  \item $\beta_1$: $1.203 < 2.576$ $\Rightarrow$ non significativo all'1\%.
+  \item $\beta_2$: $2.35 < 2.576$ $\Rightarrow$ non significativo all'1\%.
+  \item $\beta_3$: $3.05 > 2.576$ $\Rightarrow$ significativo all'1\%.
+  \item $\beta_4$: $4.398 > 2.576$ $\Rightarrow$ significativo all'1\%.
+  \item $\beta_5$: $0.399 < 2.576$ $\Rightarrow$ non significativo all'1\%.
+\end{itemize}
+
+\paragraph{Conclusione punto 2.}
+I parametri significativi all'1\% (inclusa l'intercetta) sono $\alpha$, $\beta_3$ e $\beta_4$. In totale:
+\[
+\boxed{3 \text{ parametri significativi all'1\%.}}
+\]
+
+\section*{Punto 3: vincolo $\beta_3 - \beta_2 = \beta_4$ in forma $R\beta = r$}
+
+\subsection*{1. Scrittura del vincolo in forma standard}
+
+Il vincolo è:
+\[
+\beta_3 - \beta_2 = \beta_4.
+\]
+Portando tutto a sinistra:
+\[
+\beta_3 - \beta_2 - \beta_4 = 0.
+\]
+
+\subsection*{2. Vettore dei parametri}
+
+Raggruppiamo tutti i parametri in un unico vettore colonna:
+\[
+\beta = 
+\begin{pmatrix}
+\alpha \\
+\beta_1 \\
+\beta_2 \\
+\beta_3 \\
+\beta_4 \\
+\beta_5
+\end{pmatrix}.
+\]
+
+\subsection*{3. Matrice $R$ e vettore $r$}
+
+Vogliamo un'espressione del tipo:
+\[
+R\beta = r.
+\]
+Poiché c'è un solo vincolo, $R$ è una matrice $1 \times 6$ e $r$ è uno scalare.
+
+I coefficienti della combinazione lineare $\beta_3 - \beta_2 - \beta_4$ vengono posti in corrispondenza di $(\alpha,\beta_1,\beta_2,\beta_3,\beta_4,\beta_5)$:
+\[
+R = \begin{pmatrix}
+0 & 0 & -1 & 1 & -1 & 0
+\end{pmatrix}, \qquad
+r = \begin{pmatrix} 0 \end{pmatrix}.
+\]
+
+\subsection*{4. Forma F (Wald) della statistica test}
+
+Vogliamo testare:
+\[
+H_0: R\beta = r
+\qquad \text{vs} \qquad
+H_1: R\beta \neq r.
+\]
+
+La statistica di Wald in forma F è:
+\begin{equation}
+F = \frac{1}{q}
+\bigl(R\hat\beta - r\bigr)' 
+\left[ R \, \widehat{\mathrm{Var}}(\hat\beta) \, R' \right]^{-1}
+\bigl(R\hat\beta - r\bigr),
+\end{equation}
+dove:
+\[
+\widehat{\mathrm{Var}}(\hat\beta) = \hat\sigma^2 (X'X)^{-1},
+\]
+e $q = \text{rank}(R)$ è il numero di vincoli (qui $q=1$).
+
+Sotto $H_0$:
+\[
+F \sim F_{q,\;T-k},
+\]
+dove $k$ è il numero di parametri nel modello non ristretto.
+
+\paragraph{Gradi di libertà.}
+Poiché c'è un solo vincolo lineare indipendente, il primo grado di libertà (al numeratore) è:
+\[
+q = 1.
+\]
+
+\section*{Punto 4: modello sotto la restrizione e F-test via RSS}
+
+\subsection*{1. Modello ristretto}
+
+Il modello originario è:
+\[
+y_t = \alpha + \beta_1 x_{1,t} + \beta_2 x_{2,t} + \beta_3 x_{3,t} + \beta_4 x_{4,t} + \beta_5 x_{5,t} + \varepsilon_t.
+\]
+
+La restrizione è:
+\[
+\beta_3 - \beta_2 = \beta_4
+\quad \Longrightarrow \quad
+\beta_4 = \beta_3 - \beta_2.
+\]
+
+Sostituendo $\beta_4$ nel modello:
+\begin{align}
+y_t 
+&= \alpha + \beta_1 x_{1,t} + \beta_2 x_{2,t} + \beta_3 x_{3,t} 
+   + (\beta_3 - \beta_2) x_{4,t} + \beta_5 x_{5,t} + \varepsilon_t \\
+&= \alpha + \beta_1 x_{1,t} 
+   + \beta_2 (x_{2,t} - x_{4,t})
+   + \beta_3 (x_{3,t} + x_{4,t})
+   + \beta_5 x_{5,t} + \varepsilon_t.
+\end{align}
+
+Questo è il \textbf{modello ristretto}: i parametri liberi sono $\alpha$, $\beta_1$, $\beta_2$, $\beta_3$, $\beta_5$ (5 parametri invece dei 6 originari).
+
+\subsection*{2. Statistica F tramite confronto RSS}
+
+Definiamo:
+\begin{itemize}
+  \item $RSS_U$: somma dei residui al quadrato del modello \emph{non ristretto};
+  \item $RSS_R$: somma dei residui al quadrato del modello \emph{ristretto}.
+\end{itemize}
+
+Per testare $H_0: \beta_3 - \beta_2 = \beta_4$ si usa:
+\begin{equation}
+F = \frac{(RSS_R - RSS_U)/q}{RSS_U/(T - k)},
+\end{equation}
+dove:
+\begin{itemize}
+  \item $q = 1$ è il numero di vincoli lineari indipendenti;
+  \item $k = 6$ è il numero di parametri nel modello non ristretto (intercetta + 5 coefficienti);
+  \item $T$ è il numero di osservazioni.
+\end{itemize}
+
+Sotto $H_0$:
+\[
+F \sim F_{q,\;T-k} = F_{1,\;T-6}.
+\]
+
+\section*{Punto 5: calcolo della F-statistic e decisione al 5\%}
+
+Sono forniti:
+\[
+RSS_U = 543{,}2, \qquad RSS_R = 552{,}12, \qquad T = 240.
+\]
+Ricordiamo:
+\[
+q = 1, \qquad k = 6 \quad (\text{parametri nel modello non ristretto}).
+\]
+I gradi di libertà del denominatore sono:
+\[
+T - k = 240 - 6 = 234.
+\]
+
+\subsection*{1. Calcolo della statistica F}
+
+Usiamo la formula:
+\[
+F = \frac{(RSS_R - RSS_U)/q}{RSS_U/(T - k)}.
+\]
+
+Calcoliamo passo-passo:
+
+\begin{enumerate}
+  \item Differenza tra RSS ristretto e non ristretto:
+  \[
+  RSS_R - RSS_U = 552.12 - 543.2 = 8.92.
+  \]
+  \item Termine al denominatore:
+  \[
+  \frac{RSS_U}{T - k} = \frac{543.2}{234} \approx 2.321.
+  \]
+  \item Statistica F:
+  \[
+  F_{\text{emp}} = \frac{8.92}{2.321} \approx 3.84.
+  \]
+\end{enumerate}
+
+\subsection*{2. Confronto con il valore critico al 5\%}
+
+Il testo fornisce i valori critici:
+\[
+F(1,234) = 3.88, \quad F(2,234) = 3.03, \quad F(3,234) = 2.64.
+\]
+
+Nel nostro caso il test ha distribuzione $F_{1,234}$, quindi il valore critico al 5\% è:
+\[
+F_{1,234}^{(5\%)} = 3.88.
+\]
+
+Confrontiamo:
+\[
+F_{\text{emp}} \approx 3.84 < 3.88.
+\]
+
+La statistica empirica non supera il valore critico: la statistica cade nella regione di non-rifiuto.
+
+\paragraph{Conclusione punto 5.}
+Al livello di significatività del 5\%, \textbf{non rigettiamo} l'ipotesi nulla $H_0: \beta_3 - \beta_2 = \beta_4$. I dati non forniscono evidenza sufficiente per rifiutare la restrizione al 5\%.
+
+\end{document}
