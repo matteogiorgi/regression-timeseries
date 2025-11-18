@@ -1,6 +1,6 @@
 \frametitle{Plot Fitted Model}
 \lstset{style=pythonstyle}
-\begin{lstlisting}
+    \begin{lstlisting}
 # Predict fitted values based on the estimated model
 y_pred = model.predict(X)
 
