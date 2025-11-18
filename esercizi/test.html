@@ -7510,7 +7510,7 @@ a.anchor-link {
 </style>
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<main><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=825aded1">
+<main><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=cb97794b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7520,12 +7520,367 @@ a.anchor-link {
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
 
-<span class="c1"># ho messo i dati dentro in csv come vuole la prof.</span>
+<span class="c1"># Leggo AmesHousing.csv e lo metto nel dataframe df:</span>
+<span class="c1"># ogni riga    -&gt; una casa</span>
+<span class="c1"># ogni colonna -&gt; una variabile</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"AmesHousing.csv"</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="c1"># mi salvo la variabile target e i regressori</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Order</th>
+<th>PID</th>
+<th>MS SubClass</th>
+<th>MS Zoning</th>
+<th>Lot Frontage</th>
+<th>Lot Area</th>
+<th>Street</th>
+<th>Alley</th>
+<th>Lot Shape</th>
+<th>Land Contour</th>
+<th>...</th>
+<th>Pool Area</th>
+<th>Pool QC</th>
+<th>Fence</th>
+<th>Misc Feature</th>
+<th>Misc Val</th>
+<th>Mo Sold</th>
+<th>Yr Sold</th>
+<th>Sale Type</th>
+<th>Sale Condition</th>
+<th>SalePrice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1</td>
+<td>526301100</td>
+<td>20</td>
+<td>RL</td>
+<td>141.0</td>
+<td>31770</td>
+<td>Pave</td>
+<td>NaN</td>
+<td>IR1</td>
+<td>Lvl</td>
+<td>...</td>
+<td>0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0</td>
+<td>5</td>
+<td>2010</td>
+<td>WD</td>
+<td>Normal</td>
+<td>215000</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2</td>
+<td>526350040</td>
+<td>20</td>
+<td>RH</td>
+<td>80.0</td>
+<td>11622</td>
+<td>Pave</td>
+<td>NaN</td>
+<td>Reg</td>
+<td>Lvl</td>
+<td>...</td>
+<td>0</td>
+<td>NaN</td>
+<td>MnPrv</td>
+<td>NaN</td>
+<td>0</td>
+<td>6</td>
+<td>2010</td>
+<td>WD</td>
+<td>Normal</td>
+<td>105000</td>
+</tr>
+<tr>
+<th>2</th>
+<td>3</td>
+<td>526351010</td>
+<td>20</td>
+<td>RL</td>
+<td>81.0</td>
+<td>14267</td>
+<td>Pave</td>
+<td>NaN</td>
+<td>IR1</td>
+<td>Lvl</td>
+<td>...</td>
+<td>0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Gar2</td>
+<td>12500</td>
+<td>6</td>
+<td>2010</td>
+<td>WD</td>
+<td>Normal</td>
+<td>172000</td>
+</tr>
+<tr>
+<th>3</th>
+<td>4</td>
+<td>526353030</td>
+<td>20</td>
+<td>RL</td>
+<td>93.0</td>
+<td>11160</td>
+<td>Pave</td>
+<td>NaN</td>
+<td>Reg</td>
+<td>Lvl</td>
+<td>...</td>
+<td>0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0</td>
+<td>4</td>
+<td>2010</td>
+<td>WD</td>
+<td>Normal</td>
+<td>244000</td>
+</tr>
+<tr>
+<th>4</th>
+<td>5</td>
+<td>527105010</td>
+<td>60</td>
+<td>RL</td>
+<td>74.0</td>
+<td>13830</td>
+<td>Pave</td>
+<td>NaN</td>
+<td>IR1</td>
+<td>Lvl</td>
+<td>...</td>
+<td>0</td>
+<td>NaN</td>
+<td>MnPrv</td>
+<td>NaN</td>
+<td>0</td>
+<td>3</td>
+<td>2010</td>
+<td>WD</td>
+<td>Normal</td>
+<td>189900</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>2925</th>
+<td>2926</td>
+<td>923275080</td>
+<td>80</td>
+<td>RL</td>
+<td>37.0</td>
+<td>7937</td>
+<td>Pave</td>
+<td>NaN</td>
+<td>IR1</td>
+<td>Lvl</td>
+<td>...</td>
+<td>0</td>
+<td>NaN</td>
+<td>GdPrv</td>
+<td>NaN</td>
+<td>0</td>
+<td>3</td>
+<td>2006</td>
+<td>WD</td>
+<td>Normal</td>
+<td>142500</td>
+</tr>
+<tr>
+<th>2926</th>
+<td>2927</td>
+<td>923276100</td>
+<td>20</td>
+<td>RL</td>
+<td>NaN</td>
+<td>8885</td>
+<td>Pave</td>
+<td>NaN</td>
+<td>IR1</td>
+<td>Low</td>
+<td>...</td>
+<td>0</td>
+<td>NaN</td>
+<td>MnPrv</td>
+<td>NaN</td>
+<td>0</td>
+<td>6</td>
+<td>2006</td>
+<td>WD</td>
+<td>Normal</td>
+<td>131000</td>
+</tr>
+<tr>
+<th>2927</th>
+<td>2928</td>
+<td>923400125</td>
+<td>85</td>
+<td>RL</td>
+<td>62.0</td>
+<td>10441</td>
+<td>Pave</td>
+<td>NaN</td>
+<td>Reg</td>
+<td>Lvl</td>
+<td>...</td>
+<td>0</td>
+<td>NaN</td>
+<td>MnPrv</td>
+<td>Shed</td>
+<td>700</td>
+<td>7</td>
+<td>2006</td>
+<td>WD</td>
+<td>Normal</td>
+<td>132000</td>
+</tr>
+<tr>
+<th>2928</th>
+<td>2929</td>
+<td>924100070</td>
+<td>20</td>
+<td>RL</td>
+<td>77.0</td>
+<td>10010</td>
+<td>Pave</td>
+<td>NaN</td>
+<td>Reg</td>
+<td>Lvl</td>
+<td>...</td>
+<td>0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0</td>
+<td>4</td>
+<td>2006</td>
+<td>WD</td>
+<td>Normal</td>
+<td>170000</td>
+</tr>
+<tr>
+<th>2929</th>
+<td>2930</td>
+<td>924151050</td>
+<td>60</td>
+<td>RL</td>
+<td>74.0</td>
+<td>9627</td>
+<td>Pave</td>
+<td>NaN</td>
+<td>Reg</td>
+<td>Lvl</td>
+<td>...</td>
+<td>0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>0</td>
+<td>11</td>
+<td>2006</td>
+<td>WD</td>
+<td>Normal</td>
+<td>188000</td>
+</tr>
+</tbody>
+</table>
+<p>2930 rows × 82 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=0b5b1aa6">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Il prezzo di vendita della casingola casa (y) è</span>
+<span class="c1"># la mia variabile target (la variabile dipendente)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">]</span>
+
+<span class="c1"># regressors è una lista di nomi di colonne che voglio usare come regressori nel modello,</span>
+<span class="c1"># scelti tra le 82 variabili disponibili nel dataset</span>
+<span class="c1"># prime 8  -&gt; variabili numeriche:</span>
+<span class="c1">#             1. area</span>
+<span class="c1">#             2. qualità</span>
+<span class="c1">#             3. condizione</span>
+<span class="c1">#             4. anno costruzione</span>
+<span class="c1">#             5. area seminterrato</span>
+<span class="c1">#             6. posti auto garage</span>
+<span class="c1">#             7. area garage</span>
+<span class="c1">#             8. area lotto</span>
+<span class="c1"># ultime 4 -&gt; variabili categoriche:</span>
+<span class="c1">#              9. stile casa</span>
+<span class="c1">#             10. quartiere</span>
+<span class="c1">#             11. aria condizionata</span>
+<span class="c1">#             12. qualità cucina</span>
 <span class="n">regressors</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">"Gr Liv Area"</span><span class="p">,</span>
     <span class="s2">"Overall Qual"</span><span class="p">,</span>
@@ -7541,28 +7896,342 @@ a.anchor-link {
     <span class="s2">"Kitchen Qual"</span><span class="p">,</span>
 <span class="p">]</span>
 
-<span class="c1"># seleziono solo le colonne di interesse</span>
-<span class="c1"># e mi creo le dummies per le categoriche</span>
+<span class="c1"># display df sui 12 regressori scelti</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">regressors</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Gr Liv Area</th>
+<th>Overall Qual</th>
+<th>Overall Cond</th>
+<th>Year Built</th>
+<th>Total Bsmt SF</th>
+<th>Garage Cars</th>
+<th>Garage Area</th>
+<th>Lot Area</th>
+<th>House Style</th>
+<th>Neighborhood</th>
+<th>Central Air</th>
+<th>Kitchen Qual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1656</td>
+<td>6</td>
+<td>5</td>
+<td>1960</td>
+<td>1080.0</td>
+<td>2.0</td>
+<td>528.0</td>
+<td>31770</td>
+<td>1Story</td>
+<td>NAmes</td>
+<td>Y</td>
+<td>TA</td>
+</tr>
+<tr>
+<th>1</th>
+<td>896</td>
+<td>5</td>
+<td>6</td>
+<td>1961</td>
+<td>882.0</td>
+<td>1.0</td>
+<td>730.0</td>
+<td>11622</td>
+<td>1Story</td>
+<td>NAmes</td>
+<td>Y</td>
+<td>TA</td>
+</tr>
+<tr>
+<th>2</th>
+<td>1329</td>
+<td>6</td>
+<td>6</td>
+<td>1958</td>
+<td>1329.0</td>
+<td>1.0</td>
+<td>312.0</td>
+<td>14267</td>
+<td>1Story</td>
+<td>NAmes</td>
+<td>Y</td>
+<td>Gd</td>
+</tr>
+<tr>
+<th>3</th>
+<td>2110</td>
+<td>7</td>
+<td>5</td>
+<td>1968</td>
+<td>2110.0</td>
+<td>2.0</td>
+<td>522.0</td>
+<td>11160</td>
+<td>1Story</td>
+<td>NAmes</td>
+<td>Y</td>
+<td>Ex</td>
+</tr>
+<tr>
+<th>4</th>
+<td>1629</td>
+<td>5</td>
+<td>5</td>
+<td>1997</td>
+<td>928.0</td>
+<td>2.0</td>
+<td>482.0</td>
+<td>13830</td>
+<td>2Story</td>
+<td>Gilbert</td>
+<td>Y</td>
+<td>TA</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>2925</th>
+<td>1003</td>
+<td>6</td>
+<td>6</td>
+<td>1984</td>
+<td>1003.0</td>
+<td>2.0</td>
+<td>588.0</td>
+<td>7937</td>
+<td>SLvl</td>
+<td>Mitchel</td>
+<td>Y</td>
+<td>TA</td>
+</tr>
+<tr>
+<th>2926</th>
+<td>902</td>
+<td>5</td>
+<td>5</td>
+<td>1983</td>
+<td>864.0</td>
+<td>2.0</td>
+<td>484.0</td>
+<td>8885</td>
+<td>1Story</td>
+<td>Mitchel</td>
+<td>Y</td>
+<td>TA</td>
+</tr>
+<tr>
+<th>2927</th>
+<td>970</td>
+<td>5</td>
+<td>5</td>
+<td>1992</td>
+<td>912.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>10441</td>
+<td>SFoyer</td>
+<td>Mitchel</td>
+<td>Y</td>
+<td>TA</td>
+</tr>
+<tr>
+<th>2928</th>
+<td>1389</td>
+<td>5</td>
+<td>5</td>
+<td>1974</td>
+<td>1389.0</td>
+<td>2.0</td>
+<td>418.0</td>
+<td>10010</td>
+<td>1Story</td>
+<td>Mitchel</td>
+<td>Y</td>
+<td>TA</td>
+</tr>
+<tr>
+<th>2929</th>
+<td>2000</td>
+<td>7</td>
+<td>5</td>
+<td>1993</td>
+<td>996.0</td>
+<td>3.0</td>
+<td>650.0</td>
+<td>9627</td>
+<td>2Story</td>
+<td>Mitchel</td>
+<td>Y</td>
+<td>TA</td>
+</tr>
+</tbody>
+</table>
+<p>2930 rows × 12 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a5f2559f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p><code>.fit()</code> usa l’algoritmo dei <em>minimi quadrati ordinari</em> (OLS) per stimare i coefficienti della regressione lineare.<br/>
+Dato il modello:</p>
+<p>$$
+y = X\beta + \varepsilon
+$$</p>
+<p>dove:</p>
+<ul>
+<li>$y$ è la variabile dipendente</li>
+<li>$X$ è la matrice dei regressori (inclusa l’intercetta)</li>
+<li>$\beta$ sono i coefficienti da stimare</li>
+<li>$\varepsilon$ sono gli errori</li>
+</ul>
+<p>Per ogni osservazione i-esima:</p>
+<p>$$
+\varepsilon_i = y_i - \hat{y}_i
+$$
+$$
+\varepsilon_i = y_i - (x_i^\top \hat{\beta})
+$$</p>
+<p>OLS cerca i coefficienti $\hat{\beta}$ che rendono i residui il più piccoli possibile.<br/>
+Il criterio da minimizzare è la <em>somma dei quadrati dei residui</em> (SSR):</p>
+<p>$$
+SSR(\beta) = \sum_{i=1}^n (y_i - x_i^\top \beta)^2
+$$</p>
+<p>Vengono usati i quadrati perchè:</p>
+<ul>
+<li>i residui negativi non si cancellano con quelli positivi,</li>
+<li>i residui grandi vengono penalizzati molto di più,</li>
+<li>la funzione è derivabile e ha una soluzione chiusa.</li>
+</ul>
+<p>Minimizzando poi SSR rispetto a $\beta$ si ottiene l’equazione normale:</p>
+<p>$$
+X^\top X \hat{\beta} = X^\top y
+$$</p>
+<p>da cui:</p>
+<p>$$
+\hat{\beta} = (X^\top X)^{-1} X^\top y
+$$</p>
+<p>Quindi cosa fa <code>.fit()</code> in pratica:</p>
+<ol>
+<li>costruisce $X^\top X$</li>
+<li>verifica che sia invertibile</li>
+<li>calcola $(X^\top X)^{-1} X^\top y$</li>
+<li>ottiene $\hat{\beta}$</li>
+<li>calcola:<ul>
+<li>residui</li>
+<li>$R^2$ e $adj\text{-}R^2$</li>
+<li>deviazioni standard</li>
+<li>t-statistiche e p-value</li>
+<li>intervalli di confidenza</li>
+<li>test di diagnostica</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=825aded1">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># X è un nuovo DataFrame che contiene solo le colonne elencate in regressors</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">regressors</span><span class="p">]</span>
+
+<span class="c1"># Mi creo le dummies per le variabili categoriche:</span>
+<span class="c1"># get_dummies trasforma le variabili categoriche (stringhe) in un insieme di dummy binarie</span>
+<span class="c1"># "Neighborhood" -&gt; ["Neighborhood_Blueste", "Neighborhood_BrDale", ...]</span>
+<span class="c1"># "House Style"  -&gt; ["House Style_1.5Unf", "House Style_1Story", ...]</span>
+<span class="c1"># "Kitchen Qual" -&gt; ["Kitchen Qual_Fa", "Kitchen Qual_Gd", ...]</span>
+<span class="c1"># ...</span>
+<span class="c1"># Per ciascuna variabile categorica, drop_first=True ordina la lista di dummies e ne elimina la prima per evitare</span>
+<span class="c1"># la dummy trap (multicollinearità perfetta tra le dummies), lascia poi le variabili numeriche invariate</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># converto tutto in numerico</span>
-<span class="c1"># (ci possono essere cose strane -&gt; NaN)</span>
+<span class="c1"># print tattico</span>
+<span class="c1"># print(X.columns.tolist())</span>
+
+<span class="c1"># forzo tutte le colonne di X e y a essere numeriche</span>
+<span class="c1"># errors="coerce" trasforma tutto ciò che non è convertibile in numero</span>
+<span class="c1"># (stringa strana, spazio vuoto, simbolo) in NaN</span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span><span class="p">)</span>
 
-<span class="c1"># metto insieme y e X</span>
-<span class="c1"># tolgo tutte le righe con NaN</span>
+<span class="c1"># Combino la colonna di y e tutte le colonne di X in un unico DataFrame</span>
+<span class="c1"># Poi con dropna() elimino tutte le righe che contengono almeno un NaN in una qualsiasi colonna:</span>
+<span class="c1"># se manca "SalePrice", "Gr Liv Area", una delle dummy, una stringa diventata NaN nella conversione</span>
+<span class="c1"># | y  | x1 | x2 | ... |</span>
+<span class="c1"># |----|----|----|-----|</span>
+<span class="c1"># | ** | ** | ** | ... |</span>
+<span class="c1"># | ** | ** | ** | ... |</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">X</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
 
 <span class="c1"># separo di nuovo y e X ma con NumPy</span>
+
+<span class="c1"># prendo la colonna SalePrice (y) dal DataFrame pulito e lo converto in un array NumPy di float -&gt; y_clean: vettore n*1</span>
+<span class="c1"># prendo tutte le restanti colonne e le converto in un array NumPy di float                     -&gt; X_clean: matrice n*k</span>
 <span class="n">y_clean</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 <span class="n">X_clean</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"SalePrice"</span><span class="p">])</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
-<span class="c1"># aggiungo l'intercetta sugli array NumPy</span>
+<span class="c1"># Aggiungo una colonna di 1 alla matrice (l'intercetta b_0)</span>
 <span class="n">X_clean</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">X_clean</span><span class="p">)</span>
 
-<span class="c1"># regressione OLS</span>
+<span class="c1"># Creo l’oggetto OLS e con fit() eseguo la stima dei coefficienti b^</span>
+<span class="c1"># minimizzando la somma dei quadrati dei residui:</span>
+<span class="c1"># dato y = Xb + e, cerca i valori di b^ che rendono i residui più piccoli possibile</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y_clean</span><span class="p">,</span> <span class="n">X_clean</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
 </pre></div>
@@ -7583,7 +8252,7 @@ Dep. Variable:                      y   R-squared:                       0.855
 Model:                            OLS   Adj. R-squared:                  0.853
 Method:                 Least Squares   F-statistic:                     362.1
 Date:                Tue, 18 Nov 2025   Prob (F-statistic):               0.00
-Time:                        16:57:16   Log-Likelihood:                -34377.
+Time:                        23:20:58   Log-Likelihood:                -34377.
 No. Observations:                2928   AIC:                         6.885e+04
 Df Residuals:                    2880   BIC:                         6.914e+04
 Df Model:                          47                                         
@@ -7660,7 +8329,7 @@ strong multicollinearity or other numerical problems.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
