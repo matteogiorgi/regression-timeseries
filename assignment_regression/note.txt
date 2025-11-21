@@ -1,0 +1,31 @@
+- multicolineareità (spiegare il drop): metti una cella di testo prima del codice
+- variabili su cui calcolare il VIF:
+    * Garage Area
+    * Garage Cars
+    ---
+    * Year Built
+    * Garage Yr Blt
+    ---
+    * 1st Flr SF
+    * Total Bsmt SF
+    ---
+    * Gr Liv Area
+    * Full Bath
+    ---
+    * Year Remod/Add
+    * Year Built
+- test e diagnostica
+    * aggiungi grafici abdullah
+    * multicolineareità perfetta (solo considerazione se da errore):
+        + Gr Liv Area == 1st Flr SF + 2st Flr SF + Low Qual Fin SF
+    * multicolineareità imperfetta (var sopra)
+        + se esce un VIF>10 tolgo la variabile a cui si riferisce
+    * test rest: spec lineare o meno
+    * test di chow prima dopo il 2008
+        + 2006-2007 e 2008-2010 (Yr Sold)
+    * residui: Darbin Watson
+    * grafico sui residui
+- conclusioni
+    * partiti col dataset intero
+    * scelta delle variabili
+    * scartato delle variabili dopo la diagnostica (perchè?)
