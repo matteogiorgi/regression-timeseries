@@ -1,0 +1,1153 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Group10 AmesHousing}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{research-hypotheses-supported-by-the-literature}{%
+\section{Research hypotheses supported by the
+literature}\label{research-hypotheses-supported-by-the-literature}}
+
+The objective of this work is to study which structural, qualitative,
+and locational characteristics of a residential property significantly
+affect its market price. \cite{glasserman2004}
+
+The \emph{Ames Housing Dataset} provides detailed information on
+dwellings sold in Ames (Iowa) and is an updated version of the Boston
+Housing Dataset, already widely used in the housing econometrics
+literature. With its 2930, the \emph{Ames Housing Dataset} offers a
+larger sample size and a more comprehensive set of features and it is
+better suited for modern statistical analysis.
+
+Ames dataset includes physical size, construction details, quality
+ratings, and neighborhood indicators, all variables on which we
+formulate a series of hypotheses grounded in empirical findings from the
+real-estate and housing-econometrics literature.
+
+    \hypertarget{fundamentals-variables-and-assumptions}{%
+\subsection{Fundamentals variables and
+assumptions}\label{fundamentals-variables-and-assumptions}}
+
+We found that about 80\% of the variation in residential sales price can
+be explained by simply taking into consideration the neighborhood and
+total square footage (\texttt{Total\ Bsmt\ SF} + \texttt{Gr\ Liv\ Area})
+of the dwelling (e.g., De Cock 2011).
+
+According to our interpretation of the literature published (e.g., Ju et
+Al 2025; Zietz et Sirmans 2008) and our empirical reasoning, we consider
+the variables that significantly affect the sale price of a house are
+the following.
+
+    \hypertarget{the-overall-quality-of-the-house-has-a-strong-positive-impact-on-sale-price}{%
+\subsubsection{The overall quality of the house has a strong positive
+impact on sale
+price}\label{the-overall-quality-of-the-house-has-a-strong-positive-impact-on-sale-price}}
+
+Several studies show that global quality assessments summarise multiple
+latent characteristics (materials, workmanship, design), making them
+among the most informative predictors of house value.
+
+Abdulhafedh (2022) identifies \texttt{OverallQual} as one of the most
+influential variables in explaining sale price in a multiple regression
+framework.
+
+Similar evidence is reported in Yu (2022) and Han (2023), where overall
+quality consistently appears as the strongest determinant in both OLS
+and regularized regression models.
+
+    \hypertarget{the-above-ground-living-area-grlivarea-is-positively-associated-with-the-price-of-a-house}{%
+\subsubsection{\texorpdfstring{The above-ground living area
+(\texttt{GrLivArea}) is positively associated with the price of a
+house}{The above-ground living area (GrLivArea) is positively associated with the price of a house}}\label{the-above-ground-living-area-grlivarea-is-positively-associated-with-the-price-of-a-house}}
+
+The hedonic pricing literature traditionally recognises physical size as
+a primary contributor to housing value.
+
+\begin{quote}
+The \textbf{hedonic pricing model} is an economic model that explains
+the price of a good as the sum (or combination) of the values of its
+attributes. In other words, a complex good is ``decomposed'' into its
+components, and the total price reflects the contribution of each of
+them.
+
+The concept was introduced by Lancaster in 1966 in consumer theory and
+was first applied to housing prices by Rosen in 1974.
+\end{quote}
+
+Abdulhafedh (2022) highlights that the main livable area is among the
+variables with the highest explanatory power. Studies on the Ames
+dataset (e.g., Ye 2024; Han 2023) similarly identify \texttt{GrLivArea}
+as one of the strongest continuous predictors.
+
+    \hypertarget{the-total-basement-area-totalbsmtsf-also-increases-house-price-independently-from-the-above-ground-area}{%
+\subsubsection{\texorpdfstring{The total basement area
+(\texttt{TotalBsmtSF}) also increases house price, independently from
+the above-ground
+area}{The total basement area (TotalBsmtSF) also increases house price, independently from the above-ground area}}\label{the-total-basement-area-totalbsmtsf-also-increases-house-price-independently-from-the-above-ground-area}}
+
+Basements provide additional functional space and generally correlate
+with larger, higher-value homes.
+
+Multiple analyses of the Ames dataset (Han 2023; Yu 2022) show that
+basement size maintains statistical significance even when controlling
+for other structural variables. Abdulhafedh (2022) also finds that
+basement-related features contribute substantially to the model fit.
+
+    \hypertarget{newer-or-recently-renovated-houses-yearbuilt-yearremodadd-tend-to-have-higher-sale-prices}{%
+\subsubsection{\texorpdfstring{Newer or recently renovated houses
+(\texttt{YearBuilt}, \texttt{YearRemodAdd}) tend to have higher sale
+prices}{Newer or recently renovated houses (YearBuilt, YearRemodAdd) tend to have higher sale prices}}\label{newer-or-recently-renovated-houses-yearbuilt-yearremodadd-tend-to-have-higher-sale-prices}}
+
+The literature on housing depreciation demonstrates that structural
+aging reduces property value unless offset by renovations.
+
+According to Abdulhafedh (2022), both the construction year and the
+remodeling year play an important role in predicting sale prices.
+
+Other studies on the Ames dataset reinforce this conclusion, noting that
+newer homes or homes with extensive remodeling command a price premium.
+
+    \hypertarget{higher-quality-kitchens-and-exterior-materials-positively-affect-sale-price}{%
+\subsubsection{Higher-quality kitchens and exterior materials positively
+affect sale
+price}\label{higher-quality-kitchens-and-exterior-materials-positively-affect-sale-price}}
+
+Studies in real-estate economics show that buyers are particularly
+sensitive to the quality of kitchens, bathrooms, and exterior finishes,
+as these elements influence both functionality and aesthetic appeal.
+
+\texttt{KitchenQual} and \texttt{ExterQual} are repeatedly found to be
+statistically significant predictors in analyses using the Ames dataset
+(Ye 2024; Abdulhafedh 2022). Both variables capture qualitative
+assessments not reflected solely by house size.
+
+    \hypertarget{neighborhood-characteristics-significantly-affect-sale-price-even-after-controlling-for-structural-attributes.}{%
+\subsubsection{Neighborhood characteristics significantly affect sale
+price, even after controlling for structural
+attributes.}\label{neighborhood-characteristics-significantly-affect-sale-price-even-after-controlling-for-structural-attributes.}}
+
+Location remains one of the most important determinants of housing
+prices in hedonic models.
+
+The Ames dataset includes a categorical variable (\texttt{Neighborhood})
+that encodes proximity to schools, income areas, and local amenities.
+
+Previous studies (e.g., De Cock 2011; Ye 2024) demonstrate that location
+dummies remain significant even in fully specified regression models.
+
+    \hypertarget{variables-we-remove}{%
+\subsection{Variables we remove}\label{variables-we-remove}}
+
+First, we remove the variables \texttt{Pool\ QC}, \texttt{Alley},
+\texttt{Fence} and \texttt{Misc\ Feature} since they contain too many
+missing values (\texttt{NaN}). The remaining variables would be
+available and ready for analysis but, as we have shown, including
+irrelevant variables increases the standard errors, which leads to less
+powerful significance tests and wider confidence intervals, and
+therefore to less precise statistical inference.
+
+For this reason we have not considered many of the 82 explanatory
+variables, mainly because many of them refer to the same part of the
+house (such as \texttt{Bsmt\ Exposure}, \texttt{BsmtFin\ Type\ 1},
+\texttt{BsmtFin\ Type\ 2} for the description of the basement), and
+therefore may be highly correlated and they generate high standard
+errors, also because we belive that some of them have a negligeable
+impact on sale prices. In order to obtain a more parsimonious model,
+with an higher \(R^2\) adjusted and lower \(AIC\) and \(BIC\) we have
+decided to exclude these variables from the analysis.
+
+An examlple of such variables are:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{PID} is just an identification number wich does not provide
+  any information about the house price
+\item
+  \texttt{Lot\ Front} is the length of street connected to the property,
+  which is not relevant for the price (on one hand a larger front may be
+  better, on the other hand it may mean more noise and traffic)
+\item
+  \texttt{Lot\ Shape} and \texttt{Land\ Contour} are less relevant than
+  other locational attributes like neighborhood
+\item
+  \texttt{Fireplaces} is the number of fireplaces, which is an outdated
+  feature that does not affect the price significantly
+\item
+  \texttt{Fireplace\ Qu} is the quality of the fireplaces, which is of
+  secondary importance compared to other quality features like kitchen
+  and exterior quality
+\item
+  \texttt{Roof\ Style} and \texttt{Roof\ Matl} are of secondary
+  importance compared to other features such as quality and size
+\item
+  \texttt{Condition\ 1} indicates the proximity to various conditions
+  (e.g., arterial roads, railroads), but \texttt{Neighborhood} already
+  captures location effects more comprehensively plus there is still the
+  noise factor
+\end{itemize}
+
+    \hypertarget{description-of-the-dataset}{%
+\section{Description of the Dataset}\label{description-of-the-dataset}}
+
+The analysis is based on the \emph{Ames Housing Dataset}, a well-known
+real-estate dataset originally compiled by the Assessor's Office of
+Ames, Iowa. It contains detailed information on residential properties
+sold between 2006 and 2010.
+
+In its full version, the dataset includes 82 explanatory variables
+describing structural, qualitative, locational, and functional
+characteristics of each house.
+
+For the purpose of this assignment, we selected a subset of the
+variables most commonly used in hedonic price models and supported by
+the literature.
+
+    \hypertarget{general-structure-of-the-dataset}{%
+\subsection{General structure of the
+dataset}\label{general-structure-of-the-dataset}}
+
+Each row of the dataset corresponds to a single residential property,
+while columns represent the attributes listed above.
+
+Numerical variables are measured either in square feet or in calendar
+years, whereas qualitative assessments use an ordinal scale. The dataset
+does not contain missing values for the variables selected for the
+analysis, and therefore no imputation was required in this step.
+
+The dependent variable of the regression is \texttt{SalePrice},
+expressed in US dollars. and the selected explanatory variables fall
+into the four following categories.
+
+    \hypertarget{size-and-structural-characteristics}{%
+\subsubsection{Size and structural
+characteristics}\label{size-and-structural-characteristics}}
+
+These variables capture the physical dimensions of the dwelling:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Gr\ Liv\ Area}: above-ground living area (in square feet)
+\item
+  \texttt{1st\ Flr\ SF}: first-floor area
+\item
+  \texttt{Total\ Bsmt\ SF}: total basement area
+\item
+  \texttt{Lot\ Area}: size of the lot
+\item
+  \texttt{Full\ Bath}: number of full bathrooms
+\item
+  \texttt{Garage\ Area}: size of the garage
+\item
+  \texttt{Garage\ Cars}: garage capacity (number of cars)
+\item
+  \texttt{Garage\ Yr\ Blt}: year the garage was built
+\item
+  \texttt{Year\ Built}: construction year of the house
+\item
+  \texttt{Year\ Remod/Add}: year of the most recent remodeling
+\item
+  \texttt{Utilities}: type of utilities available
+\end{itemize}
+
+These attributes quantify the amount of usable space and the structural
+age of the property.
+
+    \hypertarget{quality-assessments}{%
+\subsubsection{Quality assessments}\label{quality-assessments}}
+
+The dataset includes several ordinal ratings assigned by professional
+assessors:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Overall\ Qual}: overall material and finish quality
+\item
+  \texttt{Kitchen\ Qual}: quality of kitchen materials
+\item
+  \texttt{ExterQual}: assessment of exterior materials and workmanship
+\item
+  \texttt{BsmtQual}: quality of basement materials
+\end{itemize}
+
+These variables summarize qualitative features that are not captured by
+size alone.
+
+    \hypertarget{locational-and-timing-information}{%
+\subsubsection{Locational and timing
+information}\label{locational-and-timing-information}}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Neighborhood}: categorical variable identifying the physical
+  location within the city of Ames
+\item
+  \texttt{MS\ Zoning}: categorical variable indicating the general
+  zoning classification such as low‑density residential, medium‑density
+  residential, or commercial
+\item
+  \texttt{Year\ Sold}: year the property was sold
+\end{itemize}
+
+This variable incorporates locational amenities and neighbourhood-level
+characteristics that influence market value.
+
+    \hypertarget{model-specification-and-estimation}{%
+\section{Model Specification and
+Estimation}\label{model-specification-and-estimation}}
+
+The aim of this section is to construct a multiple linear regression
+model in order to explain the variation in the sale price of residential
+properties.
+
+The dependent variable is \texttt{SalePrice}, while the set of
+regressors includes the structural, qualitative, and locational
+characteristics identified in the previous section.
+
+    \hypertarget{model-specification}{%
+\subsection{Model Specification}\label{model-specification}}
+
+The regression model is specified as follows:
+
+\[
+\begin{aligned}
+\mathrm{SalePrice}_i &= 
+\beta_0
++ \beta_1\,\mathrm{Gr Liv Area}_i
++ \beta_2\,\mathrm{1st Flr SF}_i
++ \beta_3\,\mathrm{Total Bsmt SF}_i
++ \beta_4\,\mathrm{Lot Area}_i\\
+&\quad + \beta_5\,\mathrm{Full Bath}_i
++ \beta_6\,\mathrm{Garage Area}_i
++ \beta_7\,\mathrm{Garage Cars}_i
++ \beta_8\,\mathrm{Garage Yr Blt}_i\\
+&\quad + \beta_9\,\mathrm{Year Built}_i
++ \beta_{10}\,\mathrm{Year Remod/Add}_i
++ \beta_{11}\,\mathrm{Utilities}_i
++ \beta_{12}\,\mathrm{Overall Qual}_i\\
+&\quad + \beta_{13}\,\mathrm{Kitchen Qual}_i
++ \beta_{14}\,\mathrm{Exter Qual}_i
++ \beta_{15}\,\mathrm{Bsmt Qual}_i
++ \beta_{15}\,\mathrm{Neighborhood}_i\\
+&\quad + \beta_{16}\,\mathrm{MS Zoning}_i
++ \beta_{16}\,\mathrm{Year Sold}_i
++ \varepsilon_i
+\end{aligned}
+\]
+
+where:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\beta_0\) is the intercept
+\item
+  \(\beta\)'s denote the coefficients associated with each regressor
+\item
+  \(\varepsilon_i\) is the error term capturing unobserved factors
+\item
+  the \texttt{Neighborhood} variable is treated as a categorical factor
+  and encoded through dummy variables
+\end{itemize}
+
+    \hypertarget{model-assumptions}{%
+\subsection{Model Assumptions}\label{model-assumptions}}
+
+Our multiple linear regression model is estimated under the following
+assumptions:
+
+\begin{itemize}
+\item
+  linearity of the \emph{conditional mean} \[
+  \mathbb{E}[\varepsilon_i \mid X_i] = 0
+  \ \Longleftrightarrow\ 
+  \mathbb{E}[Y_i \mid X_i]
+  = \beta_0 + \beta_1 X_{i1} + \cdots + \beta_p X_{ip}
+  \] This assumption implies that all systematic variation in the
+  dependent variable is captured by the regressors.
+\item
+  \emph{independent and identically distributed} observations \[
+  (Y_i, X_i) \;\perp\!\!\!\perp\; (Y_j, X_j)
+  \quad \text{for } i \neq j
+  \] and all observations are drawn from the same population
+  distribution. This corresponds to the standard \emph{i.i.d.} sampling
+  framework.
+\item
+  finite \emph{fourth moments} \[
+  \mathbb{E}[X_{ik}^4] < \infty
+  \qquad\text{and}\qquad
+  \mathbb{E}[\varepsilon_i^4] < \infty
+  \] This condition ensures the applicability of asymptotic results and
+  prevents extreme observations from dominating the estimation.
+\end{itemize}
+
+    \hypertarget{python-code}{%
+\subsection{Python code}\label{python-code}}
+
+Here we list the full code used for the analysis with all comments and
+explanations.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{api}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sm}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{display}
+
+\PY{c+c1}{\PYZsh{} Read AmesHousing.csv into the DataFrame df:}
+\PY{c+c1}{\PYZsh{} each row represents a house}
+\PY{c+c1}{\PYZsh{} each column represents a variable}
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AmesHousing.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} SalePricee is the target variable y}
+\PY{c+c1}{\PYZsh{} (the dependent variable)}
+\PY{n}{y} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{SalePrice}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} regressors is a list of column names that I want to use as regressors in the model,}
+\PY{c+c1}{\PYZsh{} chosen from the 82 variables available in the dataset}
+\PY{n}{regressors} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gr Liv Area}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1st Flr SF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total Bsmt SF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Lot Area}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Full Bath}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Garage Area}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Garage Cars}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Garage Yr Blt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Year Built}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Year Remod/Add}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Overall Qual}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Kitchen Qual}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Exter Qual}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Bsmt Qual}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Neighborhood}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{MS Zoning}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Utilities}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} X is a new DataFrame that contains only the columns listed in regressors}
+\PY{n}{X} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{regressors}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Create dummy variables for the categorical variables:}
+\PY{c+c1}{\PYZsh{} get\PYZus{}dummies converts categorical variables (strings) into a set of binary dummy columns}
+\PY{c+c1}{\PYZsh{} \PYZdq{}Neighborhood\PYZdq{} \PYZhy{}\PYZgt{} [\PYZdq{}Neighborhood\PYZus{}Blueste\PYZdq{}, \PYZdq{}Neighborhood\PYZus{}BrDale\PYZdq{}, ...]}
+\PY{c+c1}{\PYZsh{} \PYZdq{}House Style\PYZdq{}  \PYZhy{}\PYZgt{} [\PYZdq{}House Style\PYZus{}1.5Unf\PYZdq{}, \PYZdq{}House Style\PYZus{}1Story\PYZdq{}, ...]}
+\PY{c+c1}{\PYZsh{} \PYZdq{}Kitchen Qual\PYZdq{} \PYZhy{}\PYZgt{} [\PYZdq{}Kitchen Qual\PYZus{}Fa\PYZdq{}, \PYZdq{}Kitchen Qual\PYZus{}Gd\PYZdq{}, ...]}
+\PY{c+c1}{\PYZsh{} ...}
+\PY{c+c1}{\PYZsh{} For each categorical variable, drop\PYZus{}first=True sorts the dummy columns alphanumerically, than drops the first one}
+\PY{c+c1}{\PYZsh{} to avoid the dummy variable trap (perfect multicollinearity among the dummies). Numerical columns are left unchanged}
+\PY{n}{X} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{get\PYZus{}dummies}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{drop\PYZus{}first}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Force all columns of X and y to be numeric}
+\PY{c+c1}{\PYZsh{} errors=\PYZdq{}coerce\PYZdq{} converts anything that cannot be converted to a number}
+\PY{c+c1}{\PYZsh{} (weird string, empty space, symbol) into NaN}
+\PY{n}{X} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}numeric}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{coerce}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{y} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}numeric}\PY{p}{(}\PY{n}{y}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{coerce}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Combine the y column and all X columns into a single DataFrame}
+\PY{c+c1}{\PYZsh{} Then use dropna() to remove all rows that contain at least one NaN in any column.}
+\PY{c+c1}{\PYZsh{} e.g., if \PYZdq{}SalePrice\PYZdq{}, \PYZdq{}Gr Liv Area\PYZdq{}, one of the dummy columns is missing, or a string was coerced to NaN}
+\PY{c+c1}{\PYZsh{} | y  | x1 | x2 | ... |}
+\PY{c+c1}{\PYZsh{} |\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}|\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}|\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}|\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}|}
+\PY{c+c1}{\PYZsh{} | ** | ** | ** | ... |}
+\PY{c+c1}{\PYZsh{} | ** | ** | ** | ... |}
+\PY{n}{data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{p}{[}\PY{n}{y}\PY{p}{,} \PY{n}{X}\PY{p}{]}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Take the SalePrice column (y) from the cleaned DataFrame and convert it to a NumPy float array \PYZhy{}\PYZgt{} y\PYZus{}clean: n*1 vector}
+\PY{c+c1}{\PYZsh{} Take all remaining columns and convert them to a NumPy float array                             \PYZhy{}\PYZgt{} X\PYZus{}clean: n*k matrix}
+\PY{n}{y\PYZus{}clean} \PY{o}{=} \PY{n}{data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{SalePrice}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{to\PYZus{}numpy}\PY{p}{(}\PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+\PY{n}{X\PYZus{}clean} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{SalePrice}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}numpy}\PY{p}{(}\PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Add a column of ones to the matrix (the intercept b\PYZus{}0)}
+\PY{n}{X\PYZus{}clean} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{add\PYZus{}constant}\PY{p}{(}\PY{n}{X\PYZus{}clean}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Create the OLS model object and call fit() to estimate the coefficients (b̂) by minimizing the sum of squared residuals:}
+\PY{c+c1}{\PYZsh{} given y = X*b + e, it finds the b̂ that make the residuals as small as possible}
+\PY{n}{model} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{OLS}\PY{p}{(}\PY{n}{y\PYZus{}clean}\PY{p}{,} \PY{n}{X\PYZus{}clean}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{model}\PY{o}{.}\PY{n}{summary}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+                            OLS Regression Results
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.855
+Model:                            OLS   Adj. R-squared:                  0.852
+Method:                 Least Squares   F-statistic:                     280.9
+Date:                Wed, 19 Nov 2025   Prob (F-statistic):               0.00
+Time:                        20:54:57   Log-Likelihood:                -32513.
+No. Observations:                2770   AIC:                         6.514e+04
+Df Residuals:                    2712   BIC:                         6.549e+04
+Df Model:                          57
+Covariance Type:            nonrobust
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const      -8.876e+05   1.32e+05     -6.724      0.000   -1.15e+06   -6.29e+05
+x1            44.3995      2.027     21.906      0.000      40.425      48.374
+x2            -3.9192      3.104     -1.263      0.207     -10.006       2.167
+x3            23.4093      2.665      8.784      0.000      18.183      28.635
+x4             0.6152      0.085      7.212      0.000       0.448       0.782
+x5         -3756.4845   1658.574     -2.265      0.024   -7008.682    -504.287
+x6            16.5662      6.695      2.475      0.013       3.439      29.693
+x7          7228.4564   1931.315      3.743      0.000    3441.459     1.1e+04
+x8           -39.5767     47.771     -0.828      0.407    -133.249      54.095
+x9           247.2766     57.053      4.334      0.000     135.404     359.149
+x10          259.1812     44.615      5.809      0.000     171.698     346.664
+x11         1.261e+04    820.520     15.370      0.000     1.1e+04    1.42e+04
+x12        -3.551e+04   5801.478     -6.120      0.000   -4.69e+04   -2.41e+04
+x13        -2.923e+04   3179.782     -9.192      0.000   -3.55e+04    -2.3e+04
+x14        -5.268e+04   3.14e+04     -1.678      0.094   -1.14e+05    8889.597
+x15        -3.553e+04   3552.403    -10.001      0.000   -4.25e+04   -2.86e+04
+x16         -3.79e+04   8692.842     -4.360      0.000   -5.49e+04   -2.09e+04
+x17        -2.849e+04   4109.779     -6.931      0.000   -3.65e+04   -2.04e+04
+x18        -2.825e+04   4651.880     -6.073      0.000   -3.74e+04   -1.91e+04
+x19        -2.125e+04   4794.607     -4.433      0.000   -3.07e+04   -1.19e+04
+x20        -2.251e+04   2492.245     -9.033      0.000   -2.74e+04   -1.76e+04
+x21        -2909.7269   2.36e+04     -0.123      0.902   -4.93e+04    4.35e+04
+x22         -1.96e+04   2978.602     -6.581      0.000   -2.54e+04   -1.38e+04
+x23         2288.6955   1.19e+04      0.192      0.848   -2.11e+04    2.56e+04
+x24        -7326.1849   9249.664     -0.792      0.428   -2.55e+04    1.08e+04
+x25         1.098e+04   7863.407      1.397      0.163   -4436.016    2.64e+04
+x26         2.192e+04   7928.231      2.765      0.006    6374.661    3.75e+04
+x27         8528.3242   6233.377      1.368      0.171   -3694.325    2.08e+04
+x28         3.186e+04   7146.519      4.459      0.000    1.79e+04    4.59e+04
+x29        -8111.6946   6852.156     -1.184      0.237   -2.15e+04    5324.281
+x30         4281.1987   6486.531      0.660      0.509   -8437.844     1.7e+04
+x31         1.275e+04   1.25e+04      1.022      0.307   -1.17e+04    3.72e+04
+x32         1.129e+05   2.28e+04      4.962      0.000    6.83e+04    1.57e+05
+x33         7997.7135   8736.543      0.915      0.360   -9133.242    2.51e+04
+x34        -3216.6788    3.2e+04     -0.101      0.920    -6.6e+04    5.95e+04
+x35         2471.7518   9517.391      0.260      0.795   -1.62e+04    2.11e+04
+x36         2205.6500   6858.340      0.322      0.748   -1.12e+04    1.57e+04
+x37         3331.9295   6567.072      0.507      0.612   -9545.042    1.62e+04
+x38        -5548.4113   8930.430     -0.621      0.534   -2.31e+04     1.2e+04
+x39         3487.8154   6725.315      0.519      0.604   -9699.446    1.67e+04
+x40         5.949e+04   7149.219      8.321      0.000    4.55e+04    7.35e+04
+x41         3.104e+04   6570.613      4.724      0.000    1.82e+04    4.39e+04
+x42         1234.4781   7905.291      0.156      0.876   -1.43e+04    1.67e+04
+x43          868.9178   8469.032      0.103      0.918   -1.57e+04    1.75e+04
+x44         3828.3917   6851.807      0.559      0.576   -9606.899    1.73e+04
+x45          732.8101   6622.674      0.111      0.912   -1.23e+04    1.37e+04
+x46         1.747e+04   7563.024      2.310      0.021    2640.863    3.23e+04
+x47         5.065e+04   7397.165      6.847      0.000    3.61e+04    6.52e+04
+x48         1.653e+04   7004.926      2.360      0.018    2793.712    3.03e+04
+x49         2.556e+04   8697.728      2.939      0.003    8509.290    4.26e+04
+x50         7187.1732   2.39e+04      0.301      0.764   -3.97e+04     5.4e+04
+x51         2.269e+04   2.33e+04      0.976      0.329   -2.29e+04    6.83e+04
+x52         1.445e+04   3.35e+04      0.431      0.667   -5.13e+04    8.02e+04
+x53         1.963e+04   2.36e+04      0.831      0.406   -2.67e+04    6.59e+04
+x54         2.938e+04   2.26e+04      1.299      0.194    -1.5e+04    7.37e+04
+x55         1.912e+04   2.26e+04      0.845      0.398   -2.52e+04    6.35e+04
+x56        -3.536e+04    3.1e+04     -1.141      0.254   -9.61e+04    2.54e+04
+x57        -2.675e+04   2.53e+04     -1.058      0.290   -7.63e+04    2.28e+04
+==============================================================================
+Omnibus:                     1640.604   Durbin-Watson:                   1.703
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):           230338.424
+Skew:                          -1.805   Prob(JB):                         0.00
+Kurtosis:                      47.527   Cond. No.                     3.08e+06
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly
+specified.
+[2] The condition number is large, 3.08e+06. This might indicate that there are
+strong multicollinearity or other numerical problems.
+    \end{Verbatim}
+
+    \hypertarget{interpretation-of-the-regression-output}{%
+\subsection{Interpretation of the regression
+output}\label{interpretation-of-the-regression-output}}
+
+The OLS regression is estimated on 2,770 observations.\\
+The dependent variable is \texttt{SalePrice}, while the regressors
+include size variables, quality indicators, age/renovation variables and
+a set of dummies for neighbourhood, zoning and utilities.
+
+\hypertarget{overall-fit-of-the-model}{%
+\subsubsection{Overall fit of the
+model}\label{overall-fit-of-the-model}}
+
+The model displays a relatively high goodness of fit:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{R-squared} = 0.855\\
+\item
+  \texttt{Adjusted\ R-squared} = 0.852
+\end{itemize}
+
+This means that about 85\% of the variation in house prices in the
+sample is explained by the regressors included in the model.
+
+The \texttt{F-statistic} is 280.9 with a \texttt{p-value} essentially
+equal to zero, so the null hypothesis that all slope coefficients are
+jointly equal to zero is strongly rejected. Taken together, the
+explanatory variables have a statistically significant impact on
+\texttt{SalePrice}.
+
+\hypertarget{interpretation-of-the-main-coefficients}{%
+\subsubsection{Interpretation of the main
+coefficients}\label{interpretation-of-the-main-coefficients}}
+
+The first group of coefficients (x1--x11) corresponds to the ``core''
+numeric regressors (size, age, quality):
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{x1} \(\approx 44.4\) (\texttt{Gr\ Liv\ Area}) is positive and
+  highly significant Interpreting it as the coefficient on above-ground
+  living area, it suggests that, ceteris paribus, an additional square
+  foot of living area increases the sale price by about 44 dollars.
+\item
+  \texttt{x3} \(\approx 23.4\) (\texttt{Total\ Bsmt\ SF}) is also
+  positive and highly significant, indicating that extra basement area
+  is rewarded in the market (around 23 dollars per square foot)
+\item
+  \texttt{x4} \(\approx 0.62\) (\texttt{Lot\ Area}) is positive and
+  significant: larger lots are associated with higher prices, although
+  the marginal effect per square foot is much smaller than for interior
+  living space or basement area
+\item
+  \texttt{x5} \(\approx –3,756\) (\texttt{Full\ Bath}) is negative and
+  statistically significant at the 5\% level.\\
+  This is somewhat counter-intuitive, but it can be explained by
+  multicollinearity: once we condition on total size and quality, adding
+  one more full bathroom at fixed size may capture houses with a
+  different layout rather than genuinely higher quality
+\item
+  \texttt{x6} \(\approx 16.6\) (\texttt{Garage\ Area}) and \texttt{x7}
+  \(\approx 7,228\) (\texttt{Garage\ Cars}) are both positive and
+  significant, meaning that larger garages and the capacity to park more
+  cars are rewarded by the market
+\item
+  \texttt{x8} (\texttt{Garage\ Yr\ Blt}) is not statistically
+  significant (p \(\approx 0.41\)), suggesting that, after controlling
+  for the other variables, the construction year of the garage does not
+  have a clear marginal effect
+\item
+  \texttt{x9} \(\approx 247.3\) (\texttt{Year\ Built}) and \texttt{x10}
+  \(\approx 259.2\) (\texttt{Year\ Remod/Add}) are positive and highly
+  significant: newer houses and more recently renovated properties tend
+  to sell at higher prices, in line with the idea that buyers pay a
+  premium for newer structures and recent improvements
+\item
+  \texttt{x11} \(\approx 12,610\) (\texttt{Overall\ Qual}) is positive
+  and extremely significant A one-point increase in the overall quality
+  rating is associated with roughly 12--13 thousand dollars more in sale
+  price, everything else being equal.\\
+  This confirms the strong role of quality emphasised in the hedonic
+  pricing literature.
+\end{itemize}
+
+The next coefficients (\texttt{x12}, \texttt{x13},
+\texttt{x15}--\texttt{x20}, \texttt{x22}, etc.) correspond to dummy
+variables created from \texttt{Kitchen\ Qual}, \texttt{Exter\ Qual} and
+\texttt{Bsmt\ Qual}. Most of these are negative and highly significant,
+because the baseline category is the highest quality level, and the
+dummies measure the price discount associated with having a lower
+quality relative to that baseline.\\
+In other words, houses with worse kitchen, exterior or basement quality
+sell at systematically lower prices.
+
+The block of coefficients starting around \texttt{x28}--\texttt{x41}
+corresponds mostly to \texttt{Neighborhood} dummies.\\
+Some neighbourhoods show large positive and significant coefficients
+(for example, \texttt{x32}, \texttt{x40}, \texttt{x41}, \texttt{x47},
+\texttt{x48}, \texttt{x49}), indicating that these areas command
+sizeable price premia relative to the omitted reference neighbourhood.\\
+Other neighbourhood coefficients are not statistically significant,
+suggesting that, after controlling for structural and quality
+characteristics, their effect on price is not clearly distinguishable
+from zero.
+
+Finally, the last coefficients (approximately
+\texttt{x50}--\texttt{x57}) represent dummies for \texttt{MS\ Zoning}
+and \texttt{Utilities}.\\
+Most of them are not statistically significant (p-values well above
+0.05), which indicates that, in this specification, zoning and utilities
+categories do not add much explanatory power once size, quality and
+neighbourhood are already in the model.
+
+    \hypertarget{covariance-matrix}{%
+\subsection{Covariance matrix}\label{covariance-matrix}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{seaborn}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sns}
+
+\PY{c+c1}{\PYZsh{} select only the relevant numeric columns}
+\PY{n}{num\PYZus{}vars} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gr Liv Area}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{1st Flr SF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Total Bsmt SF}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Lot Area}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Full Bath}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Garage Area}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Garage Cars}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Garage Yr Blt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Year Built}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Year Remod/Add}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+\PY{p}{]}
+
+\PY{n}{corr} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{num\PYZus{}vars}\PY{p}{]}\PY{o}{.}\PY{n}{corr}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{corr}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.2f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{coolwarm}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} colormap dafault}
+\PY{c+c1}{\PYZsh{} im = plt.imshow(corr, vmin=\PYZhy{}1, vmax=1)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{num\PYZus{}vars}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{num\PYZus{}vars}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{yticks}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{num\PYZus{}vars}\PY{p}{)}\PY{p}{)}\PY{p}{,} \PY{n}{num\PYZus{}vars}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} colorbar (to be used with the colormap)}
+\PY{c+c1}{\PYZsh{} plt.colorbar(im, fraction=0.046, pad=0.04)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Correlation matrix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Group10 AmesHousing_files/Group10 AmesHousing_23_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \bibliographystyle{plain}
+\bibliography{references}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
