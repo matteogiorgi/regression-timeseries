@@ -29,3 +29,101 @@
     * partiti col dataset intero
     * scelta delle variabili
     * scartato delle variabili dopo la diagnostica (perchè?)
+
+
+`Garage Area`, `Garage Cars`, `Year Built`, `Garage Yr Blt`, `1st Flr SF`, `Total Bsmt SF`, `Gr Liv Area`, `Full Bath`, `Year Remod/Add`, `Year Built`
+
+
+
+model <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood + MSZoning + Utilities,
+  data = ames_clean
+)
+
+install.packages("car")
+library(car)
+
+vif_values <- vif(model)
+#visualizza i risultati
+print(vif_values)
+
+
+Vorrei tornare al punto 4.2 (multicollinearità imperfetta)
+Enrico ha scritto del codice in R e ha usato tutti i regressori (non come me in Python che ho usato solamente `Garage Area`, `Garage Cars`, `Year Built`, `Garage Yr Blt`, `1st Flr SF`, `Total Bsmt SF`, `Gr Liv Area`, `Full Bath`, `Year Remod/Add`, `Year Built`)
+
+
+
+TEST CHOW
+---------
+# Create a new dataframe combining the following:
+# - target variable SalePrice
+# - explanatory variables used in X
+# - year-of-sale variable Yr Sold
+# (we used pandas.DataFrame.dropna() because each subsample must have the same regression structure)
+data = pd.concat([y, X, df["Yr Sold"]], axis=1).dropna()
+
+# Build the model on the full dataset including "Yr Sold" as regressor:
+# separate y, X and add the intercept column
+y_clean = data["SalePrice"].to_numpy(dtype=float)
+X_clean = data.drop(columns=["SalePrice", "Yr Sold"]).to_numpy(dtype=float)
+X_clean = sm.add_constant(X_clean)
+
+# Estimate the model OLS from 2006 to 2010
+# and obtain the RSS full
+model = sm.OLS(y_clean, X_clean).fit()
+print(model.summary())
+
+# ---
+
+from scipy import stats
+
+# Masks for the two periods:
+# pre-crisis  -> 2006, 2007, 2008
+# post-crisis -> 2009, 2010
+pre_mask = data["Yr Sold"].between(2006, 2008)
+post_mask = data["Yr Sold"].between(2009, 2010)
+data_pre = data[pre_mask].copy()
+data_post = data[post_mask].copy()
+
+# Build matrices for each subsample:
+# we extract the two versions of the model with exactly the same regressors as the full model
+# (this is essential for the Chow test to be valid)
+y_pre = data_pre["SalePrice"].to_numpy(dtype=float)
+y_post = data_post["SalePrice"].to_numpy(dtype=float)
+X_pre = data_pre.drop(columns=["SalePrice", "Yr Sold"]).to_numpy(dtype=float)
+X_post = data_post.drop(columns=["SalePrice", "Yr Sold"]).to_numpy(dtype=float)
+X_pre = sm.add_constant(X_pre)
+X_post = sm.add_constant(X_post)
+
+# This estimate the three models and their RSS:
+# model clean       -> RSS_full
+# model pre-crisis  -> RSS_P
+# model post-crisis -> RSS_C
+model_full = sm.OLS(y_clean, X_clean).fit()
+model_pre = sm.OLS(y_pre, X_pre).fit()
+model_post = sm.OLS(y_post, X_post).fit()
+
+# Canonical formula for the Chow test F-statistic
+RSS_full = (model_full.resid**2).sum()
+RSS_pre = (model_pre.resid**2).sum()
+RSS_post = (model_post.resid**2).sum()
+
+k = len(model_full.params)
+n_pre = len(y_pre)
+n_post = len(y_post)
+
+num = (RSS_full - (RSS_pre + RSS_post)) / k
+den = (RSS_pre + RSS_post) / (n_pre + n_post - 2 * k)
+F_chow = num / den
+
+# Calculating p-value: probability to observe an F-statistic at least as extreme as F_chow
+# (under the null hypothesis)
+p_value = 1 - stats.f.cdf(F_chow, k, n_pre + n_post - 2 * k)
+
+print(f"Chow test F-statistic: {F_chow:.3f}")
+print(f"p-value: {p_value:.4f}")
+print(f"n_pre = {n_pre}, n_post = {n_post}, k = {k}")

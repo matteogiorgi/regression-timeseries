@@ -1,0 +1,753 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{natbib}
+\usepackage{inconsolata}
+
+
+
+% -----------------------------------------------------
+% Elegant R Code Style for Listings
+% -----------------------------------------------------
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+
+\lstdefinestyle{rstyle}{
+    language=R,
+    backgroundcolor=\color{backcolour},
+    basicstyle=\ttfamily\small,
+    commentstyle=\color{codegray}\itshape,
+    keywordstyle=\color{blue}\bfseries,
+    stringstyle=\color{codepurple},
+    numbers=none,
+    showstringspaces=false,
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=true,
+    captionpos=b,
+    frame=single,
+    rulecolor=\color{black!20},
+    frameround=ffff
+}
+
+% -----------------------------------------------------
+% Style for R console output (summary(model), etc.)
+% -----------------------------------------------------
+\lstdefinestyle{routput}{
+    basicstyle=\ttfamily\footnotesize,
+    backgroundcolor=\color{backcolour},
+    frame=single,
+    rulecolor=\color{black!20},
+    frameround=ffff,
+    breaklines=true,
+    breakatwhitespace=false,
+    showstringspaces=false,
+    numbers=none
+}
+
+
+
+
+
+\setlist[itemize]{topsep=2pt, itemsep=2pt, parsep=0pt, partopsep=0pt}
+
+% Page layout
+\geometry{margin=1in}
+\onehalfspacing
+
+% Hyperlink colors
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=blue,
+    citecolor=black
+}
+
+% Title page
+\title{\textbf{Group10 AmesHousing}}
+\author{
+\begin{tabular}{c}
+\textbf{Authors} \\
+Mattia Zanin -- \href{mailto:mattia.zanin@studenti.unipd.it}{mattia.zanin@studenti.unipd.it} \\
+Matteo Giorgi -- \href{mailto:matteo.giorgi.1@studenti.unipd.it}{matteo.giorgi.1@studenti.unipd.it} \\
+Enrico Zanello -- \href{mailto:enrico.zanello@studenti.unipd.it}{enrico.zanello@studenti.unipd.it} \\
+Luca Lo Buono -- \href{mailto:luca.lobuono@studenti.unipd.it}{luca.lobuono@studenti.unipd.it} \\
+\end{tabular}
+}
+\date{November 23, 2025}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+\tableofcontents
+\newpage
+
+% ================================
+% Introduction
+% ================================
+\section{Research Hypotheses Supported by the Literature}
+
+The objective of this work is to study which structural, qualitative, and locational characteristics of a residential property significantly affect its market price.
+
+The \textit{Ames Housing Dataset} provides detailed information on dwellings sold in Ames (Iowa) and is an updated version of the Boston Housing Dataset, already widely used in the housing economics literature. With its 2930 observations, the Ames dataset offers a larger sample size and a more comprehensive set of features, making it better suited for modern statistical analysis.
+
+The dataset includes information regarding physical size, construction details, quality ratings, and neighborhood indicators. Based on these variables, we formulate a set of hypotheses grounded in empirical findings from the real-estate and housing-econometrics literature.
+
+% ----------------------------------------------------------
+\subsection{Fundamental Variables and Assumptions}
+
+Previous work shows that approximately 80\% of the variation in residential sale prices can be explained simply by considering the neighborhood and the total square footage of the dwelling (computed as \texttt{Total Bsmt SF} + \texttt{Gr Liv Area}) \cite{DeCock2011}.
+
+According to our interpretation of the literature published by \cite{Han2023} and \cite{Zietz2008}, together with our empirical reasoning, we consider the following variables to have a significant impact on the sale price of a house.
+
+% ----------------------------------------------------------
+\subsubsection{Overall Quality Has a Strong Positive Impact on Sale Price}
+
+Several studies show that global quality assessments summarize multiple latent characteristics (such as materials, workmanship, and design), making them among the most informative predictors of house value.
+
+\cite{Abdulhafedh2022} identifies \texttt{Overall Qual} as one of the most influential variables in explaining sale price in a multiple regression framework.
+
+Similar evidence is reported in \cite{Han2023}, where overall quality consistently appears as the strongest determinant in both OLS and regularized regression models.
+
+% ----------------------------------------------------------
+\subsubsection{Above-Ground Living Area (\texttt{Gr Liv Area}) Is Positively Associated with Sale Price}
+
+The hedonic pricing literature traditionally recognizes physical size as a primary contributor to housing value.
+
+\begin{quote}
+    The \textbf{hedonic pricing model} is an economic model that explains the price of a good as the combination of the values of its attributes.
+    A complex good is “decomposed’’ into its components, and the total price reflects the contribution of each of them.
+
+    The concept was introduced by Lancaster (1966) in consumer theory and was first applied to housing prices by Rosen (1974).
+\end{quote}
+
+\cite{Abdulhafedh2022} highlights that the main livable area is among the variables with the highest explanatory power.
+Studies on the Ames dataset by \cite{Ye2024} and \cite{Han2023} similarly identify \texttt{Gr Liv Area} as one of the strongest continuous predictors.
+
+% ----------------------------------------------------------
+\subsubsection{Total Basement Area (\texttt{Total Bsmt SF}) Also Increases Sale Price}
+
+Basements provide additional functional space and generally correlate with larger, higher-value homes.
+
+Multiple analyses of the Ames dataset \cite{Han2023} show that basement size remains statistically significant even when controlling for other structural variables.
+\cite{Abdulhafedh2022} also finds that basement-related features contribute substantially to model fit.
+
+% ----------------------------------------------------------
+\subsubsection{Newer or Recently Renovated Houses (\texttt{Year Built}, \texttt{Year Remod/Add}) Tend to Have Higher Prices}
+
+The literature on housing depreciation demonstrates that structural aging reduces property value unless offset by renovations.
+
+According to \cite{Abdulhafedh2022}, both the construction year and the remodeling year play an important role in predicting sale prices.
+
+Other studies on the Ames dataset reinforce this conclusion, noting that newer homes or homes with extensive remodeling command a price premium.
+
+% ----------------------------------------------------------
+\subsubsection{Higher-Quality Kitchens and Exterior Materials Positively Influence Sale Price}
+
+Studies in real-estate economics show that buyers are particularly sensitive to the quality of kitchens, bathrooms, and exterior finishes, as these elements influence both functionality and aesthetic appeal.
+
+\texttt{Kitchen Qual} and \texttt{Exter Qual} are repeatedly found to be statistically significant predictors in analyses using the Ames dataset \cite{Ye2024, Abdulhafedh2022}.
+Both variables capture qualitative assessments that are not reflected solely by house size.
+
+% ----------------------------------------------------------
+\subsubsection{Neighborhood Characteristics Significantly Affect Sale Price}
+
+Location remains one of the most important determinants of housing prices in hedonic models.
+
+The Ames dataset includes a categorical variable (\texttt{Neighborhood}) that encodes proximity to schools, income areas, and local amenities.
+
+Previous studies \cite{DeCock2011, Ye2024} demonstrate that location dummies remain significant even in fully specified regression models.
+
+
+% ================================
+% Literature Review
+% ================================
+% \section{Literature Review}
+
+% Discuss previous literature regarding housing price determinants and justify your hypotheses using academic references.
+
+
+\subsection{Variables We Remove}
+
+We begin by removing the variables \texttt{Pool QC}, \texttt{Alley}, \texttt{Fence}, and \texttt{Misc Feature}, since they contain a large proportion of missing observations (\texttt{NaN}).
+Although the remaining variables would be available for analysis, including irrelevant or noisy predictors increases the standard errors of the estimated coefficients, leading to less powerful significance tests, wider confidence intervals, and ultimately less precise statistical inference.
+
+For this reason, we exclude many of the 82 explanatory variables originally present in the dataset.
+Several of them refer to the same structural component of the house (e.g., \texttt{Bsmt Exposure}, \texttt{BsmtFin Type 1}, \texttt{BsmtFin Type 2} all describe basement characteristics), potentially resulting in high multicollinearity and inflated standard errors.
+Additionally, we believe that some features have only a negligible impact on sale prices. To obtain a more parsimonious model—characterized by a higher adjusted $R^2$ and lower AIC and BIC, we decided not to include these variables in our analysis.
+
+Examples of excluded variables include:
+
+\begin{itemize}
+    \item \texttt{PID}: an identification number that carries no information about the price.
+    \item \texttt{Lot Front}: the length of the street frontage. Its effect is ambiguous (a larger frontage might be positive, but may also imply more noise and traffic).
+    \item \texttt{Lot Shape} and \texttt{Land Contour}: less relevant than broader locational attributes such as neighborhood.
+    \item \texttt{Fireplaces}: the number of fireplaces, an outdated feature with limited impact on modern housing prices.
+    \item \texttt{FireplaceQu}: fireplace quality, which is of secondary importance relative to other quality indicators (e.g., kitchen and exterior quality).
+    \item \texttt{Roof Style} and \texttt{Roof Matl}: roofing attributes that are less relevant compared to major structural and quality variables.
+    \item \texttt{Condition 1}: proximity to conditions such as arterial roads or railways. Since \texttt{Neighborhood} captures location effects more comprehensively, including this variable may introduce redundancy, and noise may still distort its interpretation.
+\end{itemize}
+
+
+% ================================
+% Data Description
+% ================================
+\section{Description of the Dataset}
+
+The analysis is based on the \textit{Ames Housing Dataset}, a well-known real-estate dataset originally compiled by the Assessor’s Office of Ames, Iowa. It contains detailed information on residential properties sold between 2006 and 2010.
+
+In its full version, the dataset includes 82 explanatory variables describing structural, qualitative, locational, and functional characteristics of each house.
+
+For the purpose of this assignment, we selected a subset of variables most commonly used in hedonic pricing models and supported by the existing literature.
+
+% ---------------------------------------
+
+\subsection{General Structure of the Dataset}
+
+Each row of the dataset corresponds to a single residential property, while columns represent the attributes listed above.
+
+Numerical variables are measured either in square feet or in calendar years, whereas qualitative assessments use an ordinal scale.
+The dataset does not contain missing values for the variables selected in our analysis, and therefore no imputation was required.
+
+The dependent variable of the regression is \texttt{SalePrice}, expressed in US dollars.
+The selected explanatory variables fall into the four following categories.
+
+% ---------------------------------------
+
+\subsubsection{Size and Structural Characteristics}
+
+These variables capture the physical dimensions and structural attributes of the dwelling:
+
+\begin{itemize}
+    \item \texttt{Gr Liv Area}: above-ground living area (square feet)
+    \item \texttt{1st Flr SF}: first-floor area
+    \item \texttt{Total Bsmt SF}: total basement area
+    \item \texttt{Lot Area}: size of the lot
+    \item \texttt{Full Bath}: number of full bathrooms
+    \item \texttt{Garage Area}: size of the garage (square feet)
+    \item \texttt{Garage Cars}: garage capacity (number of cars)
+    \item \texttt{Garage Yr Blt}: year the garage was built
+    \item \texttt{Year Built}: construction year of the house
+    \item \texttt{Year Remod/Add}: year of the most recent remodeling
+    \item \texttt{Utilities}: type of utilities available
+\end{itemize}
+
+These attributes quantify the amount of usable space and reflect the structural age of the property.
+
+% ---------------------------------------
+
+\subsubsection{Quality Assessments}
+
+The dataset includes several ordinal ratings assigned by professional assessors:
+
+\begin{itemize}
+    \item \texttt{Overall Qual}: overall material and finish quality
+    \item \texttt{Kitchen Qual}: quality of kitchen materials
+    \item \texttt{ExterQual}: exterior materials and workmanship
+    \item \texttt{BsmtQual}: quality of basement materials
+\end{itemize}
+
+These variables summarize qualitative features that are not captured by size alone.
+
+% ---------------------------------------
+
+\subsubsection{Locational and Timing Information}
+
+\begin{itemize}
+    \item \texttt{Neighborhood}: categorical variable identifying the physical location within the city of Ames
+    \item \texttt{MS Zoning}: zoning classification (e.g., low-density residential, medium-density residential, commercial)
+    \item \texttt{Year Sold}: year the property was sold
+\end{itemize}
+
+These variables incorporate locational amenities and neighbourhood-level characteristics that influence market value.
+
+% ---------------------------------------
+
+
+
+
+
+% ================================
+% Model Specification
+% ================================
+\section{Model Specification and Estimation}
+
+The aim of this section is to construct a multiple linear regression model in order to explain the variation in the sale price of residential properties.
+
+The dependent variable is \texttt{SalePrice}, while the set of regressors includes the structural, qualitative, and locational characteristics identified in the previous section.
+
+% ---------------------------------------
+
+\subsection{Model Specification}
+
+The regression model is specified as follows:
+
+\[
+    \begin{aligned}
+        \texttt{[SalePrice]}_i & =
+        \beta_0
+        + \beta_1\,\texttt{[Gr Liv Area]}_i
+        + \beta_2\,\texttt{[1st Flr SF]}_i
+        + \beta_3\,\texttt{[Total Bsmt SF]}_i                                    \\
+                               & \quad + \beta_4\,\texttt{[Lot Area]}_i
+        + \beta_5\,\texttt{[Full Bath]}_i
+        + \beta_6\,\texttt{[Garage Area]}_i                                      \\
+                               & \quad + \beta_7\,\texttt{[Garage Cars]}_i
+        + \beta_8\,\texttt{[Garage Yr Blt]}_i
+        + \beta_9\,\texttt{[Year Built]}_i                                       \\
+                               & \quad + \beta_{10}\,\texttt{[Year Remod/Add]}_i
+        + \beta_{12}\,\texttt{[Overall Qual]}_i
+        + \beta_{13}\,\texttt{[Kitchen Qual]}_i                                  \\
+                               & \quad + \beta_{14}\,\texttt{[Exter Qual]}_i
+        + \beta_{15}\,\texttt{[Bsmt Qual]}_i
+        + \beta_{16}\,\texttt{[Neighborhood]}_i
+        + \varepsilon_i
+    \end{aligned}
+\]
+
+where:
+
+\begin{itemize}
+    \item $\beta_0$ is the intercept;
+    \item the $\beta$'s denote the coefficients associated with each regressor;
+    \item $\varepsilon_i$ is the error term capturing unobserved factors;
+    \item the variable \texttt{Neighborhood} is treated as a categorical factor and encoded via dummy variables.
+\end{itemize}
+
+% ---------------------------------------
+
+
+\subsection{Model Assumptions}
+
+Our multiple linear regression model is estimated under the following assumptions:
+
+\paragraph{Linearity of the conditional mean.}
+\[
+    \mathbb{E}[\varepsilon_i \mid X_i] = 0
+    \quad \Longleftrightarrow \quad
+    \mathbb{E}[Y_i \mid X_i]
+    = \beta_0 + \beta_1 X_{i1} + \cdots + \beta_p X_{ip}.
+\]
+This assumption implies that all systematic variation in the dependent variable is captured by the regressors.
+
+\paragraph{Independent and identically distributed observations.}
+\[
+    (Y_i, X_i) \;\perp\!\!\!\perp\; (Y_j, X_j)
+    \qquad \text{for } i \neq j,
+\]
+and all observations are drawn from the same population distribution.
+This corresponds to the standard \textit{i.i.d.} sampling framework.
+
+\paragraph{Finite fourth moments.}
+\[
+    \mathbb{E}[X_{ik}^4] < \infty
+    \qquad \text{and} \qquad
+    \mathbb{E}[\varepsilon_i^4] < \infty.
+\]
+This condition ensures the applicability of asymptotic results and prevents extreme observations from dominating the estimation.
+
+% ---------------------------------------
+
+\subsection{R Code}
+
+Here we report the full R code used for the estimation of the baseline multiple linear regression model, including data preparation and variable renaming.
+
+% \begin{lstlisting}[caption={R code for the regression model}, label={lst:regression}]
+\begin{lstlisting}[style=rstyle]
+ames <- read.csv("Amespug.csv")
+
+# First, we rename variables with spaces into more convenient names
+library(dplyr)
+
+ames_clean <- ames %>%
+  rename(
+    GrLivArea     = `Gr.Liv.Area`,
+    FirstFlrSF    = `X1st.Flr.SF`,
+    TotalBsmtSF   = `Total.Bsmt.SF`,
+    LotArea       = `Lot.Area`,
+    FullBath      = `Full.Bath`,
+    GarageArea    = `Garage.Area`,
+    GarageCars    = `Garage.Cars`,
+    GarageYrBlt   = `Garage.Yr.Blt`,
+    YearBuilt     = `Year.Built`,
+    YearRemodAdd  = `Year.Remod.Add`,
+    OverallQual   = `Overall.Qual`,
+    KitchenQual   = `Kitchen.Qual`,
+    ExterQual     = `Exter.Qual`,
+    BsmtQual      = `Bsmt.Qual`,
+    Neighborhood  = Neighborhood
+  )
+
+# Linear regression
+model <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood,
+  data = ames_clean
+)
+
+# Results
+summary(model)
+\end{lstlisting}
+
+
+\subsection{Model Output}
+
+\begin{lstlisting}[style=routput]
+Call:
+lm(formula = SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + 
+    LotArea + FullBath + GarageArea + GarageCars + GarageYrBlt + 
+    YearBuilt + YearRemodAdd + OverallQual + KitchenQual + ExterQual + 
+    BsmtQual + Neighborhood, data = ames_clean)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-458670  -12548     282   12557  233675 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(>|t|)    
+(Intercept)         -7.243e+05  1.326e+05  -5.463 5.11e-08 ***
+GrLivArea            4.356e+01  2.052e+00  21.226  < 2e-16 ***
+FirstFlrSF           8.657e+00  3.725e+00   2.324 0.020179 *  
+TotalBsmtSF          9.625e+00  3.423e+00   2.812 0.004955 ** 
+LotArea              6.445e-01  8.528e-02   7.557 5.62e-14 ***
+FullBath            -2.970e+03  1.688e+03  -1.760 0.078553 .  
+GarageArea           2.026e+01  6.717e+00   3.017 0.002577 ** 
+GarageCars           6.594e+03  1.951e+03   3.379 0.000737 ***
+GarageYrBlt         -6.674e+01  4.839e+01  -1.379 0.167965    
+YearBuilt            2.262e+02  5.792e+01   3.905 9.66e-05 ***
+YearRemodAdd         2.445e+02  4.579e+01   5.339 1.01e-07 ***
+OverallQual          1.199e+04  8.413e+02  14.248  < 2e-16 ***
+KitchenQualFa       -3.413e+04  5.877e+03  -5.808 7.08e-09 ***
+KitchenQualGd       -2.820e+04  3.201e+03  -8.811  < 2e-16 ***
+KitchenQualPo       -5.463e+04  3.143e+04  -1.738 0.082314 .  
+KitchenQualTA       -3.437e+04  3.581e+03  -9.597  < 2e-16 ***
+ExterQualFa         -4.054e+04  8.993e+03  -4.508 6.83e-06 ***
+ExterQualGd         -2.722e+04  4.118e+03  -6.609 4.66e-11 ***
+ExterQualTA         -2.682e+04  4.665e+03  -5.749 9.98e-09 ***
+BsmtQualFa          -3.179e+04  5.268e+03  -6.034 1.82e-09 ***
+BsmtQualGd          -3.014e+04  2.833e+03 -10.639  < 2e-16 ***
+BsmtQualPo          -2.953e+04  2.253e+04  -1.311 0.189988    
+BsmtQualTA          -2.952e+04  3.540e+03  -8.337  < 2e-16 ***
+NeighborhoodBlueste -7.475e+03  1.152e+04  -0.649 0.516562    
+NeighborhoodBrDale  -1.612e+04  8.670e+03  -1.860 0.063023 .  
+NeighborhoodBrkSide  3.168e+03  7.520e+03   0.421 0.673574    
+NeighborhoodClearCr  2.066e+04  7.975e+03   2.591 0.009618 ** 
+NeighborhoodCollgCr  9.051e+03  6.240e+03   1.450 0.147055    
+NeighborhoodCrawfor  2.810e+04  7.158e+03   3.926 8.86e-05 ***
+NeighborhoodEdwards -1.040e+04  6.894e+03  -1.508 0.131716    
+NeighborhoodGilbert  4.753e+03  6.486e+03   0.733 0.463774    
+NeighborhoodGreens   1.412e+04  1.249e+04   1.131 0.258345    
+NeighborhoodGrnHill  1.403e+05  3.127e+04   4.486 7.57e-06 ***
+NeighborhoodIDOTRR  -6.567e+03  7.860e+03  -0.835 0.403551    
+NeighborhoodLandmrk -1.301e+04  3.129e+04  -0.416 0.677492    
+NeighborhoodMeadowV -9.408e+03  8.943e+03  -1.052 0.292867    
+NeighborhoodMitchel  2.414e+03  6.884e+03   0.351 0.725840    
+NeighborhoodNAmes    3.094e+03  6.592e+03   0.469 0.638863    
+NeighborhoodNoRidge  6.035e+04  7.163e+03   8.426  < 2e-16 ***
+NeighborhoodNPkVill -5.402e+03  8.941e+03  -0.604 0.545811    
+NeighborhoodNridgHt  3.070e+04  6.575e+03   4.670 3.16e-06 ***
+NeighborhoodNWAmes   2.648e+03  6.736e+03   0.393 0.694222    
+NeighborhoodOldTown -9.368e+03  7.297e+03  -1.284 0.199312    
+NeighborhoodSawyer   4.100e+03  6.884e+03   0.596 0.551549    
+NeighborhoodSawyerW  2.807e+03  6.660e+03   0.421 0.673440    
+NeighborhoodSomerst  1.341e+04  6.358e+03   2.109 0.035067 *  
+NeighborhoodStoneBr  5.038e+04  7.401e+03   6.807 1.23e-11 ***
+NeighborhoodSWISU   -2.665e+03  8.445e+03  -0.315 0.752407    
+NeighborhoodTimber   1.464e+04  7.001e+03   2.092 0.036558 *  
+NeighborhoodVeenker  2.531e+04  8.710e+03   2.905 0.003697 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '. 0.1 ' ' 1
+
+Residual standard error: 30630 on 2655 degrees of freedom
+  (225 observations deleted due to missingness)
+Multiple R-squared:  0.8543,	Adjusted R-squared:  0.8516 
+F-statistic: 317.8 on 49 and 2655 DF,  p-value: < 2.2e-16
+\end{lstlisting}
+
+
+
+
+
+% ================================
+% Estimation and Results
+% ================================
+\subsection{Interpretation of the Regression Output}
+
+The OLS regression is estimated on 2{,}770 observations.\footnote{The original dataset contains 2{,}930 observations; 225 are removed due to missing values in the selected regressors.}
+The dependent variable is \texttt{SalePrice}, while the regressors include size-related variables, quality indicators, age and renovation variables, and a set of dummy variables for neighbourhood.
+
+\subsubsection{Overall Fit of the Model}
+
+The model exhibits a high goodness of fit:
+
+\begin{itemize}
+    \item $\text{R-squared} = 0.8543$
+    \item $\text{Adjusted R-squared} = 0.8516$
+\end{itemize}
+
+This means that approximately 85\% of the variation in house prices in Ames is explained by the regressors included in the model.
+
+The overall \textit{F}-statistic is 317.8 (with $p < 2.2\times10^{-16}$), strongly rejecting the null hypothesis that all slope coefficients are jointly equal to zero.
+Thus, the explanatory variables collectively have a statistically significant effect on \texttt{SalePrice}.
+
+\subsubsection{Interpretation of the Main Coefficients}
+
+The first group of regressors captures size, structural characteristics, and age.
+The main findings are summarised below.
+
+\paragraph{Living Area and Basement Space.}
+\texttt{GrLivArea} has an estimated coefficient of approximately $43.6$ (p~$<2\times10^{-16}$).
+This implies that, \textit{ceteris paribus}, an additional square foot of above-ground living area increases the expected sale price by about \$44.
+
+The coefficient on \texttt{TotalBsmtSF} is about $9.6$ (p~$=0.0049$), indicating that basement space is also valued by the market, though less than above-ground living area.
+
+\paragraph{Lot Size.}
+\texttt{LotArea} enters with a small but positive and highly significant coefficient ($0.64$, p~$<10^{-13}$), suggesting that marginal increases in lot size add value, though at a much lower rate than interior space.
+
+\paragraph{Bathrooms and Garage Capacity.}
+The coefficient on \texttt{FullBath} is negative ($-2{,}970$, p~$=0.078$), borderline significant.
+This counterintuitive sign is likely explained by multicollinearity: once living area and quality are included, an additional bathroom at fixed size may not capture higher quality.
+
+\texttt{GarageArea} and \texttt{GarageCars} are both positive and significant ($20.3$ and $6{,}594$ respectively), indicating that larger garages and capacity for more vehicles contribute positively to sale price.
+
+\paragraph{Construction and Renovation Year.}
+\texttt{YearBuilt} ($226$, p~$9.7\times10^{-5}$) and \texttt{YearRemodAdd} ($244$, p~$10^{-7}$) are both positive and highly significant: newer homes and recently renovated properties command higher prices, consistent with depreciation and modernization effects.
+
+\paragraph{Quality Indicators.}
+\texttt{OverallQual} is one of the strongest predictors in the model, with an estimated coefficient of roughly $11{,}990$ (p~$<2\times10^{-16}$).
+A one-point increase in overall quality raises the predicted sale price by about \$12k, confirming the central importance of quality emphasised in the hedonic housing literature.
+
+The categorical quality variables \texttt{KitchenQual}, \texttt{ExterQual} and \texttt{BsmtQual} are encoded through dummy variables.
+Since the reference category corresponds to the highest quality level, most dummy coefficients are negative and highly significant, reflecting the price discounts associated with lower kitchen, exterior or basement quality.
+
+\paragraph{Neighbourhood Effects.}
+A large block of coefficients corresponds to neighbourhood dummies.
+Some neighbourhoods show large, positive and highly significant premia relative to the omitted reference category — for example:
+
+\begin{itemize}
+    \item \texttt{NeighborhoodGrnHill}: $+140{,}300$ (p~$7.6\times10^{-6}$)
+    \item \texttt{NeighborhoodNoRidge}: $+60{,}350$ (p~$<2\times10^{-16}$)
+    \item \texttt{NeighborhoodNridgHt}: $+30{,}700$ (p~$3.2\times10^{-6}$)
+    \item \texttt{NeighborhoodStoneBr}: $+50{,}380$ (p~$1.2\times10^{-11}$)
+\end{itemize}
+
+These coefficients indicate that location plays a substantial role in determining housing values, even after controlling for structure, size and quality.
+
+Other neighbourhoods show coefficients statistically indistinguishable from zero, indicating that once structural and qualitative variables are controlled for, price differences across those areas are not significant.
+
+\paragraph{Zoning and Utilities.}
+In this specification, zoning categories (\texttt{MS~Zoning}) and utility types do not exhibit statistically significant effects, suggesting that these factors add little explanatory power beyond size, quality and location.
+
+
+
+% ================================
+% Diagnostics
+% ================================
+\section{Diagnostic Analysis}
+
+\subsection{Perfect Collinearity}
+
+Before conducting the diagnostic tests, we first verify whether the regressors suffer from \textit{exact linear dependence}.
+One variable that naturally raises concerns in the \textit{Ames Housing Dataset} is \texttt{GrLivArea} (above-ground living area), which is theoretically defined as the sum of three components:
+
+\[
+    \texttt{GrLivArea}
+    =
+    \texttt{1stFlrSF}
+    + \texttt{2ndFlrSF}
+    + \texttt{LowQualFinSF}.
+\]
+
+If this identity holds for all observations, then including all four variables in a regression model would generate \textit{perfect multicollinearity}.
+In such a case, the design matrix becomes rank-deficient and $X^\top X$ is not invertible, meaning that the OLS estimator is not uniquely defined.
+
+To test whether perfect collinearity exists in the data, we compute:
+
+\[
+    d_i
+    =
+    \texttt{GrLivArea}_i
+    -
+    \bigl(
+    \texttt{1stFlrSF}_i
+    +
+    \texttt{2ndFlrSF}_i
+    +
+    \texttt{LowQualFinSF}_i
+    \bigr).
+\]
+
+If $d_i = 0$ for all observations, the linear dependence is exact, and one regressor must be removed.
+
+
+% ---------------------------------------
+
+
+\begin{lstlisting}[style=rstyle]
+# Perfect multicollinearity test
+ames_multicollineareperfetto <- ames %>%
+  rename(
+    GrLivArea    = `Gr.Liv.Area`,
+    FirstFlrSF   = `X1st.Flr.SF`,
+    SecondFlrSF  = `X2nd.Flr.SF`,
+    LowQualFinSF = `Low.Qual.Fin.SF`,
+    TotalBsmtSF  = `Total.Bsmt.SF`,
+    LotArea      = `Lot.Area`,
+    FullBath     = `Full.Bath`,
+    GarageArea   = `Garage.Area`,
+    GarageCars   = `Garage.Cars`,
+    GarageYrBlt  = `Garage.Yr.Blt`,
+    YearBuilt    = `Year.Built`,
+    YearRemodAdd = `Year.Remod.Add`,
+    OverallQual  = `Overall.Qual`,
+    KitchenQual  = `Kitchen.Qual`,
+    ExterQual    = `Exter.Qual`,
+    BsmtQual     = `Bsmt.Qual`,
+    Neighborhood = `Neighborhood`,
+    MSZoning     = `MS.Zoning`,
+    Utilities    = `Utilities`
+  )
+
+# Linear model with potential perfect collinearity
+modelmulticollperf <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + SecondFlrSF + LowQualFinSF +
+    TotalBsmtSF + LotArea + FullBath + GarageArea + GarageCars +
+    GarageYrBlt + YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood + MSZoning + Utilities,
+  data = ames_multicollineareperfetto
+)
+
+summary(modelmulticollperf)
+\end{lstlisting}
+
+% ---------------------------------------
+
+\begin{lstlisting}[style=routput]
+Call:
+lm(formula = SalePrice ~ GrLivArea + FirstFlrSF + SecondFlrSF + 
+    LowQualFinSF + TotalBsmtSF + LotArea + FullBath + GarageArea + 
+    GarageCars + GarageYrBlt + YearBuilt + YearRemodAdd + OverallQual + 
+    KitchenQual + ExterQual + BsmtQual + Neighborhood + MSZoning + 
+    Utilities, data = ames_multicollineareperfetto)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-457007  -12709     135   12330  233868 
+
+Coefficients: (1 not defined because of singularities)
+                      Estimate Std. Error t value Pr(>|t|)    
+(Intercept)         -7.548e+05  1.344e+05  -5.617 2.15e-08 ***
+GrLivArea            2.280e+01  1.433e+01   1.591 0.111753    
+FirstFlrSF           2.976e+01  1.484e+01   2.005 0.045045 *  
+SecondFlrSF          2.088e+01  1.441e+01   1.449 0.147467    
+LowQualFinSF                NA         NA      NA       NA    
+TotalBsmtSF          9.048e+00  3.423e+00   2.644 0.008251 ** 
+LotArea              6.469e-01  8.584e-02   7.535 6.64e-14 ***
+FullBath            -3.158e+03  1.688e+03  -1.871 0.061456 .  
+GarageArea           1.807e+01  6.767e+00   2.670 0.007621 ** 
+GarageCars           7.132e+03  1.962e+03   3.635 0.000283 ***
+GarageYrBlt         -6.638e+01  4.847e+01  -1.370 0.170952    
+YearBuilt            2.351e+02  5.839e+01   4.026 5.84e-05 ***
+YearRemodAdd         2.398e+02  4.571e+01   5.246 1.68e-07 ***
+OverallQual          1.197e+04  8.430e+02  14.201  < 2e-16 ***
+KitchenQualFa       -3.396e+04  5.864e+03  -5.792 7.77e-09 ***
+KitchenQualGd       -2.793e+04  3.191e+03  -8.751  < 2e-16 ***
+KitchenQualPo       -5.436e+04  3.132e+04  -1.736 0.082768 .  
+KitchenQualTA       -3.386e+04  3.574e+03  -9.473  < 2e-16 ***
+ExterQualFa         -3.919e+04  9.015e+03  -4.347 1.43e-05 ***
+ExterQualGd         -2.738e+04  4.105e+03  -6.670 3.10e-11 ***
+ExterQualTA         -2.738e+04  4.653e+03  -5.884 4.50e-09 ***
+BsmtQualFa          -3.345e+04  5.268e+03  -6.350 2.53e-10 ***
+BsmtQualGd          -3.063e+04  2.828e+03 -10.834  < 2e-16 ***
+BsmtQualPo          -2.087e+04  2.375e+04  -0.879 0.379561    
+BsmtQualTA          -3.018e+04  3.538e+03  -8.531  < 2e-16 ***
+...
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 30520 on 2647 degrees of freedom
+(225 observations deleted due to missingness)
+Multiple R-squared:  0.8558,    Adjusted R-squared:  0.8527 
+F-statistic: 275.6 on 57 and 2647 DF,  p-value: < 2.2e-16
+\end{lstlisting}
+
+
+% ---------------------------------------
+
+\paragraph{Discussion of Perfect Multicollinearity.}
+
+Perfect multicollinearity arises when one explanatory variable can be expressed as an exact linear combination of others.
+Among all possible specification errors, this is the most severe, because perfect collinearity makes the OLS estimator \textit{impossible} to compute: the design matrix becomes singular and the matrix $(X^\top X)^{-1}$ required for OLS does not exist.
+Other specification issues (such as omitted variables, functional form errors, or heteroskedasticity) typically affect the desirable properties of the OLS estimator under the Gauss–Markov assumptions, but do not prevent its computation. Perfect collinearity, instead, makes estimation itself undefined.
+
+In the specification of our main model, perfect collinearity does not occur.
+However, the \textit{Ames Housing Dataset} contains a well-known identity that can generate perfect multicollinearity if the analyst is not careful.
+
+Consider the four area variables:
+\[
+    \texttt{GrLivArea} = \texttt{FirstFlrSF} + \texttt{SecondFlrSF} + \texttt{LowQualFinSF}.
+\]
+
+If all observations satisfy this identity exactly — which is almost always the case in the dataset — then including all four variables simultaneously in a regression introduces an exact linear dependence.
+In such a case, OLS cannot distinguish the marginal contribution of each component because they lie on the same hyperplane in the regressor space.
+
+The standard remedy is to remove \textit{one} of the linearly dependent variables.
+Since the three components sum exactly to \texttt{GrLivArea}, the choice of which variable to drop is irrelevant from an informational standpoint: the remaining variables still span the same linear space.
+
+Statistical software such as \texttt{R} automatically detects this issue and removes one of the problematic regressors.
+In our multicollinearity test, \texttt{R} excluded \texttt{LowQualFinSF}, which can be verified from the regression output: the estimated coefficient and its standard error appear as \texttt{NA}, accompanied by the message \emph{``1 not defined because of singularities''}.
+This confirms that the dataset indeed contains an exact linear relationship among area variables, and that perfect collinearity is handled automatically by the software when these variables are included together.
+
+
+
+
+
+
+% ================================
+% Model Refinement
+% ================================
+\section{Model Refinement}
+
+Explain any variable selection, transformations, or alternative model specifications used to improve performance.
+
+% ================================
+% Conclusions
+% ================================
+\section{Conclusions}
+
+Summarize findings and relate them back to your initial hypotheses.
+
+% ================================
+% Appendix
+% ================================
+\appendix
+\section{R Code}
+
+Include clean, well-formatted R code used for the analysis.
+
+\bibliographystyle{alpha}
+\bibliography{references}
+\end{document}
