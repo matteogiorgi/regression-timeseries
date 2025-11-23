@@ -1,0 +1,11 @@
+ASSIGNMENT 1 – REGRESSION
+¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
+Scope of the assignment: Detect the level of understanding of the topic (regression model).
+Output (to be sent to the instructor by email at the end of the lecture on November 24th): A zip folder containing the assignment where you will write all the phases of your work (not only the results, but also literature review, model assumptions etc.), the dataset you used and the code.
+
+1. Formulate some hypotheses about what you want to study, considering the variable you already have. Your ideas must be supported by the literature. Search for scientific articles using Google Scholar, Sciencedirect, or other dedicated search engines. Use institutional logins to access scientific journal articles when required. Remember that a scientific study needs to be supported by more than one other study.
+2. Describe your data.
+3. Build your model and run the regression. Remember to describe the model and the assumptions on the assignment text. Check the slides when needed.
+4. Apply diagnostic. Check the slides. You might have some problems in the application of OLS (use the slides as a checklist)
+5. If needed, modify your model. If the model performs in a good way, add other variables to increase the performance.
+6. Write your conclusions.
