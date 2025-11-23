@@ -582,22 +582,22 @@ However, the \textit{Ames Housing Dataset} contains a well-known identity that c
 
 Consider the four area variables:
 \[
-    \texttt{GrLivArea} = \texttt{FirstFlrSF} + \texttt{SecondFlrSF} + \texttt{LowQualFinSF}.
+    \texttt{GrLivArea} = \texttt{FirstFlrSF} + \texttt{SecondFlrSF} + \texttt{LowQualFinSF}
 \]
 
 If all observations satisfy this identity exactly, which is almost always the case in the dataset, then including all four variables simultaneously in a regression introduces an exact linear dependence.
 In such a case, OLS cannot distinguish the marginal contribution of each component because they lie on the same hyperplane in the regressor space.
 
-\[
-    \texttt{GrLivArea}
-    =
-    \texttt{1stFlrSF}
-    + \texttt{2ndFlrSF}
-    + \texttt{LowQualFinSF}.
-\]
+% \[
+%     \texttt{GrLivArea}
+%     =
+%     \texttt{1stFlrSF}
+%     + \texttt{2ndFlrSF}
+%     + \texttt{LowQualFinSF}
+% \]
 
-If this identity holds for all observations, then including all four variables in a regression model would generate \textit{perfect multicollinearity}.
-In such a case, the design matrix becomes rank-deficient and $X^\top X$ is not invertible, meaning that the OLS estimator is not uniquely defined.
+% If this identity holds for all observations, then including all four variables in a regression model would generate \textit{perfect multicollinearity}.
+% In such a case, the design matrix becomes rank-deficient and $X^\top X$ is not invertible, meaning that the OLS estimator is not uniquely defined.
 
 % To test whether perfect collinearity exists in the data, we compute:
 
@@ -746,7 +746,7 @@ A large VIF value indicates that $X_j$ is strongly correlated with other regress
 
 % ---------------------------------------
 
-\begin{lstlisting}[style=rstyle, caption={Variance Inflation Factors for the regression model}, label={lst:vif}]
+\begin{lstlisting}[style=rstyle]
 library(performance)
 vif_values <- check_collinearity(model)
 print(vif_values)
@@ -754,7 +754,7 @@ print(vif_values)
 
 % ---------------------------------------
 
-\begin{lstlisting}[style=routput, caption={Variance Inflation Factors (VIF) for selected regressors}, label={lst:vif-output}]
+\begin{lstlisting}[style=routput]
 Low Correlation
 
          Term  VIF     VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
