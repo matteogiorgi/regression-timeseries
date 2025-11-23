@@ -33,7 +33,8 @@
 \contentsline {section}{\numberline {4}Diagnostic Analysis}{11}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Perfect Collinearity}{11}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Imperfect Multicollinearity: Variance Inflation Factors}{14}{subsection.4.2}%
-\contentsline {paragraph}{Interpretation.}{15}{section*.12}%
+\contentsline {paragraph}{Imperfect Multicollinearity.}{14}{section*.12}%
+\contentsline {paragraph}{VIF, GVIF, and Thresholds.}{15}{section*.13}%
 \contentsline {section}{\numberline {5}Model Refinement}{15}{section.5}%
 \contentsline {section}{\numberline {6}Conclusions}{15}{section.6}%
 \contentsline {section}{\numberline {A}R Code}{15}{appendix.A}%

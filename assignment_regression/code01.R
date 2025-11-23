@@ -44,14 +44,14 @@ summary(model)
 #1:near multicollinearity
 # Installazione (se non già presente)
 #install.packages("car")
-#library(car)
+library(car)
 ### Calcolo del VIF
-# vif_values <- vif(model)
-# print(vif_values)
-
-library(performance)
-vif_values <- check_collinearity(model)
+vif_values <- vif(model)
 print(vif_values)
+
+# library(performance)
+# vif_values <- check_collinearity(model)
+# print(vif_values)
 
 #multicollinearità perfetta
 ames_multicollineareperfetto <- ames %>%
