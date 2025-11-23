@@ -494,3 +494,63 @@ Residual standard error: 30520 on 2647 degrees of freedom
 Multiple R-squared:  0.8558,	Adjusted R-squared:  0.8527 
 F-statistic: 275.6 on 57 and 2647 DF,  p-value: < 2.2e-16
 ```
+
+
+
+paragrafo 4.2:
+```
+## Imperfect multicollinearity: variance inflation factors
+
+After ruling out exact linear dependencies, we investigated imperfect multicollinearity among some regressors that are a priori expected to be strongly related. In particular, we focused on the following pairs of variables:
+
+- `Garage Area` and `Garage Cars`
+- `Year Built` and `Garage Yr Blt`
+- `1st Flr SF` and `Total Bsmt SF`
+- `Gr Liv Area` and `Full Bath`
+- `Year Remod/Add` and `Year Built`
+
+For each of these regressor, we computed the *Variance Inflation Factor* (VIF). For a given regressor $X_j$, the VIF is defined as
+
+$$
+\text{VIF}_j = \frac{1}{1 - R_j^2}
+$$
+
+where $R_j^2$ is the coefficient of determination from the regression of $X_j$ on all the remaining regressors. Large VIF values indicate that the variable is highly correlated with the others and that its coefficient may be imprecisely estimated.
+```
+
+codice R:
+```
+library(performance)
+vif_values <- check_collinearity(model)
+print(vif_values)
+```
+
+output:
+```
+Low Correlation
+
+         Term  VIF     VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
+    GrLivArea 3.04 [ 2.86,  3.24]     1.74      0.33     [0.31, 0.35]
+      LotArea 1.36 [ 1.30,  1.43]     1.17      0.74     [0.70, 0.77]
+     FullBath 2.49 [ 2.35,  2.65]     1.58      0.40     [0.38, 0.43]
+   GarageArea 4.64 [ 4.35,  4.96]     2.15      0.22     [0.20, 0.23]
+   GarageCars 4.67 [ 4.37,  4.99]     2.16      0.21     [0.20, 0.23]
+  GarageYrBlt 4.41 [ 4.14,  4.72]     2.10      0.23     [0.21, 0.24]
+ YearRemodAdd 2.54 [ 2.39,  2.69]     1.59      0.39     [0.37, 0.42]
+  OverallQual 3.74 [ 3.51,  3.99]     1.93      0.27     [0.25, 0.28]
+
+Moderate Correlation
+
+        Term  VIF     VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
+  FirstFlrSF 6.12 [ 5.72,  6.55]     2.47      0.16     [0.15, 0.17]
+ TotalBsmtSF 5.69 [ 5.33,  6.09]     2.39      0.18     [0.16, 0.19]
+   YearBuilt 8.45 [ 7.88,  9.06]     2.91      0.12     [0.11, 0.13]
+ KitchenQual 5.17 [ 4.84,  5.53]     2.27      0.19     [0.18, 0.21]
+   ExterQual 6.26 [ 5.85,  6.70]     2.50      0.16     [0.15, 0.17]
+    BsmtQual 7.14 [ 6.66,  7.65]     2.67      0.14     [0.13, 0.15]
+
+High Correlation
+
+         Term   VIF     VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
+ Neighborhood 41.33 [38.42, 44.46]     6.43      0.02     [0.02, 0.03]
+```
