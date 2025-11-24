@@ -112,21 +112,21 @@ Luca Lo Buono -- \href{mailto:luca.lobuono@studenti.unipd.it}{luca.lobuono@stude
 % ================================
 % Introduction
 % ================================
-\section{Research Hypotheses Supported by the Literature}
+\section{Research hypotheses supported by the literature}
 
 The objective of this work is to study which structural, qualitative, and locational characteristics of a residential property significantly affect its market price.
 
 For the purpose of this assignment, we selected a subset of variables, listed in the \textit{Ames Housing Dataset}, most commonly used in real estate pricing models and supported by the existing literature.
 
 % ----------------------------------------------------------
-\subsection{Fundamental Variables and Assumptions}
+\subsection{Fundamental variables and assumptions}
 
 Previous work shows that approximately 80\% of the variation in residential sale prices can be explained simply by considering the neighborhood and the total square footage of the dwelling (computed as \texttt{Total Bsmt SF} + \texttt{Gr Liv Area}) \cite{DeCock2011}.
 
 According to our interpretation of the literature published by \cite{Han2023} and \cite{Zietz2008}, together with our empirical reasoning, we consider the following variables to have a significant impact on the sale price of a house.
 
 % ----------------------------------------------------------
-\subsubsection{Overall Quality Has a Strong Positive Impact on Sale Price}
+\subsubsection{Overall quality has a strong positive impact on sale price}
 
 Several studies show that global quality assessments summarize multiple latent characteristics (such as materials, workmanship, and design), making them among the most informative predictors of house value.
 
@@ -135,13 +135,13 @@ Several studies show that global quality assessments summarize multiple latent c
 Similar evidence is reported in \cite{Han2023}, where overall quality consistently appears as the strongest determinant in both OLS and regularized regression models.
 
 % ----------------------------------------------------------
-\subsubsection{Above-Ground Living Area (\texttt{Gr Liv Area}) Is Positively Associated with Sale Price}
+\subsubsection{Above-ground living area (\texttt{Gr Liv Area}) is positively associated with sale price}
 
 \cite{Abdulhafedh2022} highlights that the main livable area is among the variables with the highest explanatory power.
 Studies on the Ames dataset by \cite{Ye2024} and \cite{Han2023} similarly identify \texttt{Gr Liv Area} as one of the strongest continuous predictors.
 
 % ----------------------------------------------------------
-\subsubsection{Total Basement Area (\texttt{Total Bsmt SF}) Also Increases Sale Price}
+\subsubsection{Total basement area (\texttt{Total Bsmt SF}) also increases sale price}
 
 Basements provide additional functional space and generally correlate with larger, higher-value homes.
 
@@ -149,7 +149,7 @@ Multiple analyses of the Ames dataset \cite{Han2023} show that basement size rem
 \cite{Abdulhafedh2022} also finds that basement-related features contribute substantially to model fit.
 
 % ----------------------------------------------------------
-\subsubsection{Newer or Recently Renovated Houses (\texttt{Year Built}, \texttt{Year Remod/Add}) Tend to Have Higher Prices}
+\subsubsection{Newer or recently renovated houses (\texttt{Year Built}, \texttt{Year Remod/Add}) tend to have higher prices}
 
 The literature on housing depreciation demonstrates that structural aging reduces property value unless offset by renovations.
 
@@ -158,7 +158,7 @@ According to \cite{Abdulhafedh2022}, both the construction year and the remodeli
 Other studies on the Ames dataset reinforce this conclusion, noting that newer homes or homes with extensive remodeling command a price premium.
 
 % ----------------------------------------------------------
-\subsubsection{Higher-Quality Kitchens and Exterior Materials Positively Influence Sale Price}
+\subsubsection{Higher-quality kitchens and exterior materials positively influence sale price}
 
 Studies in real-estate economics show that buyers are particularly sensitive to the quality of kitchens, bathrooms, and exterior finishes, as these elements influence both functionality and aesthetic appeal.
 
@@ -166,7 +166,7 @@ Studies in real-estate economics show that buyers are particularly sensitive to 
 Both variables capture qualitative assessments that are not reflected solely by house size.
 
 % ----------------------------------------------------------
-\subsubsection{Neighborhood Characteristics Significantly Affect Sale Price}
+\subsubsection{Neighborhood characteristics significantly affect sale price}
 
 Location remains one of the most important determinants of housing prices in real estate pricing models.
 
@@ -178,7 +178,7 @@ Previous studies \cite{DeCock2011, Ye2024} demonstrate that location dummies rem
 % ================================
 % Literature Review
 % ================================
-\subsection{Variables We Remove}
+\subsection{Variables we remove}
 
 We begin by removing the variables \texttt{Pool QC}, \texttt{Alley}, \texttt{Fence}, and \texttt{Misc Feature}, since they contain a large proportion of missing observations (\texttt{NaN}).
 Although the remaining variables would be available for analysis, including irrelevant or noisy predictors increases the standard errors of the estimated coefficients, leading to less powerful significance tests, wider confidence intervals, and ultimately less precise statistical inference.
@@ -203,7 +203,7 @@ Examples of excluded variables include:
 % ================================
 % Data Description
 % ================================
-\section{Description of the Dataset}
+\section{Description of the dataset}
 
 The \textit{Ames Housing Dataset} provides detailed information on dwellings sold in Ames (Iowa) and is an updated version of the Boston Housing Dataset, already widely used in the housing economics literature. With its 2930 observations, the Ames dataset offers a larger sample size and a more comprehensive set of features, making it better suited for modern statistical analysis.
 
@@ -214,7 +214,7 @@ In its full version, the dataset includes 82 explanatory variables describing st
 
 % ---------------------------------------
 
-\subsection{General Structure of the Dataset}
+\subsection{General structure of the dataset}
 
 Each row of the dataset corresponds to a single residential property, while columns represent the attributes listed above.
 
@@ -222,7 +222,7 @@ The dependent variable of the regression is \texttt{SalePrice} (expressed in US 
 
 % ---------------------------------------
 
-\subsubsection{Size and Structural Characteristics}
+\subsubsection{Size and structural characteristics}
 
 These variables capture the physical dimensions and structural attributes of the dwelling:
 
@@ -244,7 +244,7 @@ These attributes quantify the amount of usable space and reflect the structural 
 
 % ---------------------------------------
 
-\subsubsection{Quality Assessments}
+\subsubsection{Quality assessments}
 
 The dataset includes several ordinal ratings assigned by professional assessors:
 
@@ -259,7 +259,7 @@ These variables summarize qualitative features that are not captured by size alo
 
 % ---------------------------------------
 
-\subsubsection{Locational and Timing Information}
+\subsubsection{Locational and timing information}
 
 \begin{itemize}
     \item \texttt{Neighborhood}: categorical variable identifying the physical location within the city of Ames
@@ -278,7 +278,7 @@ These variables incorporate locational amenities and neighbourhood-level charact
 % ================================
 % Model Specification
 % ================================
-\section{Model Specification and Estimation}
+\section{Model specification and estimation}
 
 The aim of this section is to construct a multiple linear regression model in order to explain the variation in the sale price of residential properties.
 
@@ -286,7 +286,7 @@ The dependent variable is \texttt{SalePrice}, while the set of regressors includ
 
 % ---------------------------------------
 
-\subsection{Model Specification}
+\subsection{model specification}
 
 The regression model is specified as follows:
 
@@ -325,7 +325,7 @@ where:
 % ---------------------------------------
 
 
-\subsection{Model Assumptions}
+\subsection{Model assumptions}
 
 Our multiple linear regression model is estimated under the following assumptions:
 
@@ -356,7 +356,7 @@ This condition ensures the applicability of asymptotic results and prevents extr
 
 % ---------------------------------------
 
-\subsection{Model implementation and Estimation}
+\subsection{Model implementation and estimation}
 
 Here we report the full R code used for the estimation of the baseline multiple linear regression model, including data preparation and variable renaming.
 
@@ -479,12 +479,12 @@ F-statistic: 317.8 on 49 and 2655 DF,  p-value: < 2.2e-16
 % ================================
 % Estimation and Results
 % ================================
-\subsection{Interpretation of the Regression Output}
+\subsection{Interpretation of the regression output}
 
 The OLS regression is estimated on 2{,}770 observations.\footnote{The original dataset contains 2{,}930 observations; 225 are removed due to missing values in the selected regressors.}
 The dependent variable is \texttt{SalePrice}, while the regressors include size-related variables, quality indicators, age and renovation variables, and a set of dummy variables for neighbourhood.
 
-\subsubsection{Overall Fit of the Model}
+\subsubsection{Overall Fit of the model}
 
 The model exhibits a high goodness of fit:
 
@@ -498,37 +498,37 @@ This means that approximately 85\% of the variation in house prices in Ames is e
 The overall \textit{F}-statistic is 317.8 (with $p < 2.2\times10^{-16}$), strongly rejecting the null hypothesis that all slope coefficients are jointly equal to zero.
 Thus, the explanatory variables collectively have a statistically significant effect on \texttt{SalePrice}.
 
-\subsubsection{Interpretation of the Main Coefficients}
+\subsubsection{Interpretation of the main coefficients}
 
 The first group of regressors captures size, structural characteristics, and age.
 The main findings are summarised below.
 
-\paragraph{Living Area and Basement Space.}
+\paragraph{Living area and basement space.}
 \texttt{GrLivArea} has an estimated coefficient of approximately $43.6$ (p~$<2\times10^{-16}$).
 This implies that, \textit{ceteris paribus}, an additional square foot of above-ground living area increases the expected sale price by about \$44.
 
 The coefficient on \texttt{TotalBsmtSF} is about $9.6$ (p~$=0.0049$), indicating that basement space is also valued by the market, though less than above-ground living area.
 
-\paragraph{Lot Size.}
+\paragraph{Lot size.}
 \texttt{LotArea} enters with a small but positive and highly significant coefficient ($0.64$, p~$<10^{-13}$), suggesting that marginal increases in lot size add value, though at a much lower rate than interior space.
 
-\paragraph{Bathrooms and Garage Capacity.}
+\paragraph{Bathrooms and garage capacity.}
 The coefficient on \texttt{FullBath} is negative ($-2{,}970$, p~$=0.078$), borderline significant.
 This counterintuitive sign is likely explained by multicollinearity: once living area and quality are included, an additional bathroom at fixed size may not capture higher quality \cite{DeCock2011}.
 
 \texttt{GarageArea} and \texttt{GarageCars} are both positive and significant ($20.3$ and $6{,}594$ respectively), indicating that larger garages and capacity for more vehicles contribute positively to sale price.
 
-\paragraph{Construction and Renovation Year.}
+\paragraph{Construction and renovation year.}
 \texttt{YearBuilt} ($226$, p~$9.7\times10^{-5}$) and \texttt{YearRemodAdd} ($244$, p~$10^{-7}$) are both positive and highly significant: newer homes and recently renovated properties command higher prices, consistent with depreciation and modernization effects.
 
-\paragraph{Quality Indicators.}
+\paragraph{Quality indicators.}
 \texttt{OverallQual} is one of the strongest predictors in the model, with an estimated coefficient of roughly $11{,}990$ (p~$<2\times10^{-16}$).
 A one-point increase in overall quality raises the predicted sale price by about \$12k, confirming the central importance of quality emphasised in the real estate house pricing literature.
 
 The categorical quality variables \texttt{KitchenQual}, \texttt{ExterQual} and \texttt{BsmtQual} are encoded through dummy variables.
 Since the reference category corresponds to the highest quality level, most dummy coefficients are negative and highly significant, reflecting the price discounts associated with lower kitchen, exterior or basement quality.
 
-\paragraph{Neighbourhood Effects.}
+\paragraph{Neighbourhood effects.}
 A large block of coefficients corresponds to neighbourhood dummies.
 Some neighbourhoods show large, positive and highly significant premia relative to the omitted reference category — for example:
 
@@ -543,7 +543,7 @@ These coefficients indicate that location plays a substantial role in determinin
 
 Other neighbourhoods show coefficients statistically indistinguishable from zero, indicating that once structural and qualitative variables are controlled for, price differences across those areas are not significant.
 
-\paragraph{Zoning and Utilities.}
+\paragraph{Zoning and utilities.}
 In this specification, zoning categories (\texttt{MS~Zoning}) and utility types do not exhibit statistically significant effects, suggesting that these factors add little explanatory power beyond size, quality and location.
 
 
@@ -551,9 +551,9 @@ In this specification, zoning categories (\texttt{MS~Zoning}) and utility types 
 % ================================
 % Diagnostics
 % ================================
-\section{Diagnostic Analysis}
+\section{Diagnostic analysis}
 
-\subsection{Perfect Collinearity}
+\subsection{Perfect collinearity}
 
 Perfect collinearity arises when one explanatory variable can be expressed as an exact linear combination of others.
 Among all possible specification errors, this is the most severe, because perfect collinearity makes the OLS estimator \textit{impossible} to compute: the design matrix becomes singular and the matrix $(X^\top X)^{-1}$ required for OLS does not exist.
@@ -673,7 +673,7 @@ This confirms that the dataset indeed contains an exact linear relationship amon
 
 % ---------------------------------------
 
-\subsection{Imperfect Multicollinearity: Variance Inflation Factors}
+\subsection{Imperfect multicollinearity: \textit{Variance Inflation Factors}}
 
 Imperfect, or near, multicollinearity arises when two or more explanatory variables are highly correlated, although not perfectly linearly dependent.
 In this situation, OLS estimation is still feasible, but the variance of the affected coefficients becomes inflated.
@@ -740,7 +740,7 @@ Since, in our model, none of the transformed VIF values exceeds the common thres
 
 % ---------------------------------------
 
-\subsection{Structural Stability: Chow Test around the 2008 Financial Crisis}
+\subsection{Structural stability: \textit{Chow test} around the 2008 financial crisis}
 \label{sec:chow-test}
 
 In this section we investigate whether the relationship between the explanatory variables and \texttt{SalePrice} remained stable over time.
@@ -892,7 +892,7 @@ The fundamental price determinants captured by our model appear structurally rob
 
 % ---------------------------------------
 
-\subsection{Functional Form Misspecification: RESET Test}
+\subsection{Functional form misspecification: \textit{RESET test}}
 
 We now investigate whether the linear functional form assumed in our baseline specification is adequate.
 A classical diagnostic tool for this purpose is the \textit{Ramsey RESET test}, which evaluates whether nonlinear combinations of the fitted values possess explanatory power beyond the original regressors.
@@ -904,7 +904,7 @@ Nonlinearities may arise either from structural breaks or from omitted variables
 As discussed in Section~\ref{sec:chow-test}, the Chow test shows no evidence of a structural break around the 2008 financial crisis, which we consider the most plausible breakpoint.
 Therefore, it is reasonable to attribute the nonlinearity detected by the RESET test to omitted relevant terms, such as interactions or nonlinear transformations of existing regressors.
 
-\paragraph{Ordinal Regressors and Nonlinearity.}
+\paragraph{Ordinal regressors and nonlinearity.}
 
 A central issue concerns the ordinal regressors included in the model, namely \texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, and \texttt{BsmtQual}.
 Although \texttt{R} initially treats these variables as unordered categorical factors, they possess a meaningful ranking from \textit{``Poor''} to \textit{``Excellent''}.
@@ -915,7 +915,7 @@ Its numeric scale from 1 to 10 might appear continuous, but the values represent
 Treating it as an ordered factor instead of a numerical variable allows the model to accommodate nonlinear, possibly non-monotonic differences across quality levels.
 
 
-\paragraph{Logarithmic Transformations.}
+\paragraph{Logarithmic transformations.}
 
 Finally, we apply logarithmic transformations to the dependent variable and several continuous regressors.
 This choice is supported by economic reasoning: in a log–log specification, coefficients represent elasticities (percentage changes in \texttt{SalePrice} associated with percentage changes in the regressors).
@@ -925,7 +925,7 @@ For example, a 1\% increase in livable area is likely to have a larger impact on
 Taken together, these considerations support the conclusion that the baseline linear specification is not sufficiently flexible and that incorporating ordered factors, nonlinear transformations, and economically meaningful interactions is both statistically justified and economically interpretable.
 
 
-\paragraph{Interaction Terms.}
+\paragraph{Interaction terms.}
 
 To address additional sources of nonlinearity, we also introduce the following economically motivated interaction term: \(\texttt{GrLivArea} \times \texttt{OverallQual}\).
 
@@ -1016,9 +1016,9 @@ RESET = 0.064315, df1 = 2, df2 = 2780, p-value = 0.9377
 % ---------------------------------------
 
 
-\subsection{Heteroskedasticity and Independence of Residuals}
+\subsection{Heteroskedasticity and independence of residuals}
 
-The Gauss--Markov theorem relies on two crucial assumptions:
+The \textit{Gauss--Markov theorem} relies on two crucial assumptions:
 
 \begin{itemize}
     \item homoskedasticity of the error term
@@ -1048,18 +1048,18 @@ Test Statistic: 155.73
 P-value: 0
 \end{lstlisting}
 
-The White test produces a very small p-value, leading us to reject the null hypothesis of homoskedasticity.
+The \textit{White test} produces a very small p--value, leading us to reject the null hypothesis of homoskedasticity.
 We therefore conclude that heteroskedasticity is present in the model.
 
-A standard remedy is to compute heteroskedasticity-robust standard errors, such as the HAC (heteroskedasticity and autocorrelation consistent) estimator of the covariance matrix.
+A standard remedy is to compute heteroskedasticity--robust standard errors, such as the HAC (\textit{Heteroskedasticity and Autocorrelation Consistent}) estimator of the covariance matrix.
 Using robust standard errors allows us to maintain valid inference even when the homoskedasticity assumption is violated.
 
-\subsubsection{Independence of Residuals}
+\subsubsection{Independence of residuals}
 
 Testing for serial correlation in a cross-sectional framework is generally inappropriate, since the ordering of observations does not correspond to a meaningful time dimension.
-The Durbin--Watson test, in particular, is designed for time-series or panel data where residuals may be correlated with their past values.
+The \textit{Durbin--Watson test}, in particular, is designed for time--series or panel data where residuals may be correlated with their past values.
 
-To investigate whether meaningful temporal autocorrelation could be identified in this dataset, we attempted to construct a pseudo-panel by identifying houses that appear multiple times (same \texttt{PID}) and were sold in different years (\texttt{Yr.Sold}).
+To investigate whether meaningful temporal autocorrelation could be identified in this dataset, we attempted to construct a pseudo--panel by identifying houses that appear multiple times (same \texttt{PID}) and were sold in different years (\texttt{Yr.Sold}).
 However, this procedure returned zero matches: no house in the dataset appears to have been sold more than once between 2006 and 2010.
 Thus, serial correlation cannot meaningfully arise from repeated observations on the same units.
 
@@ -1070,8 +1070,8 @@ Thus, serial correlation cannot meaningfully arise from repeated observations on
     \label{fig:esempio}
 \end{figure}
 
-Nevertheless, computing the \textit{Durbin--Watson statistic} on the model's residuals yields a value of approximately 1.84, which is close to the theoretical value of 2 under the null hypothesis of no first-order autocorrelation.
-We therefore find no evidence of serial correlation in the residuals, consistent with the cross-sectional nature of the data.
+Nevertheless, computing the \textit{Durbin--Watson statistic} on the model's residuals yields a value of approximately 1.84, which is close to the theoretical value of 2 under the null hypothesis of no first--order autocorrelation.
+We therefore find no evidence of serial correlation in the residuals, consistent with the cross--sectional nature of the data.
 
 \begin{lstlisting}[style=rstyle]
 dwtest(model_transformato_reset)
@@ -1094,11 +1094,11 @@ alternative hypothesis: true autocorrelation is greater than 0
 
 Based on the diagnostic analysis conducted in the previous sections, our original specification does not suffer from perfect or imperfect multicollinearity, nor does it exhibit structural instability around the 2008 financial crisis. Therefore, no modifications are required to address these two aspects.
 
-The only diagnostic tool that strongly indicates a misspecification is the RESET test, which rejects the null hypothesis of linearity for both the original model and its log-transformed version. This suggests that the functional form is not fully adequate and that relevant nonlinearities or interaction effects may be missing.
+The only diagnostic tool that strongly indicates a misspecification is the \textit{RESET test}, which rejects the null hypothesis of linearity for both the original model and its log--transformed version. This suggests that the functional form is not fully adequate and that relevant nonlinearities or interaction effects may be missing.
 
 In the previous section we estimated an extended specification including:
 \begin{itemize}
-    \item log-transformations of several continuous regressors
+    \item log--transformations of several continuous regressors
     \item interaction terms with clear economic meaning (\(\texttt{GrLivArea} \times \texttt{OverallQual}\))
     \item and an ordered treatment of quality indicators (\texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, \texttt{BsmtQual})
 \end{itemize}
@@ -1147,36 +1147,36 @@ For these reasons, we take this transformed and augmented specification as our f
 
 This work analysed the determinants of residential property prices in Ames (Iowa) using the \textit{Ames Housing Dataset}, which provides a rich and heterogeneous set of structural, qualitative and locational characteristics for nearly 3{,}000 properties sold between 2006 and 2010. Our objective was to identify which features have a statistically and economically significant impact on sale prices, and to construct a regression model consistent with the assumptions of the classical linear model.
 
-\subsection*{Summary of Empirical Findings}
+\subsection*{Summary of empirical findings}
 
 Our baseline specification (a multiple linear regression including structural size variables, quality measures, and neighbourhood indicators) exhibited a high explanatory power, with an adjusted $R^2$ of about $0.85$. This confirms the central idea underlying hedonic pricing models: the price of real estate can be decomposed into the implicit prices of its attributes. In particular:
 
 \begin{itemize}
-    \item \textbf{Size and structural attributes} such as \texttt{GrLivArea}, \texttt{TotalBsmtSF}, and \texttt{LotArea} display strong and significant effects on prices. Above-ground living area emerges as one of the strongest continuous predictors.
-    \item \textbf{Quality indicators}, notably \texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, and \texttt{BsmtQual}, play a decisive role. Lower-quality categories consistently carry substantial price discounts relative to top-quality units.
+    \item \textbf{Size and structural attributes} such as \texttt{GrLivArea}, \texttt{TotalBsmtSF}, and \texttt{LotArea} display strong and significant effects on prices. Above--ground living area emerges as one of the strongest continuous predictors.
+    \item \textbf{Quality indicators}, notably \texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, and \texttt{BsmtQual}, play a decisive role. Lower--quality categories consistently carry substantial price discounts relative to top--quality units.
     \item \textbf{Construction and renovation year} (\texttt{YearBuilt} and \texttt{YearRemodAdd}) contribute positively and significantly, reflecting depreciation effects and the value buyers assign to modernized structures.
-    \item \textbf{Neighbourhood} remains a powerful determinant even in fully specified models, confirming the importance of locational amenities, socio-economic characteristics, and spatial desirability.
+    \item \textbf{Neighbourhood} remains a powerful determinant even in fully specified models, confirming the importance of locational amenities, socio--economic characteristics, and spatial desirability.
 \end{itemize}
 
-\subsection*{Diagnostic Analysis and Model Adequacy}
+\subsection*{Diagnostic analysis and model adequacy}
 
 A thorough set of diagnostic tests was conducted to assess the validity of our specification:
 
 \begin{itemize}
     \item \textbf{Perfect multicollinearity} was identified when including all area components (\texttt{GrLivArea}, \texttt{FirstFlrSF}, \texttt{SecondFlrSF}, \texttt{LowQualFinSF}) simultaneously. As expected, \texttt{R} removes one of the collinear variables automatically. The issue disappears when any one of the dependent variables is excluded.
-    \item \textbf{Imperfect multicollinearity} was evaluated using VIF and GVIF indices. After proper transformation of categorical variables, none of the regressors exhibited problematic values. We therefore ruled out near-collinearity as a major source of estimation distortion.
-    \item \textbf{Structural stability} was tested using the Chow test with a breakpoint in 2008, the year associated with the Global Financial Crisis. The test provided no evidence of a structural break: the pricing mechanism appears stable over time, although the intercept shifts downward in post-crisis years. This suggests that the crisis affected the \textit{level} of prices but not the \textit{structure} of price determination.
-    \item \textbf{Heteroskedasticity} was strongly detected via the White test, consistent with expectations for cross-sectional data. HAC robust standard errors can be employed to ensure reliable inference.
-    \item \textbf{Autocorrelation of residuals} was not present, and no repeated sales were found in the dataset to justify a more formal panel-like treatment.
-    \item \textbf{Functional form misspecification} emerged as the most relevant issue: the RESET test rejected the null hypothesis for both the baseline linear model and the log-linear variant. This indicates that relevant nonlinearities or omitted interactions were missing in the original specification.
+    \item \textbf{Imperfect multicollinearity} was evaluated using VIF and GVIF indices. After proper transformation of categorical variables, none of the regressors exhibited problematic values. We therefore ruled out near--collinearity as a major source of estimation distortion.
+    \item \textbf{Structural stability} was tested using the \textit{Chow test} with a breakpoint in 2008, the year associated with the global financial crisis. The test provided no evidence of a structural break: the pricing mechanism appears stable over time, although the intercept shifts downward in post--crisis years. This suggests that the crisis affected the \textit{level} of prices but not the \textit{structure} of price determination.
+    \item \textbf{Heteroskedasticity} was strongly detected via the White test, consistent with expectations for cross--sectional data. HAC robust standard errors can be employed to ensure reliable inference.
+    \item \textbf{Autocorrelation of residuals} was not present, and no repeated sales were found in the dataset to justify a more formal panel--like treatment.
+    \item \textbf{Functional form misspecification} emerged as the most relevant issue: the \textit{RESET test} rejected the null hypothesis for both the baseline linear model and the log--linear variant. This indicates that relevant nonlinearities or omitted interactions were missing in the original specification.
 \end{itemize}
 
-\subsection*{Final Model and Economic Interpretation}
+\subsection*{Final model and economic interpretation}
 
 Guided by the diagnostic evidence and economic intuition, we refined the model by:
 
 \begin{itemize}
-    \item applying log-transformations to \texttt{SalePrice} and key continuous regressors,
+    \item applying log--transformations to \texttt{SalePrice} and key continuous regressors,
     \item treating quality variables as \emph{ordered} factors to capture nonlinear differences across quality levels,
     \item introducing an economically meaningful interaction (\texttt{GrLivArea} $\times$ \texttt{OverallQual}).
 \end{itemize}

@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex report"] 1763965456.55892 "report.aux" "report.bbl" "report" 1763965571.38199 0
+["bibtex report"] 1763979515.35376 "report.aux" "report.bbl" "report" 1763979890.4497 0
   "./references.bib" 1763932918.56045 1324 4587ab19c9517da197495f51c8a3e21c ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/alpha.bst" 1292289607 23907 a5f93555796fb564b924339521f10a7c ""
-  "report.aux" 1763965570.77028 7374 91aefdf85096cf5b367d28e5dca77c0c "pdflatex"
+  "report.aux" 1763979890.00843 7417 dfb530fb1163c20d6f9bc5af1dd3c61d "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1763965569.29076 "/home/matteo/Documents/regression-timeseries/assignment_regression/report/report.tex" "report.pdf" "report" 1763965571.38217 0
+["pdflatex"] 1763979888.12928 "/home/matteo/Documents/regression-timeseries/assignment_regression/report/report.tex" "report.pdf" "report" 1763979890.45003 0
   "/etc/texmf/web2c/texmf.cnf" 1748463879.18545 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/matteo/Documents/regression-timeseries/assignment_regression/report/report.tex" 1763965568.93255 60455 2dcbc90929ad30530dc61af34002e957 ""
+  "/home/matteo/Documents/regression-timeseries/assignment_regression/report/report.tex" 1763979887.77762 60563 487c39ff0645fe61244c63942fb885c6 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc" 1558214095 7631 5169ff1acd97ff1c4ab83563c99f96f4 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/ecrm1095.tfm" 1136768653 3584 929cdff2b7a8c11bd4d49fd68cb0ae70 ""
@@ -112,6 +112,7 @@
   "/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc" 1254269338 3031 6c4d3515bf7115d8518af1c9ab97ca44 ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmbx10.tfm" 1254269338 12076 b54175e02101bea1addf6b2d0197ed12 ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmbx12.tfm" 1254269338 12088 d750ac78274fa7c9f73ba09914c04f8a ""
+  "/usr/share/texmf/fonts/tfm/public/lm/ec-lmbxi10.tfm" 1254269338 17180 a5723008921cdcb0c5f4ebe997919b73 ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmr10.tfm" 1254269338 12056 7e13df7fe4cbce21b072ba7c4f4deb6e ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmr12.tfm" 1254269338 12092 7b1546e2d096cfd5dcbd4049b0b1ec2e ""
   "/usr/share/texmf/fonts/tfm/public/lm/ec-lmr17.tfm" 1254269338 12156 ca1ae6a3c8564e89597f1f993fba1608 ""
@@ -140,6 +141,7 @@
   "/usr/share/texmf/fonts/tfm/public/lm/ts1-lmr10.tfm" 1254269338 1556 b86d923e6b2f9aab2e313098a95cb0b8 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb" 1255129361 121021 1bf809ce4a594679006bd72263eba59b ""
   "/usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb" 1255129361 116908 1fca96723793882c2e0160350c192fc8 ""
+  "/usr/share/texmf/fonts/type1/public/lm/lmbxi10.pfb" 1255129361 112766 bdd4fa8b13a0d7dd137624085bd31d40 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmex10.pfb" 1254269338 23055 2e5b42921de910eaa97b85df04ca4891 ""
   "/usr/share/texmf/fonts/type1/public/lm/lmmi10.pfb" 1254269338 30388 702fae6a5f0e6e9c48a1d872b442ffcf ""
   "/usr/share/texmf/fonts/type1/public/lm/lmmi8.pfb" 1254269338 30635 833ec815d446ec453a4913fc26d24cbc ""
@@ -161,11 +163,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1748463934.41851 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1748463965 8213658 6f548c17216f7360041cc27ab357ca8c ""
-  "report.aux" 1763965570.77028 7374 91aefdf85096cf5b367d28e5dca77c0c "pdflatex"
-  "report.bbl" 1763965456.74954 1080 bd74c1a3b737f40f622d22ada138223b "bibtex report"
-  "report.out" 1763965570.77228 8230 e962e375648e4c289235fe451eaca880 "pdflatex"
-  "report.tex" 1763965568.93255 60455 2dcbc90929ad30530dc61af34002e957 ""
-  "report.toc" 1763965570.77228 4313 b4014cab4d36071e770f216dec1d71a5 "pdflatex"
+  "report.aux" 1763979890.00843 7417 dfb530fb1163c20d6f9bc5af1dd3c61d "pdflatex"
+  "report.bbl" 1763979515.53138 1080 bd74c1a3b737f40f622d22ada138223b "bibtex report"
+  "report.out" 1763979890.00943 8230 4acc6e1ef6e056fcf07bff3889cbb2cc "pdflatex"
+  "report.tex" 1763979887.77762 60563 487c39ff0645fe61244c63942fb885c6 ""
+  "report.toc" 1763979890.01043 4343 5b967b3ad327170c80a4978e6ffe3207 "pdflatex"
   "scrot_01.png" 1763952431.0826 3118 5077995e442377932b102ec4fea9a9d4 ""
   (generated)
   "report.aux"
