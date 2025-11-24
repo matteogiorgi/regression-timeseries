@@ -38,7 +38,7 @@
     stringstyle=\color{codepurple},
     numbers=none,
     showstringspaces=false,
-    tabsize=2,
+    tabsize=4,
     breaklines=true,
     breakatwhitespace=true,
     captionpos=b,
@@ -808,39 +808,18 @@ Since none of the transformed VIF values exceeds the common threshold of 10, nor
 
 \subsection{Structural Stability: Chow Test around the 2008 Financial Crisis}
 
-\paragraph{Discussion of the Chow Test.}
-
 In this section we investigate whether the relationship between the explanatory variables and \texttt{SalePrice} remained stable over time.
-Structural changes in the coefficients may arise for several reasons, and sharp economic events---such as financial crises---are among the most common sources of such instability.
-Since our dataset covers housing transactions between 2006 and 2010, it is natural to test for a structural break around 2008, the year associated with the outbreak of the Global Financial Crisis.
+Structural changes in the coefficients may arise for several reasons, and sharp economic events, such as financial crises, are among the most common sources of such instability.
+Since our dataset covers housing transactions between 2006 and 2010, it is natural to test for a structural break around 2008, the year associated with the outbreak of the Global Financial Crisis. The Chow test evaluates precisely this hypothesis.
 
-The Chow test evaluates precisely this hypothesis.
-The test yields a very large p-value, so we fail to reject the null hypothesis of parameter stability.
-At first sight, this may appear counter-intuitive, given that the financial crisis was closely linked to a speculative bubble in housing markets.
-However, this result suggests an important distinction: the crisis may have shifted the \emph{level} of house prices without altering the \emph{structure} of the underlying pricing relationship.
+% The period covered by the dataset includes the years of the 2008 financial crisis, which may have affected the housing market and, consequently, the relationship between the explanatory variables and \texttt{SalePrice}.
+% To assess whether the regression coefficients are stable over time, we perform a Chow test for a structural break with respect to the year of sale (\texttt{Yr.Sold}).
 
-To assess this interpretation, we estimate two separate regressions:
-
-\begin{enumerate}
-    \item houses sold between 2006 and 2008;
-    \item houses sold between 2009 and 2010.
-\end{enumerate}
-
-Comparing the estimated intercepts across the two models shows that they differ substantially, with the post-crisis regression exhibiting a markedly lower intercept.
-This indicates that the crisis primarily caused a downward shift in the overall price level, while the marginal effects of structural and qualitative characteristics remained broadly stable.
-
-In other words, the crisis affected \emph{how much} houses sold for, but not \emph{why} certain houses sold for more than others.
-The fundamental price determinants captured by our model appear structurally robust before and after 2008.
-
-
-The period covered by the dataset includes the years of the 2008 financial crisis, which may have affected the housing market and, consequently, the relationship between the explanatory variables and \texttt{SalePrice}.
-To assess whether the regression coefficients are stable over time, we perform a Chow test for a structural break with respect to the year of sale (\texttt{Yr.Sold}).
-
-We split the sample into two subperiods:
-\begin{itemize}
-    \item \textbf{pre-crisis period}: transactions in 2006--2007;
-    \item \textbf{crisis and post-crisis period}: transactions in 2008--2010.
-\end{itemize}
+% We split the sample into two subperiods:
+% \begin{itemize}
+%     \item \textbf{pre-crisis period}: transactions in 2006--2007;
+%     \item \textbf{crisis and post-crisis period}: transactions in 2008--2010.
+% \end{itemize}
 
 Let $RSS_P$ and $RSS_C$ denote the residual sum of squares of the model estimated separately on the pre-crisis and the crisis/post-crisis subsamples, and let $RSS_{P \cup C}$ be the residual sum of squares of the model estimated on the full pooled sample. Denoting by $k$ the number of estimated parameters (including the intercept), and by $n_P$ and $n_C$ the sample sizes of the two subsamples, the Chow test statistic is:
 
@@ -962,17 +941,71 @@ Multiple R-squared:  0.9026,  Adjusted R-squared:  0.8966
 
 % ---------------------------------------
 
-\paragraph{Interpretation.}
+The test yields a very large p-value (0.8746), so we fail to reject the null hypothesis of parameter stability.
+At first sight, this may appear counter-intuitive, given that the financial crisis was closely linked to a speculative bubble in housing markets.
+However, this result suggests an important distinction: the crisis may have shifted the \emph{level} of house prices without altering the \emph{structure} of the underlying pricing relationship.
 
-The Chow-type test implemented via \texttt{sctest} yields a test statistic $f(\text{efp}) = 1.30$ with a p-value of 0.8746.
-Therefore, we fail to reject the null hypothesis of parameter stability at any conventional significance level: there is no statistical evidence of a structural break in the relationship between \texttt{SalePrice} and the selected regressors around the 2008 financial crisis.
+To assess this interpretation, we estimate two separate regressions:
 
-The separate subsample regressions provide additional insight.
-The pre-2008 model attains an adjusted $R^2$ of approximately 0.844, while the post-2008 model reaches an adjusted $R^2$ close to 0.897, indicating a somewhat better fit in the later period.
-However, the signs and magnitudes of the main structural coefficients (such as those on \texttt{GrLivArea}, \texttt{TotalBsmtSF}, \texttt{LotArea}, and \texttt{OverallQual}) remain broadly consistent across the two subsamples.
-Taken together, these results suggest that, although the crisis may have affected the overall volatility of the housing market, the underlying price determinants captured by our model are structurally stable over time.
+\begin{itemize}
+    \item \textbf{pre-crisis period}: houses sold between 2006 and 2008
+    \item \textbf{post-crisis period}: houses sold between 2009 and 2010
+\end{itemize}
+
+Comparing the estimated intercepts across the two models shows that they differ substantially, with the post-crisis regression exhibiting a markedly lower intercept.
+This indicates that the crisis primarily caused a downward shift in the overall price level, while the marginal effects of structural and qualitative characteristics remained broadly stable.
+
+In other words, the crisis affected \emph{how much} houses sold for, but not \emph{why} certain houses sold for more than others.
+The fundamental price determinants captured by our model appear structurally robust before and after 2008.
 
 
+
+% \paragraph{Interpretation.}
+
+% The Chow-type test implemented via \texttt{sctest} yields a test statistic $f(\text{efp}) = 1.30$ with a p-value of 0.8746.
+% Therefore, we fail to reject the null hypothesis of parameter stability at any conventional significance level: there is no statistical evidence of a structural break in the relationship between \texttt{SalePrice} and the selected regressors around the 2008 financial crisis.
+
+% The separate subsample regressions provide additional insight.
+% The pre-2008 model attains an adjusted $R^2$ of approximately 0.844, while the post-2008 model reaches an adjusted $R^2$ close to 0.897, indicating a somewhat better fit in the later period.
+% However, the signs and magnitudes of the main structural coefficients (such as those on \texttt{GrLivArea}, \texttt{TotalBsmtSF}, \texttt{LotArea}, and \texttt{OverallQual}) remain broadly consistent across the two subsamples.
+% Taken together, these results suggest that, although the crisis may have affected the overall volatility of the housing market, the underlying price determinants captured by our model are structurally stable over time.
+
+
+\subsection{Heteroskedasticity and Independence of Residuals}
+
+The Gauss--Markov theorem relies on two crucial assumptions:
+
+\begin{itemize}
+    \item homoskedasticity of the error term
+    \item lack of serial correlation among residuals
+\end{itemize}
+
+If these assumptions are violated, the OLS estimator remains unbiased but it is no longer efficient, and standard inferential procedures based on classical standard errors become unreliable.
+
+\subsubsection{Heteroskedasticity}
+
+Given that our dataset is cross-sectional, heteroskedasticity (non-constant error variance across observations) is a natural concern.
+To formally assess this, we conduct the White test for heteroskedasticity.
+This test evaluates whether the variance of the residuals depends on the regressors, their squares, or their pairwise interactions.
+Significant coefficients in the auxiliary regression imply that the error variance systematically varies with one or more explanatory variables.
+
+The White test produces a very small p-value, leading us to reject the null hypothesis of homoskedasticity.
+We therefore conclude that heteroskedasticity is present in the model.
+
+A standard remedy is to compute heteroskedasticity-robust standard errors, such as the HAC (heteroskedasticity and autocorrelation consistent) estimator of the covariance matrix.
+Using robust standard errors allows us to maintain valid inference even when the homoskedasticity assumption is violated.
+
+\subsubsection{Independence of Residuals}
+
+Testing for serial correlation in a cross-sectional framework is generally inappropriate, since the ordering of observations does not correspond to a meaningful time dimension.
+The Durbin--Watson test, in particular, is designed for time-series or panel data where residuals may be correlated with their past values.
+
+To investigate whether meaningful temporal autocorrelation could be identified in this dataset, we attempted to construct a pseudo-panel by identifying houses that appear multiple times (same \texttt{PID}) and were sold in different years (\texttt{Yr.Sold}).
+However, this procedure returned zero matches: no house in the dataset appears to have been sold more than once between 2006 and 2010.
+Thus, serial correlation cannot meaningfully arise from repeated observations on the same units.
+
+Nevertheless, computing the Durbin--Watson statistic on the model's residuals yields a value of approximately 1.84, which is close to the theoretical value of 2 under the null hypothesis of no first-order autocorrelation.
+We therefore find no evidence of serial correlation in the residuals, consistent with the cross-sectional nature of the data.
 
 
 
@@ -993,10 +1026,10 @@ Summarize findings and relate them back to your initial hypotheses.
 % ================================
 % Appendix
 % ================================
-\appendix
-\section{R Code}
+% \appendix
+% \section{R Code}
 
-Include clean, well-formatted R code used for the analysis.
+% Include clean, well-formatted R code used for the analysis.
 
 \bibliographystyle{alpha}
 \bibliography{references}

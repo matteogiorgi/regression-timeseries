@@ -87,3 +87,104 @@ modelmulticollperf <- lm(
 )
 
 summary(modelmulticollperf)
+
+
+
+#2:Test di Chow
+# install.packages("strucchange")
+library(sandwich)
+library(strucchange)
+
+ames_clean$OverallQual <- ordered(ames_clean$OverallQual, levels = 1:10)
+
+ames_clean$KitchenQual <- ordered(
+  ames_clean$KitchenQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_clean$ExterQual <- ordered(
+  ames_clean$ExterQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_clean$BsmtQual <- ordered(
+  ames_clean$BsmtQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_ordered <- ames_clean[order(ames_clean$Yr.Sold), ]
+modelordered <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual ,
+  data = ames_ordered
+)
+
+break_point <- min(which(ames_ordered$Yr.Sold == 2008))
+library(strucchange)
+chow_test <- sctest(modelordered, type = "Chow", point = break_point)
+print(chow_test)
+
+#vediamo se intercetta cambia
+# Modello pre-2008
+model_pre2008 <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood ,
+  data = subset(ames_clean, Yr.Sold <= 2008)
+)
+
+#modello post-2008
+model_post2008 <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood ,
+  data = subset(ames_clean, Yr.Sold > 2008)
+)
+
+summary(model_pre2008)
+summary(model_post2008)
+
+
+
+#4:omoschedasticità
+# install.packages("whitestrap")
+library(whitestrap)
+white_test(model_transformato_reset)
+
+
+#indipendenza
+library(dplyr)
+ames_period <- subset(ames_clean, Yr.Sold >= 2006 & Yr.Sold <= 2010)
+pid_counts <- ames_period %>%
+  group_by(PID) %>%
+  summarise(n_sales = n_distinct(Yr.Sold))  # quante volte venduto in anni diversi
+#seleziona solo i PID con almeno 2 vendite in anni diversi
+pid_multi <- pid_counts %>%
+  filter(n_sales >= 2) %>%
+  pull(PID)
+
+#crea il dataset ristretto
+ames_multi_sales <- ames_period %>%
+  filter(PID %in% pid_multi)
+
+ames_clean %>%
+  count(PID) %>%
+  filter(n > 1)
+
+
+ames_clean %>%
+  group_by(PID) %>%
+  summarise(anni_vendita = paste(unique(Yr.Sold), collapse = ", "),
+            n_anni = n_distinct(Yr.Sold)) %>%
+  filter(n_anni >= 2)
+
+ames_multi_sales <- ames_clean %>%
+  group_by(PID) %>%
+  filter(n_distinct(Yr.Sold) >= 2) %>%
+  ungroup()
