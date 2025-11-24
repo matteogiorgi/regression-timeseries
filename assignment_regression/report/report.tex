@@ -744,9 +744,9 @@ Since, in our model, none of the transformed VIF values exceeds the common thres
 
 In this section we investigate whether the relationship between the explanatory variables and \texttt{SalePrice} remained stable over time.
 Structural changes in the coefficients may arise for several reasons, and sharp economic events, such as financial crises, are among the most common sources of such instability.
-Since our dataset covers housing transactions between 2006 and 2010, it is natural to test for a structural break around 2008, the year associated with the outbreak of the Global Financial Crisis. The Chow test evaluates precisely this hypothesis.
+Since our dataset covers housing transactions between 2006 and 2010, it is natural to test for a structural break around 2008, the year associated with the outbreak of the global financial crisis. The \textit{Chow test} evaluates precisely this hypothesis.
 
-Let $RSS_P$ and $RSS_C$ denote the residual sum of squares of the model estimated separately on the pre-crisis and the crisis/post-crisis subsamples, and let $RSS_{P \cup C}$ be the residual sum of squares of the model estimated on the full pooled sample. Denoting by $k$ the number of estimated parameters (including the intercept), and by $n_P$ and $n_C$ the sample sizes of the two subsamples, the Chow test statistic is:
+Let $RSS_P$ and $RSS_C$ denote the residual sum of squares of the model estimated separately on the pre-crisis and the crisis/post-crisis subsamples, and let $RSS_{P \cup C}$ be the residual sum of squares of the model estimated on the full pooled sample. Denoting by $k$ the number of estimated parameters (including the intercept), and by $n_P$ and $n_C$ the sample sizes of the two subsamples, the \textit{Chow test} statistic is:
 
 \[
     F \;=\;
@@ -926,7 +926,7 @@ A low p--value indicates rejection of the null hypothesis of correct functional 
 In our case, the \textit{RESET test} produces a very small p--value, leading us to reject the null hypothesis of linearity.
 This result suggests the presence of functional form misspecification.
 Nonlinearities may arise either from structural breaks or from omitted variables.
-As discussed in Section~\ref{sec:chow-test}, the Chow test shows no evidence of a structural break around the 2008 financial crisis, which we consider the most plausible breakpoint.
+As discussed in Section~\ref{sec:chow-test}, the \textit{Chow test} shows no evidence of a structural break around the 2008 financial crisis, which we consider the most plausible breakpoint.
 Therefore, it is reasonable to attribute the nonlinearity detected by the \textit{RESET test} to omitted relevant terms, such as interactions or nonlinear transformations of existing regressors.
 
 \paragraph{Ordinal regressors and nonlinearity.}
@@ -1235,60 +1235,6 @@ For these reasons, we take this transformed and augmented specification as our f
 % Conclusions
 % ================================
 \section{Conclusions}
-
-% This work analysed the determinants of residential property prices in Ames (Iowa) using the \textit{Ames Housing Dataset}, which provides a rich and heterogeneous set of structural, qualitative and locational characteristics for nearly 3{,}000 properties sold between 2006 and 2010. Our objective was to identify which features have a statistically and economically significant impact on sale prices, and to construct a regression model consistent with the assumptions of the classical linear model.
-
-% \subsection*{Summary of empirical findings}
-
-% Our baseline specification (a multiple linear regression including structural size variables, quality measures, and neighbourhood indicators) exhibited a high explanatory power, with an adjusted $R^2$ of about $0.85$. This confirms the central idea underlying hedonic pricing models: the price of real estate can be decomposed into the implicit prices of its attributes. In particular:
-
-% \begin{itemize}
-%     \item \textbf{Size and structural attributes} such as \texttt{GrLivArea}, \texttt{TotalBsmtSF}, and \texttt{LotArea} display strong and significant effects on prices. Above--ground living area emerges as one of the strongest continuous predictors.
-%     \item \textbf{Quality indicators}, notably \texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, and \texttt{BsmtQual}, play a decisive role. Lower--quality categories consistently carry substantial price discounts relative to top--quality units.
-%     \item \textbf{Construction and renovation year} (\texttt{YearBuilt} and \texttt{YearRemodAdd}) contribute positively and significantly, reflecting depreciation effects and the value buyers assign to modernized structures.
-%     \item \textbf{Neighbourhood} remains a powerful determinant even in fully specified models, confirming the importance of locational amenities, socio--economic characteristics, and spatial desirability.
-% \end{itemize}
-
-% \subsection*{Diagnostic analysis and model adequacy}
-
-% A thorough set of diagnostic tests was conducted to assess the validity of our specification:
-
-% \begin{itemize}
-%     \item \textbf{Perfect collinearity} was identified when including all area components (\texttt{GrLivArea}, \texttt{FirstFlrSF}, \texttt{SecondFlrSF}, \texttt{LowQualFinSF}) simultaneously. As expected, \texttt{R} removes one of the collinear variables automatically. The issue disappears when any one of the dependent variables is excluded.
-%     \item \textbf{Imperfect collinearity} was evaluated using VIF and GVIF indices. After proper transformation of categorical variables, none of the regressors exhibited problematic values. We therefore ruled out near--collinearity as a major source of estimation distortion.
-%     \item \textbf{Structural stability} was tested using the \textit{Chow test} with a breakpoint in 2008, the year associated with the global financial crisis. The test provided no evidence of a structural break: the pricing mechanism appears stable over time, although the intercept shifts downward in post--crisis years. This suggests that the crisis affected the \textit{level} of prices but not the \textit{structure} of price determination.
-%     \item \textbf{Heteroskedasticity} was strongly detected via the White test, consistent with expectations for cross--sectional data. HAC robust standard errors can be employed to ensure reliable inference.
-%     \item \textbf{Autocorrelation of residuals} was not present, and no repeated sales were found in the dataset to justify a more formal panel--like treatment.
-%     \item \textbf{Functional form misspecification} emerged as the most relevant issue: the \textit{RESET test} rejected the null hypothesis for both the baseline linear model and the log--linear variant. This indicates that relevant nonlinearities or omitted interactions were missing in the original specification.
-% \end{itemize}
-
-% \subsection*{Final model and economic interpretation}
-
-% Guided by the diagnostic evidence and economic intuition, we refined the model by:
-
-% \begin{itemize}
-%     \item applying log--transformations to \texttt{SalePrice} and key continuous regressors
-%     \item treating quality variables as \emph{ordered} factors to capture nonlinear differences across quality levels
-%     \item introducing an economically meaningful interaction (\texttt{GrLivArea} $\times$ \texttt{OverallQual})
-% \end{itemize}
-
-% This enriched specification successfully passed the \textit{RESET test}, indicating a correct functional form.
-% Moreover, its structure aligns with widely used formulations in hedonic housing price modelling, particularly semi--log and log--log specifications where coefficients may be interpreted as elasticities.
-
-% \subsection*{Overall Assessment}
-
-% In conclusion, the modelling exercise demonstrates that:
-
-% \begin{itemize}
-%     \item house prices in Ames are primarily driven by a combination of structural size, overall and specific quality indicators, and neighbourhood attributes
-%     \item nonlinear relationships and interactions are essential to correctly capture the economic mechanisms behind property valuation
-%     \item the refined specification provides a flexible, statistically sound and economically interpretable model
-%     \item the 2008 financial crisis did not alter the structural relationship between housing attributes and prices, but did affect the absolute level of prices
-% \end{itemize}
-
-% The final model therefore offers a robust and insightful representation of the housing market in Ames, and lays the groundwork for potential extensions such as spatial econometric models, non--parametric approaches, or regularized regression methods for high--dimensional settings.
-
-
 
 This work analysed the determinants of residential property prices in Ames (Iowa) using the \textit{Ames Housing Dataset}, which provides a rich and heterogeneous set of structural, qualitative and locational characteristics for nearly 3{,}000 residential properties sold between 2006 and 2010. Our objective was to identify which features exert a statistically and economically significant impact on sale prices and to construct a regression model consistent with the assumptions of the classical linear model.
 
