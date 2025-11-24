@@ -227,11 +227,10 @@ In its full version, the dataset includes 82 explanatory variables describing st
 
 Each row of the dataset corresponds to a single residential property, while columns represent the attributes listed above.
 
-Numerical variables are measured either in square feet or in calendar years, whereas qualitative assessments use an ordinal scale.
-The dataset does not contain missing values for the variables selected in our analysis, and therefore no imputation was required.
+% Numerical variables are measured either in square feet or in calendar years, whereas qualitative assessments use an ordinal scale.
+% The dataset does not contain missing values for the variables selected in our analysis, and therefore no imputation was required.
 
-The dependent variable of the regression is \texttt{SalePrice}, expressed in US dollars.
-The selected explanatory variables fall into the four following categories.
+The dependent variable of the regression is \texttt{SalePrice} (expressed in US dollars) and the selected explanatory variables fall into the four following categories.
 
 % ---------------------------------------
 
@@ -330,9 +329,9 @@ where:
 
 \begin{itemize}
     \item $\beta_0$ is the intercept;
-    \item the $\beta$'s denote the coefficients associated with each regressor;
+    \item the $\beta_k$ denotes the coefficient associated with regressor $k$, \quad $\forall k = 1, \ldots, 16$
     \item $\varepsilon_i$ is the error term capturing unobserved factors;
-    \item the variable \texttt{Neighborhood} is treated as a categorical factor and encoded via dummy variables.
+    \item the variables \texttt{Overall Qual}, \texttt{Kitchen Qual}, \texttt{Exter Qual}, \texttt{Bsmt Qual} and \texttt{Neighborhood} are treated as categorical factors and encoded via dummy variables
 \end{itemize}
 
 % ---------------------------------------
@@ -530,7 +529,7 @@ The coefficient on \texttt{TotalBsmtSF} is about $9.6$ (p~$=0.0049$), indicating
 
 \paragraph{Bathrooms and Garage Capacity.}
 The coefficient on \texttt{FullBath} is negative ($-2{,}970$, p~$=0.078$), borderline significant.
-This counterintuitive sign is likely explained by multicollinearity: once living area and quality are included, an additional bathroom at fixed size may not capture higher quality.
+This counterintuitive sign is likely explained by multicollinearity: once living area and quality are included, an additional bathroom at fixed size may not capture higher quality \cite{DeCock2011}.
 
 \texttt{GarageArea} and \texttt{GarageCars} are both positive and significant ($20.3$ and $6{,}594$ respectively), indicating that larger garages and capacity for more vehicles contribute positively to sale price.
 
