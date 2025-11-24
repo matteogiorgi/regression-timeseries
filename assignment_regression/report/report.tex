@@ -19,6 +19,7 @@
 \usepackage{enumitem}
 \usepackage{natbib}
 \usepackage{inconsolata}
+\usepackage{graphicx}
 
 
 
@@ -28,6 +29,7 @@
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.97,0.97,0.97}
+\definecolor{backcolour2}{rgb}{1.00,1.00,0.90}
 
 \lstdefinestyle{rstyle}{
     language=R,
@@ -52,7 +54,7 @@
 % -----------------------------------------------------
 \lstdefinestyle{routput}{
     basicstyle=\ttfamily\footnotesize,
-    backgroundcolor=\color{backcolour},
+    backgroundcolor=\color{backcolour2},
     frame=single,
     rulecolor=\color{black!20},
     frameround=ffff,
@@ -109,9 +111,7 @@ Luca Lo Buono -- \href{mailto:luca.lobuono@studenti.unipd.it}{luca.lobuono@stude
 
 The objective of this work is to study which structural, qualitative, and locational characteristics of a residential property significantly affect its market price.
 
-The \textit{Ames Housing Dataset} provides detailed information on dwellings sold in Ames (Iowa) and is an updated version of the Boston Housing Dataset, already widely used in the housing economics literature. With its 2930 observations, the Ames dataset offers a larger sample size and a more comprehensive set of features, making it better suited for modern statistical analysis.
-
-The dataset includes information regarding physical size, construction details, quality ratings, and neighborhood indicators. Based on these variables, we formulate a set of hypotheses grounded in empirical findings from the real-estate and housing-econometrics literature.
+For the purpose of this assignment, we selected a subset of variables, listed in the \textit{Ames Housing Dataset}, most commonly used in real estate pricing models and supported by the existing literature.
 
 % ----------------------------------------------------------
 \subsection{Fundamental Variables and Assumptions}
@@ -132,14 +132,14 @@ Similar evidence is reported in \cite{Han2023}, where overall quality consistent
 % ----------------------------------------------------------
 \subsubsection{Above-Ground Living Area (\texttt{Gr Liv Area}) Is Positively Associated with Sale Price}
 
-The hedonic pricing literature traditionally recognizes physical size as a primary contributor to housing value.
+% The hedonic pricing literature traditionally recognizes physical size as a primary contributor to housing value.
 
-\begin{quote}
-    The \textbf{hedonic pricing model} is an economic model that explains the price of a good as the combination of the values of its attributes.
-    A complex good is “decomposed’’ into its components, and the total price reflects the contribution of each of them.
+% \begin{quote}
+%     The \textbf{hedonic pricing model} is an economic model that explains the price of a good as the combination of the values of its attributes.
+%     A complex good is “decomposed’’ into its components, and the total price reflects the contribution of each of them.
 
-    The concept was introduced by Lancaster (1966) in consumer theory and was first applied to housing prices by Rosen (1974).
-\end{quote}
+%     The concept was introduced by Lancaster (1966) in consumer theory and was first applied to housing prices by Rosen (1974).
+% \end{quote}
 
 \cite{Abdulhafedh2022} highlights that the main livable area is among the variables with the highest explanatory power.
 Studies on the Ames dataset by \cite{Ye2024} and \cite{Han2023} similarly identify \texttt{Gr Liv Area} as one of the strongest continuous predictors.
@@ -172,7 +172,7 @@ Both variables capture qualitative assessments that are not reflected solely by 
 % ----------------------------------------------------------
 \subsubsection{Neighborhood Characteristics Significantly Affect Sale Price}
 
-Location remains one of the most important determinants of housing prices in hedonic models.
+Location remains one of the most important determinants of housing prices in real estate pricing models.
 
 The Ames dataset includes a categorical variable (\texttt{Neighborhood}) that encodes proximity to schools, income areas, and local amenities.
 
@@ -214,11 +214,12 @@ Examples of excluded variables include:
 % ================================
 \section{Description of the Dataset}
 
-The analysis is based on the \textit{Ames Housing Dataset}, a well-known real-estate dataset originally compiled by the Assessor’s Office of Ames, Iowa. It contains detailed information on residential properties sold between 2006 and 2010.
+The \textit{Ames Housing Dataset} provides detailed information on dwellings sold in Ames (Iowa) and is an updated version of the Boston Housing Dataset, already widely used in the housing economics literature. With its 2930 observations, the Ames dataset offers a larger sample size and a more comprehensive set of features, making it better suited for modern statistical analysis.
 
+The dataset includes information regarding physical size, construction details, quality ratings, and neighborhood indicators. Based on these variables, we formulate a set of hypotheses grounded in empirical findings from the real-estate and housing-econometrics literature.
+
+This dataset is a well-known real-estate dataset originally compiled by the Assessor’s Office of Ames, Iowa. It contains detailed information on residential properties sold between 2006 and 2010.
 In its full version, the dataset includes 82 explanatory variables describing structural, qualitative, locational, and functional characteristics of each house.
-
-For the purpose of this assignment, we selected a subset of variables most commonly used in hedonic pricing models and supported by the existing literature.
 
 % ---------------------------------------
 
@@ -538,7 +539,7 @@ This counterintuitive sign is likely explained by multicollinearity: once living
 
 \paragraph{Quality Indicators.}
 \texttt{OverallQual} is one of the strongest predictors in the model, with an estimated coefficient of roughly $11{,}990$ (p~$<2\times10^{-16}$).
-A one-point increase in overall quality raises the predicted sale price by about \$12k, confirming the central importance of quality emphasised in the hedonic housing literature.
+A one-point increase in overall quality raises the predicted sale price by about \$12k, confirming the central importance of quality emphasised in the real estate house pricing literature.
 
 The categorical quality variables \texttt{KitchenQual}, \texttt{ExterQual} and \texttt{BsmtQual} are encoded through dummy variables.
 Since the reference category corresponds to the highest quality level, most dummy coefficients are negative and highly significant, reflecting the price discounts associated with lower kitchen, exterior or basement quality.
@@ -786,27 +787,26 @@ Neighborhood 41.329522 27        1.071348
 
 The literature offers different threshold values for interpreting VIFs, with common rules of thumb ranging from 5 to 10 as indicators of problematic multicollinearity.
 In models including categorical variables with more than two levels, \texttt{R} reports the \textit{Generalized Variance Inflation Factor} (GVIF), an extension of the VIF that properly accounts for multiple degrees of freedom.
-This adjustment is necessary because a categorical variable with $k$ levels expands into $(k-1)$ dummy variables, for which the classical VIF cannot be computed directly.
+This adjustment is necessary because a categorical variable with $k$ levels expands into $(k{-}1)$ dummy variables, for which the classical VIF cannot be computed directly.
 
-For variables with one degree of freedom, GVIF coincides with the standard VIF.
-For categorical regressors with more than one degree of freedom, GVIF must be transformed using the formula:
+For variables with one degree of freedom, GVIF coincides with the standard VIF. Viceversa, for categorical regressors with more than one degree of freedom, GVIF must be transformed using the formula:
 
 \[
     \text{GVIF}^{\,1/(2\,\text{df})}
 \]
 
-which yields a value comparable to the standard VIF.
-This explains why some categorical variables appear to have extremely high GVIFs: the large values simply reflect their number of dummy variables rather than true collinearity issues.
+This yields a value comparable to the standard VIF, which explains why some categorical variables appear to have extremely high GVIFs: the large values simply reflect their number of dummy variables rather than true collinearity issues.
 
-For example, \texttt{Neighborhood} exhibits a very large GVIF (572.17), but once transformed it corresponds to a reasonable VIF of approximately 1.72.
-Similarly, \texttt{MSZoning} shows a GVIF of 26.42 but a transformed VIF of just 1.39.
+For example, \texttt{Neighborhood} exhibits a very large GVIF (41.32), but once transformed it corresponds to a reasonable VIF of approximately 1.07.
+% Similarly, \texttt{MSZoning} shows a GVIF of 26.42 but a transformed VIF of just 1.39.
 
-Since none of the transformed VIF values exceeds the common threshold of 10, nor comes close to it, we conclude that multicollinearity is not a serious concern for our current specification, and all the included regressors can be safely retained.
+Since, in our model, none of the transformed VIF values exceeds the common threshold of 10, nor comes close to it, we conclude that multicollinearity is not a serious concern for our current specification, and all the included regressors can be safely retained.
 
 
 % ---------------------------------------
 
 \subsection{Structural Stability: Chow Test around the 2008 Financial Crisis}
+\label{sec:chow-test}
 
 In this section we investigate whether the relationship between the explanatory variables and \texttt{SalePrice} remained stable over time.
 Structural changes in the coefficients may arise for several reasons, and sharp economic events, such as financial crises, are among the most common sources of such instability.
@@ -963,75 +963,130 @@ The fundamental price determinants captured by our model appear structurally rob
 \subsection{Functional Form Misspecification: RESET Test}
 
 We now investigate whether the linear functional form assumed in our baseline specification is adequate.
-A classical diagnostic tool for this purpose is the Ramsey RESET test, which evaluates whether nonlinear combinations of the fitted values possess explanatory power beyond the original regressors.
+A classical diagnostic tool for this purpose is the \textit{Ramsey RESET test}, which evaluates whether nonlinear combinations of the fitted values possess explanatory power beyond the original regressors.
 A low p-value indicates rejection of the null hypothesis of correct functional form.
 
 In our case, the RESET test produces a very small p-value, leading us to reject the null hypothesis of linearity.
 This result suggests the presence of functional form misspecification.
 Nonlinearities may arise either from structural breaks or from omitted variables.
-As discussed in Section~\ref{...}, the Chow test shows no evidence of a structural break around the 2008 financial crisis, which we consider the most plausible breakpoint.
+As discussed in Section~\ref{sec:chow-test}, the Chow test shows no evidence of a structural break around the 2008 financial crisis, which we consider the most plausible breakpoint.
 Therefore, it is reasonable to attribute the nonlinearity detected by the RESET test to omitted relevant terms, such as interactions or nonlinear transformations of existing regressors.
 
 \paragraph{Ordinal Regressors and Nonlinearity.}
 
 A central issue concerns the ordinal regressors included in the model, namely \texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, and \texttt{BsmtQual}.
-Although \texttt{R} initially treats these variables as unordered categorical factors, they possess a meaningful ranking from ``Poor'' to ``Excellent''.
+Although \texttt{R} initially treats these variables as unordered categorical factors, they possess a meaningful ranking from \textit{``Poor''} to \textit{``Excellent''}.
 By explicitly transforming them into ordered factors, the model is able to capture potential nonlinear effects across successive quality levels rather than treating the dummy coefficients as independent of one another.
 
 The variable \texttt{OverallQual} deserves particular attention.
 Its numeric scale from 1 to 10 might appear continuous, but the values represent subjective assessments of overall quality rather than cardinal quantities.
 Treating it as an ordered factor instead of a numerical variable allows the model to accommodate nonlinear, possibly non-monotonic differences across quality levels.
 
-\paragraph{Interaction Terms.}
-
-To address additional sources of nonlinearity, we also introduce two economically motivated interaction terms:
-\[
-    \texttt{GrLivArea} \times \texttt{OverallQual},
-    \qquad
-    \texttt{GarageArea} \times \texttt{GarageCars}.
-\]
-
-These interactions have a clear economic interpretation.
-A large but low-quality house may be worth less than a smaller but high-quality one; without the interaction between livable area and quality, this effect would be entirely missed by a linear model.
-Similarly, the value contributed by a large garage depends on its capacity: a wide two-car garage is typically worth more than a very large one-car garage.
 
 \paragraph{Logarithmic Transformations.}
 
 Finally, we apply logarithmic transformations to the dependent variable and several continuous regressors.
-This choice is supported by economic reasoning: in a log–log specification, coefficients represent elasticities, i.e., percentage changes in \texttt{SalePrice} associated with percentage changes in the regressors.
+This choice is supported by economic reasoning: in a log–log specification, coefficients represent elasticities (percentage changes in \texttt{SalePrice} associated with percentage changes in the regressors).
 This helps capture diminishing marginal effects.
 For example, a 1\% increase in livable area is likely to have a larger impact on the price of a small house than on the price of a very large one, where additional space contributes less to perceived value relative to other features such as quality.
 
 Taken together, these considerations support the conclusion that the baseline linear specification is not sufficiently flexible and that incorporating ordered factors, nonlinear transformations, and economically meaningful interactions is both statistically justified and economically interpretable.
 
 
-\subsection{Functional Form Misspecification: RESET Test}
+\paragraph{Interaction Terms.}
 
-To assess whether the linear functional form assumed in our baseline model is appropriate, we apply the Ramsey RESET test.
-The test evaluates whether higher-order polynomials of the fitted values carry additional explanatory power, which would indicate misspecification due to omitted nonlinearities or functional form errors.
+To address additional sources of nonlinearity, we also introduce the following economically motivated interaction term: \(\texttt{GrLivArea} \times \texttt{OverallQual}\).
+% \[
+%     \texttt{GrLivArea} \times \texttt{OverallQual},
+%     \qquad
+%     \texttt{GarageArea} \times \texttt{GarageCars}.
+% \]
 
-The RESET test on the baseline linear model rejects the null hypothesis of correct specification, with a p-value essentially equal to zero.
-This suggests that the model suffers from functional form misspecification.
-As discussed previously, the Chow test did not reveal evidence of structural breaks, so nonlinearity is unlikely to arise from instability over time.
-Instead, the RESET result points towards the omission of nonlinear transformations or interaction effects between regressors.
-
-A relevant issue concerns the ordinal regressors in the dataset—\texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, and \texttt{BsmtQual}—which carry an inherent ordering from ``Poor'' to ``Excellent''.
-Treating them as ordered factors allows the model to capture nonlinear patterns between successive levels rather than interpreting the quality categories as unrelated dummy variables.
-The variable \texttt{OverallQual}, despite being coded numerically from 1 to 10, is also ordinal in nature and is therefore transformed accordingly.
-
-To address the functional misspecification, we consider two adjustments:
-(i) a log--log model, which provides elasticities and captures diminishing marginal effects; and
-(ii) the addition of economically meaningful interaction terms, such as
-\(\texttt{GrLivArea} \times \texttt{OverallQual}\)
-and
-\(\texttt{GarageArea} \times \texttt{GarageCars}\).
-These interactions account for cases where the effect of size depends strongly on quality, a relationship supported by housing market intuition.
-
-We test both alternative specifications using the RESET test.
-
-
+This interaction has a clear economic interpretation.
+A large but low-quality house may be worth less than a smaller but high-quality one; without the interaction between livable area and quality, this effect would be entirely missed by a linear model.
+% Similarly, the value contributed by a large garage depends on its capacity: a wide two-car garage is typically worth more than a very large one-car garage.
 
 % ---------------------------------------
+
+
+\begin{lstlisting}[style=rstyle]
+library(lmtest)
+
+# Transform ordinal variables
+ames_clean$OverallQual <- ordered(ames_clean$OverallQual, levels = 1:10)
+
+ames_clean$KitchenQual <- ordered(
+  ames_clean$KitchenQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_clean$ExterQual <- ordered(
+  ames_clean$ExterQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_clean$BsmtQual <- ordered(
+  ames_clean$BsmtQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+# Baseline model
+model <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood,
+  data = ames_clean
+)
+resettest(model)
+\end{lstlisting}
+
+\begin{lstlisting}[style=routput]
+RESET test for model:
+RESET = 235.08, df1 = 2, df2 = 2646, p-value < 2.2e-16
+\end{lstlisting}
+% ---------------------------------------
+
+
+\begin{lstlisting}[style=rstyle]
+# Log-linear model
+model_log <- lm(
+  log(SalePrice) ~ log(GrLivArea) + log(FirstFlrSF) + log(TotalBsmtSF) +
+    log(LotArea) + FullBath + GarageArea + GarageCars +
+    GarageYrBlt + YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual + Neighborhood,
+  data = ames_clean
+)
+resettest(model_log)
+\end{lstlisting}
+
+\begin{lstlisting}[style=routput]
+RESET test for log-model:
+RESET = 30.217, df1 = 2, df2 = 2646, p-value = 1.058e-13
+\end{lstlisting}
+% ---------------------------------------
+
+\begin{lstlisting}[style=rstyle]
+# Log-model with interactions
+model_transformato_reset <- lm(
+  log(SalePrice) ~ log(GrLivArea) + log(FirstFlrSF) + log(TotalBsmtSF) +
+    log(LotArea) + FullBath + GarageArea + GarageCars +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual + Neighborhood +
+    GrLivArea:OverallQual,
+  data = ames_clean
+)
+resettest(model_transformato_reset)
+\end{lstlisting}
+
+\begin{lstlisting}[style=routput]
+RESET test for log-model with interactions:
+RESET = 0.064315, df1 = 2, df2 = 2780, p-value = 0.9377
+\end{lstlisting}
+% ---------------------------------------
+
+
 
 
 % \paragraph{Interpretation.}
@@ -1063,6 +1118,20 @@ To formally assess this, we conduct the White test for heteroskedasticity.
 This test evaluates whether the variance of the residuals depends on the regressors, their squares, or their pairwise interactions.
 Significant coefficients in the auxiliary regression imply that the error variance systematically varies with one or more explanatory variables.
 
+\begin{lstlisting}[style=rstyle]
+library(whitestrap)
+white_test(model_transformato_reset)
+\end{lstlisting}
+
+\begin{lstlisting}[style=routput]
+White's test results
+
+Null hypothesis: Homoskedasticity of the residuals
+Alternative hypothesis: Heteroskedasticity of the residuals
+Test Statistic: 155.73
+P-value: 0
+\end{lstlisting}
+
 The White test produces a very small p-value, leading us to reject the null hypothesis of homoskedasticity.
 We therefore conclude that heteroskedasticity is present in the model.
 
@@ -1078,8 +1147,27 @@ To investigate whether meaningful temporal autocorrelation could be identified i
 However, this procedure returned zero matches: no house in the dataset appears to have been sold more than once between 2006 and 2010.
 Thus, serial correlation cannot meaningfully arise from repeated observations on the same units.
 
-Nevertheless, computing the Durbin--Watson statistic on the model's residuals yields a value of approximately 1.84, which is close to the theoretical value of 2 under the null hypothesis of no first-order autocorrelation.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{scrot_01.png}
+    \caption{The dataset contains no repeated sales of the same house.}
+    \label{fig:esempio}
+\end{figure}
+
+Nevertheless, computing the \textit{Durbin--Watson statistic} on the model's residuals yields a value of approximately 1.84, which is close to the theoretical value of 2 under the null hypothesis of no first-order autocorrelation.
 We therefore find no evidence of serial correlation in the residuals, consistent with the cross-sectional nature of the data.
+
+\begin{lstlisting}[style=rstyle]
+dwtest(model_transformato_reset)
+\end{lstlisting}
+
+\begin{lstlisting}[style=routput]
+	Durbin-Watson test
+
+data:  model_transformato_reset
+DW = 1.8373, p-value = 0.7604
+alternative hypothesis: true autocorrelation is greater than 0
+\end{lstlisting}
 
 
 
@@ -1088,7 +1176,52 @@ We therefore find no evidence of serial correlation in the residuals, consistent
 % ================================
 \section{Model Refinement}
 
-Explain any variable selection, transformations, or alternative model specifications used to improve performance.
+Based on the diagnostic analysis conducted in the previous sections, our original specification does not suffer from perfect or imperfect multicollinearity, nor does it exhibit structural instability around the 2008 financial crisis. Therefore, no modifications are required to address these two aspects.
+
+The only diagnostic tool that strongly indicates a misspecification is the RESET test, which rejects the null hypothesis of linearity for both the original model and its log-transformed version. This suggests that the functional form is not fully adequate and that relevant nonlinearities or interaction effects may be missing.
+
+In the previous section we estimated an extended specification including:
+\begin{itemize}
+    \item log-transformations of several continuous regressors
+    \item interaction terms with clear economic meaning (\(\texttt{GrLivArea} \times \texttt{OverallQual}\))
+    \item and an ordered treatment of quality indicators (\texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, \texttt{BsmtQual})
+\end{itemize}
+and this enriched model passed the \textit{RESET test}, indicating that the specification is now consistent with the maintained assumptions.
+
+For these reasons, we take this transformed and augmented specification as our final model. Its general functional form can be written as:
+
+\[
+    \begin{aligned}
+        \log(\texttt{[SalePrice]}_i) & =
+        \beta_0
+        + \beta_1 \,\log(\texttt{[Gr Liv Area]}_i)
+        + \beta_2 \,\log(\texttt{[1st Flr SF]}_i)
+        + \beta_3 \,\log(\texttt{[Total Bsmt SF]}_i) \\
+                                     & \quad
+        + \beta_4 \,\log(\texttt{[Lot Area]}_i)
+        + \beta_5 \,\texttt{[Full Bath]}_i
+        + \beta_6 \,\texttt{[Garage Area]}_i
+        + \beta_7 \,\texttt{[Garage Cars]}_i         \\
+                                     & \quad
+        + \beta_8 \,\texttt{[Year Built]}_i
+        + \beta_9 \,\texttt{[Year Remod/Add]}_i
+        + \beta_{10}\,\texttt{[Overall Qual]}_i      \\
+                                     & \quad
+        + \beta_{11}\,\texttt{[Kitchen Qual]}_i
+        + \beta_{12}\,\texttt{[Exter Qual]}_i
+        + \beta_{13}\,\texttt{[Bsmt Qual]}_i         \\
+                                     & \quad
+        + \beta_{14}\,\texttt{[Neighborhood]}_i
+        + \beta_{15}\,\bigl(\texttt{[Gr Liv Area]}_i \times \texttt{[Overall Qual]}_i\bigr)
+        + \varepsilon_i .
+    \end{aligned}
+\]
+
+
+
+
+
+
 
 % ================================
 % Conclusions
