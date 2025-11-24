@@ -41,3 +41,8 @@
 \contentsline {subsubsection}{\numberline {4.5.2}Independence of residuals}{21}{subsubsection.4.5.2}%
 \contentsline {section}{\numberline {5}Model Refinement}{23}{section.5}%
 \contentsline {section}{\numberline {6}Conclusions}{24}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Summary of empirical findings}{24}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Diagnostic analysis and model adequacy}{24}{subsection.6.2}%
+\contentsline {paragraph}{Perfect collinearity.}{24}{section*.15}%
+\contentsline {paragraph}{Imperfect collinearity.}{25}{section*.16}%
+\contentsline {paragraph}{Structural stability.}{25}{section*.17}%
