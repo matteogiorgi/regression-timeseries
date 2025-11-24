@@ -34,8 +34,13 @@
 \contentsline {subsection}{\numberline {4.1}Perfect Collinearity}{11}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Imperfect Multicollinearity: Variance Inflation Factors}{14}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Structural Stability: Chow Test around the 2008 Financial Crisis}{15}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4}Heteroskedasticity and Independence of Residuals}{18}{subsection.4.4}%
-\contentsline {subsubsection}{\numberline {4.4.1}Heteroskedasticity}{18}{subsubsection.4.4.1}%
-\contentsline {subsubsection}{\numberline {4.4.2}Independence of Residuals}{18}{subsubsection.4.4.2}%
-\contentsline {section}{\numberline {5}Model Refinement}{19}{section.5}%
-\contentsline {section}{\numberline {6}Conclusions}{19}{section.6}%
+\contentsline {subsection}{\numberline {4.4}Functional Form Misspecification: RESET Test}{18}{subsection.4.4}%
+\contentsline {paragraph}{Ordinal Regressors and Nonlinearity.}{18}{section*.12}%
+\contentsline {paragraph}{Interaction Terms.}{18}{section*.13}%
+\contentsline {paragraph}{Logarithmic Transformations.}{19}{section*.14}%
+\contentsline {subsection}{\numberline {4.5}Functional Form Misspecification: RESET Test}{19}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Heteroskedasticity and Independence of Residuals}{19}{subsection.4.6}%
+\contentsline {subsubsection}{\numberline {4.6.1}Heteroskedasticity}{20}{subsubsection.4.6.1}%
+\contentsline {subsubsection}{\numberline {4.6.2}Independence of Residuals}{20}{subsubsection.4.6.2}%
+\contentsline {section}{\numberline {5}Model Refinement}{20}{section.5}%
+\contentsline {section}{\numberline {6}Conclusions}{21}{section.6}%

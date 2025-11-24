@@ -152,8 +152,75 @@ summary(model_post2008)
 
 
 
+
+
+# install.packages("lmtest")
+library(lmtest)
+# Trasformazione delle variabili ordinali
+ames_clean$OverallQual <- ordered(ames_clean$OverallQual, levels = 1:10)
+
+ames_clean$KitchenQual <- ordered(
+  ames_clean$KitchenQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_clean$ExterQual <- ordered(
+  ames_clean$ExterQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_clean$BsmtQual <- ordered(
+  ames_clean$BsmtQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+model <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood,
+  data = ames_clean
+)
+
+resettest(model)
+
+model_log <- lm(
+  log(SalePrice) ~ log(GrLivArea) + log(FirstFlrSF) + log(TotalBsmtSF) + log(LotArea) +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood,
+  data = ames_clean
+)
+
+resettest(model_log)
+
+model_transformato_reset <- lm(
+  log(SalePrice) ~ 
+    log(GrLivArea) +
+    log(FirstFlrSF) +
+    log(TotalBsmtSF) +
+    log(LotArea) +
+    FullBath + GarageArea + GarageCars +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood +
+    GrLivArea:OverallQual,
+  data = ames_clean
+)
+
+
+resettest(model_transformato_reset)
+
+
+
+
+
+
+
 #4:omoschedasticità
-# install.packages("whitestrap")
+install.packages("whitestrap")
 library(whitestrap)
 white_test(model_transformato_reset)
 

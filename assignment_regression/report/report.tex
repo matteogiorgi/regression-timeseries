@@ -958,6 +958,80 @@ This indicates that the crisis primarily caused a downward shift in the overall 
 In other words, the crisis affected \emph{how much} houses sold for, but not \emph{why} certain houses sold for more than others.
 The fundamental price determinants captured by our model appear structurally robust before and after 2008.
 
+% ---------------------------------------
+
+\subsection{Functional Form Misspecification: RESET Test}
+
+We now investigate whether the linear functional form assumed in our baseline specification is adequate.
+A classical diagnostic tool for this purpose is the Ramsey RESET test, which evaluates whether nonlinear combinations of the fitted values possess explanatory power beyond the original regressors.
+A low p-value indicates rejection of the null hypothesis of correct functional form.
+
+In our case, the RESET test produces a very small p-value, leading us to reject the null hypothesis of linearity.
+This result suggests the presence of functional form misspecification.
+Nonlinearities may arise either from structural breaks or from omitted variables.
+As discussed in Section~\ref{...}, the Chow test shows no evidence of a structural break around the 2008 financial crisis, which we consider the most plausible breakpoint.
+Therefore, it is reasonable to attribute the nonlinearity detected by the RESET test to omitted relevant terms, such as interactions or nonlinear transformations of existing regressors.
+
+\paragraph{Ordinal Regressors and Nonlinearity.}
+
+A central issue concerns the ordinal regressors included in the model, namely \texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, and \texttt{BsmtQual}.
+Although \texttt{R} initially treats these variables as unordered categorical factors, they possess a meaningful ranking from ``Poor'' to ``Excellent''.
+By explicitly transforming them into ordered factors, the model is able to capture potential nonlinear effects across successive quality levels rather than treating the dummy coefficients as independent of one another.
+
+The variable \texttt{OverallQual} deserves particular attention.
+Its numeric scale from 1 to 10 might appear continuous, but the values represent subjective assessments of overall quality rather than cardinal quantities.
+Treating it as an ordered factor instead of a numerical variable allows the model to accommodate nonlinear, possibly non-monotonic differences across quality levels.
+
+\paragraph{Interaction Terms.}
+
+To address additional sources of nonlinearity, we also introduce two economically motivated interaction terms:
+\[
+    \texttt{GrLivArea} \times \texttt{OverallQual},
+    \qquad
+    \texttt{GarageArea} \times \texttt{GarageCars}.
+\]
+
+These interactions have a clear economic interpretation.
+A large but low-quality house may be worth less than a smaller but high-quality one; without the interaction between livable area and quality, this effect would be entirely missed by a linear model.
+Similarly, the value contributed by a large garage depends on its capacity: a wide two-car garage is typically worth more than a very large one-car garage.
+
+\paragraph{Logarithmic Transformations.}
+
+Finally, we apply logarithmic transformations to the dependent variable and several continuous regressors.
+This choice is supported by economic reasoning: in a log–log specification, coefficients represent elasticities, i.e., percentage changes in \texttt{SalePrice} associated with percentage changes in the regressors.
+This helps capture diminishing marginal effects.
+For example, a 1\% increase in livable area is likely to have a larger impact on the price of a small house than on the price of a very large one, where additional space contributes less to perceived value relative to other features such as quality.
+
+Taken together, these considerations support the conclusion that the baseline linear specification is not sufficiently flexible and that incorporating ordered factors, nonlinear transformations, and economically meaningful interactions is both statistically justified and economically interpretable.
+
+
+\subsection{Functional Form Misspecification: RESET Test}
+
+To assess whether the linear functional form assumed in our baseline model is appropriate, we apply the Ramsey RESET test.
+The test evaluates whether higher-order polynomials of the fitted values carry additional explanatory power, which would indicate misspecification due to omitted nonlinearities or functional form errors.
+
+The RESET test on the baseline linear model rejects the null hypothesis of correct specification, with a p-value essentially equal to zero.
+This suggests that the model suffers from functional form misspecification.
+As discussed previously, the Chow test did not reveal evidence of structural breaks, so nonlinearity is unlikely to arise from instability over time.
+Instead, the RESET result points towards the omission of nonlinear transformations or interaction effects between regressors.
+
+A relevant issue concerns the ordinal regressors in the dataset—\texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, and \texttt{BsmtQual}—which carry an inherent ordering from ``Poor'' to ``Excellent''.
+Treating them as ordered factors allows the model to capture nonlinear patterns between successive levels rather than interpreting the quality categories as unrelated dummy variables.
+The variable \texttt{OverallQual}, despite being coded numerically from 1 to 10, is also ordinal in nature and is therefore transformed accordingly.
+
+To address the functional misspecification, we consider two adjustments:
+(i) a log--log model, which provides elasticities and captures diminishing marginal effects; and
+(ii) the addition of economically meaningful interaction terms, such as
+\(\texttt{GrLivArea} \times \texttt{OverallQual}\)
+and
+\(\texttt{GarageArea} \times \texttt{GarageCars}\).
+These interactions account for cases where the effect of size depends strongly on quality, a relationship supported by housing market intuition.
+
+We test both alternative specifications using the RESET test.
+
+
+
+% ---------------------------------------
 
 
 % \paragraph{Interpretation.}
