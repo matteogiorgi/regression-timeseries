@@ -260,3 +260,17 @@ ames_multi_sales <- ames_clean %>%
 
 
 dwtest(model_transformato_reset)
+
+
+
+
+
+
+#using HAC estimator for standard errors
+install.packages("sandwich")
+install.packages("lmtest")
+
+library(sandwich)
+library(lmtest)
+vcov_hac <- vcovHAC(model)
+coeftest(model_transformato_reset, vcov. = vcov_hac)

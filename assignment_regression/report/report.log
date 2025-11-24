@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.5.28)  24 NOV 2025 11:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.5.28)  24 NOV 2025 12:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -557,33 +557,28 @@ File: lstlang2.sty 2023/02/27 1.9 listings language file
 File: lstlang3.sty 2023/02/27 1.9 listings language file
 )
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.0pt on input line 363.
+(Font)              scaled to size 10.0pt on input line 365.
  [7{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}]
 
 LaTeX Font Warning: Font shape `T1/zi4/m/it' undefined
-(Font)              using `T1/zi4/m/n' instead on input line 366.
+(Font)              using `T1/zi4/m/n' instead on input line 368.
 
 LaTeX Font Info:    Font shape `T1/zi4/m/it' will be
-(Font)              scaled to size 10.0pt on input line 366.
+(Font)              scaled to size 10.0pt on input line 368.
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 9.0pt on input line 403.
+(Font)              scaled to size 9.0pt on input line 405.
 [8] [9]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 484.
+(Font)              <9> on input line 486.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 484.
- [10] [11] [12] [13] [14] [15{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}] [16] [17] [18] [19] [20]
-<scrot_01.png, id=672, 285.31593pt x 15.05624pt>
+(Font)              <5> on input line 486.
+ [10] [11] [12] [13] [14] [15{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}] [16] [17] [18] [19] [20] [21]
+<scrot_01.png, id=717, 285.31593pt x 15.05624pt>
 File: scrot_01.png Graphic file (type png)
 <use scrot_01.png>
-Package pdftex.def Info: scrot_01.png  used on input line 1068.
+Package pdftex.def Info: scrot_01.png  used on input line 1142.
 (pdftex.def)             Requested size: 271.7835pt x 14.34216pt.
- [21 <./scrot_01.png (PNG copy)>] [22]
-Overfull \hbox (1.31189pt too wide) in paragraph at lines 1166--1167
-[]\T1/lmr/bx/n/10.95 Perfect mul-ti-collinear-ity \T1/lmr/m/n/10.95 was iden-ti-fied when in-clud-ing all area com-po-nents (\T1/zi4/m/n/10.95 GrLivArea\T1/lmr/m/n/10.95 ,
- []
-
-[23] (./report.bbl) [24] (./report.aux)
+ [22 <./scrot_01.png (PNG copy)>] [23] [24] [25] (./report.bbl) [26] (./report.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -593,21 +588,21 @@ L3 programming layer <2024-01-22>
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 4ACC6E1EF6E056FCF07BFF3889CBB2CC;8230.
+(rerunfilecheck)             Checksum: BEC9FDE7CBCC23D59FDB9744841BC78F;8211.
  ) 
 Here is how much of TeX's memory you used:
- 16633 strings out of 474222
- 252314 string characters out of 5748733
+ 16737 strings out of 474222
+ 253758 string characters out of 5748733
  2560975 words of memory out of 5000000
- 38180 multiletter control sequences out of 15000+600000
+ 38207 multiletter control sequences out of 15000+600000
  630135 words of font info for 90 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,12n,97p,687b,2804s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4b.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmbxi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (24 pages, 407054 bytes).
+Output written on report.pdf (26 pages, 417337 bytes).
 PDF statistics:
- 893 PDF objects out of 1000 (max. 8388607)
- 820 compressed objects within 9 object streams
- 457 named destinations out of 1000 (max. 500000)
+ 992 PDF objects out of 1000 (max. 8388607)
+ 916 compressed objects within 10 object streams
+ 534 named destinations out of 1000 (max. 500000)
  254 words of extra memory for PDF output out of 10000 (max. 10000000)
 

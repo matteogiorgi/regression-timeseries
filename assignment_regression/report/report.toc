@@ -1,10 +1,10 @@
 \contentsline {section}{\numberline {1}Research hypotheses supported by the literature}{3}{section.1}%
 \contentsline {subsection}{\numberline {1.1}Fundamental variables and assumptions}{3}{subsection.1.1}%
 \contentsline {subsubsection}{\numberline {1.1.1}Overall quality has a strong positive impact on sale price}{3}{subsubsection.1.1.1}%
-\contentsline {subsubsection}{\numberline {1.1.2}Above-ground living area (\texttt {Gr Liv Area}) is positively associated with sale price}{3}{subsubsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.2}Above--ground living area (\texttt {Gr Liv Area}) is positively associated with sale price}{3}{subsubsection.1.1.2}%
 \contentsline {subsubsection}{\numberline {1.1.3}Total basement area (\texttt {Total Bsmt SF}) also increases sale price}{3}{subsubsection.1.1.3}%
 \contentsline {subsubsection}{\numberline {1.1.4}Newer or recently renovated houses (\texttt {Year Built}, \texttt {Year Remod/Add}) tend to have higher prices}{4}{subsubsection.1.1.4}%
-\contentsline {subsubsection}{\numberline {1.1.5}Higher-quality kitchens and exterior materials positively influence sale price}{4}{subsubsection.1.1.5}%
+\contentsline {subsubsection}{\numberline {1.1.5}Higher--quality kitchens and exterior materials positively influence sale price}{4}{subsubsection.1.1.5}%
 \contentsline {subsubsection}{\numberline {1.1.6}Neighborhood characteristics significantly affect sale price}{4}{subsubsection.1.1.6}%
 \contentsline {subsection}{\numberline {1.2}Variables we remove}{4}{subsection.1.2}%
 \contentsline {section}{\numberline {2}Description of the dataset}{5}{section.2}%
@@ -24,21 +24,20 @@
 \contentsline {subsubsection}{\numberline {3.4.2}Interpretation of the main coefficients}{10}{subsubsection.3.4.2}%
 \contentsline {paragraph}{Living area and basement space.}{10}{section*.5}%
 \contentsline {paragraph}{Lot size.}{10}{section*.6}%
-\contentsline {paragraph}{Bathrooms and garage capacity.}{10}{section*.7}%
+\contentsline {paragraph}{Bathrooms and garage capacity.}{11}{section*.7}%
 \contentsline {paragraph}{Construction and renovation year.}{11}{section*.8}%
 \contentsline {paragraph}{Quality indicators.}{11}{section*.9}%
 \contentsline {paragraph}{Neighbourhood effects.}{11}{section*.10}%
-\contentsline {paragraph}{Zoning and utilities.}{11}{section*.11}%
 \contentsline {section}{\numberline {4}Diagnostic analysis}{11}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Perfect collinearity}{11}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Imperfect multicollinearity: \textit {Variance Inflation Factors}}{14}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.2}Imperfect collinearity: \textit {Variance Inflation Factors}}{14}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Structural stability: \textit {Chow test} around the 2008 financial crisis}{15}{subsection.4.3}%
 \contentsline {subsection}{\numberline {4.4}Functional form misspecification: \textit {RESET test}}{18}{subsection.4.4}%
-\contentsline {paragraph}{Ordinal regressors and nonlinearity.}{18}{section*.12}%
-\contentsline {paragraph}{Logarithmic transformations.}{18}{section*.13}%
-\contentsline {paragraph}{Interaction terms.}{19}{section*.14}%
-\contentsline {subsection}{\numberline {4.5}Heteroskedasticity and independence of residuals}{20}{subsection.4.5}%
-\contentsline {subsubsection}{\numberline {4.5.1}Heteroskedasticity}{20}{subsubsection.4.5.1}%
+\contentsline {paragraph}{Ordinal regressors and nonlinearity.}{19}{section*.11}%
+\contentsline {paragraph}{Logarithmic transformations.}{19}{section*.12}%
+\contentsline {paragraph}{Interaction terms.}{19}{section*.13}%
+\contentsline {subsection}{\numberline {4.5}Heteroskedasticity and independence of residuals}{21}{subsection.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.1}Heteroskedasticity}{21}{subsubsection.4.5.1}%
 \contentsline {subsubsection}{\numberline {4.5.2}Independence of residuals}{21}{subsubsection.4.5.2}%
-\contentsline {section}{\numberline {5}Model Refinement}{22}{section.5}%
-\contentsline {section}{\numberline {6}Conclusions}{22}{section.6}%
+\contentsline {section}{\numberline {5}Model Refinement}{23}{section.5}%
+\contentsline {section}{\numberline {6}Conclusions}{24}{section.6}%
