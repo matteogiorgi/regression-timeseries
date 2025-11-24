@@ -554,3 +554,251 @@ High Correlation
          Term   VIF     VIF 95% CI adj. VIF Tolerance Tolerance 95% CI
  Neighborhood 41.33 [38.42, 44.46]     6.43      0.02     [0.02, 0.03]
 ```
+
+
+
+
+paragrafo 4.3:
+```
+## Structural stability: Chow test around the 2008 financial crisis
+
+The period covered by the dataset includes the years surrounding the 2008 financial crisis, which may have affected the housing market and, consequently, the relationship between the explanatory variables and `SalePrice`. To assess whether the regression coefficients are stable over time, we performed a Chow test for a structural break with respect to the year of sale (`Yr Sold`).
+
+We split the sample into two subperiods:
+
+- pre-crisis period: transactions in 2006–2007
+- crisis and post-crisis period: transactions in 2008–2010
+
+Let $RSS_P$ and $RSS_C$ denote the residual sum of squares of the model estimated separately on the pre-crisis and crisis/post-crisis subsamples, and let $RSS_{P \cup C}$ be the residual sum of squares of the model estimated on the full pooled sample. Denoting by $k$ the number of estimated parameters (including the intercept) and by $n_P$ and $n_C$ the sample sizes of the two subsamples, the Chow test statistic is:
+
+$$
+F \;=\; \frac{(RSS_{P\cup C} - \bigl(RSS_P + RSS_C\bigr))/k}
+            {(RSS_P + RSS_C)/(\,n_P + n_C - 2k\,)}
+$$
+
+which under the null hypothesis of parameter stability follows an F-distribution with $(k, n_P + n_C -2k)$ degrees of freedom.
+```
+
+Codice R:
+```
+#2:Test di Chow
+library(sandwich)
+library(strucchange)
+
+ames_clean$OverallQual <- ordered(ames_clean$OverallQual, levels = 1:10)
+
+ames_clean$KitchenQual <- ordered(
+  ames_clean$KitchenQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_clean$ExterQual <- ordered(
+  ames_clean$ExterQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_clean$BsmtQual <- ordered(
+  ames_clean$BsmtQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_ordered <- ames_clean[order(ames_clean$Yr.Sold), ]
+modelordered <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual ,
+  data = ames_ordered
+)
+
+break_point <- min(which(ames_ordered$Yr.Sold == 2008))
+chow_test <- sctest(modelordered, type = "Chow", point = break_point)
+print(chow_test)
+
+#vediamo se intercetta cambia
+# Modello pre-2008
+model_pre2008 <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood ,
+  data = subset(ames_clean, Yr.Sold <= 2008)
+)
+
+#modello post-2008
+model_post2008 <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood ,
+  data = subset(ames_clean, Yr.Sold > 2008)
+)
+
+summary(model_pre2008)
+summary(model_post2008)
+```
+
+output:
+```
+
+	M-fluctuation test
+
+data:  modelordered
+f(efp) = 1.3035, p-value = 0.8746
+
+
+Call:
+lm(formula = SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + 
+    LotArea + FullBath + GarageArea + GarageCars + GarageYrBlt + 
+    YearBuilt + YearRemodAdd + OverallQual + KitchenQual + ExterQual + 
+    BsmtQual + Neighborhood, data = subset(ames_clean, Yr.Sold <= 
+    2008))
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-403392  -13136     131   11787  214650 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(>|t|)    
+(Intercept)         -6.937e+05  1.634e+05  -4.244 2.31e-05 ***
+GrLivArea            3.866e+01  2.615e+00  14.786  < 2e-16 ***
+FirstFlrSF           1.287e+01  4.663e+00   2.760 0.005832 ** 
+TotalBsmtSF         -3.737e+00  4.327e+00  -0.864 0.387894    
+LotArea              4.600e-01  1.135e-01   4.053 5.27e-05 ***
+FullBath             1.724e+03  2.175e+03   0.792 0.428263    
+GarageArea           2.492e+01  8.622e+00   2.890 0.003898 ** 
+GarageCars           6.626e+03  2.523e+03   2.627 0.008701 ** 
+GarageYrBlt         -9.153e+01  5.892e+01  -1.554 0.120457    
+YearBuilt            2.305e+02  7.336e+01   3.143 0.001703 ** 
+YearRemodAdd         2.582e+02  5.885e+01   4.387 1.22e-05 ***
+OverallQual.L        1.323e+05  1.234e+04  10.721  < 2e-16 ***
+OverallQual.Q        4.250e+04  1.019e+04   4.170 3.20e-05 ***
+OverallQual.C        1.877e+04  8.542e+03   2.198 0.028114 *  
+OverallQual^4       -5.817e+03  7.478e+03  -0.778 0.436716    
+OverallQual^5       -4.388e+03  6.401e+03  -0.685 0.493140    
+OverallQual^6       -4.107e+03  4.791e+03  -0.857 0.391431    
+OverallQual^7        7.681e+02  3.122e+03   0.246 0.805696    
+OverallQual^8        4.746e+02  1.906e+03   0.249 0.803382    
+KitchenQual.L        1.752e+04  5.283e+03   3.316 0.000932 ***
+KitchenQual.Q        1.070e+04  3.697e+03   2.894 0.003856 ** 
+KitchenQual.C        8.767e+02  2.057e+03   0.426 0.669952    
+ExterQual.L          1.198e+04  8.704e+03   1.377 0.168763    
+ExterQual.Q         -1.018e+04  6.259e+03  -1.626 0.104100    
+ExterQual.C          5.139e+03  3.142e+03   1.636 0.102065    
+BsmtQual.L           2.724e+04  1.535e+04   1.775 0.076124 .  
+BsmtQual.Q           1.094e+04  1.259e+04   0.869 0.384779    
+BsmtQual.C           9.503e+03  7.981e+03   1.191 0.233956    
+BsmtQual^4           6.458e+03  3.767e+03   1.714 0.086650 .  
+NeighborhoodBlueste -1.152e+04  1.774e+04  -0.649 0.516293    
+NeighborhoodBrDale  -3.004e+04  1.085e+04  -2.769 0.005685 ** 
+NeighborhoodBrkSide -6.901e+03  9.343e+03  -0.739 0.460245    
+NeighborhoodClearCr  1.883e+04  9.993e+03   1.884 0.059682 .  
+NeighborhoodCollgCr  2.433e+03  7.694e+03   0.316 0.751911    
+NeighborhoodCrawfor  2.251e+04  8.863e+03   2.540 0.011165 *  
+NeighborhoodEdwards -2.209e+04  8.528e+03  -2.590 0.009680 ** 
+NeighborhoodGilbert -3.252e+03  8.072e+03  -0.403 0.687107    
+NeighborhoodGreens  -1.770e+03  1.627e+04  -0.109 0.913385    
+NeighborhoodGrnHill  1.452e+05  3.260e+04   4.454 8.96e-06 ***
+NeighborhoodIDOTRR  -1.708e+04  9.579e+03  -1.783 0.074754 .  
+NeighborhoodLandmrk -2.577e+04  3.268e+04  -0.789 0.430461    
+NeighborhoodMeadowV -2.591e+04  1.124e+04  -2.306 0.021231 *  
+NeighborhoodMitchel -5.987e+03  8.607e+03  -0.696 0.486792    
+NeighborhoodNAmes   -4.032e+03  8.188e+03  -0.492 0.622514    
+NeighborhoodNoRidge  5.241e+04  9.006e+03   5.819 7.01e-09 ***
+NeighborhoodNPkVill -1.232e+04  1.314e+04  -0.937 0.348816    
+NeighborhoodNridgHt  2.089e+04  8.293e+03   2.519 0.011867 *  
+NeighborhoodNWAmes  -2.054e+03  8.367e+03  -0.245 0.806121    
+NeighborhoodOldTown -1.904e+04  9.026e+03  -2.110 0.035025 *  
+NeighborhoodSawyer  -5.718e+03  8.546e+03  -0.669 0.503501    
+NeighborhoodSawyerW -2.554e+03  8.476e+03  -0.301 0.763235    
+NeighborhoodSomerst  1.201e+03  7.900e+03   0.152 0.879193    
+NeighborhoodStoneBr  3.683e+04  9.288e+03   3.966 7.61e-05 ***
+NeighborhoodSWISU   -1.053e+04  1.089e+04  -0.967 0.333719    
+NeighborhoodTimber   1.393e+04  8.643e+03   1.612 0.107109    
+NeighborhoodVeenker  2.322e+04  1.033e+04   2.248 0.024682 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 31660 on 1738 degrees of freedom
+  (147 observations deleted due to missingness)
+Multiple R-squared:  0.8485,	Adjusted R-squared:  0.8438 
+F-statistic:   177 on 55 and 1738 DF,  p-value: < 2.2e-16
+
+
+Call:
+lm(formula = SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + 
+    LotArea + FullBath + GarageArea + GarageCars + GarageYrBlt + 
+    YearBuilt + YearRemodAdd + OverallQual + KitchenQual + ExterQual + 
+    BsmtQual + Neighborhood, data = subset(ames_clean, Yr.Sold > 
+    2008))
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-113146  -11817    1258   11907  184243 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(>|t|)    
+(Intercept)         -1.244e+06  2.032e+05  -6.121 1.41e-09 ***
+GrLivArea            5.535e+01  3.137e+00  17.644  < 2e-16 ***
+FirstFlrSF          -4.432e+00  5.614e+00  -0.789 0.430122    
+TotalBsmtSF          3.491e+01  5.109e+00   6.834 1.57e-11 ***
+LotArea              1.049e+00  1.163e-01   9.015  < 2e-16 ***
+FullBath            -8.670e+03  2.432e+03  -3.565 0.000385 ***
+GarageArea           9.786e-01  9.845e+00   0.099 0.920842    
+GarageCars           5.247e+03  2.842e+03   1.846 0.065211 .  
+GarageYrBlt          2.471e+01  7.899e+01   0.313 0.754509    
+YearBuilt            3.536e+02  8.759e+01   4.037 5.90e-05 ***
+YearRemodAdd         2.793e+02  6.515e+01   4.287 2.02e-05 ***
+OverallQual.L        1.001e+05  1.345e+04   7.441 2.44e-13 ***
+OverallQual.Q        4.462e+04  1.093e+04   4.083 4.86e-05 ***
+OverallQual.C        1.616e+04  8.763e+03   1.845 0.065418 .  
+OverallQual^4        2.036e+02  7.863e+03   0.026 0.979352    
+OverallQual^5       -4.488e+03  6.993e+03  -0.642 0.521227    
+OverallQual^6       -3.153e+03  5.289e+03  -0.596 0.551161    
+OverallQual^7        1.128e+01  3.478e+03   0.003 0.997412    
+OverallQual^8        9.944e+02  2.130e+03   0.467 0.640657    
+KitchenQual.L        2.728e+04  1.759e+04   1.551 0.121299    
+KitchenQual.Q        8.326e+03  1.467e+04   0.568 0.570507    
+KitchenQual.C        3.240e+03  9.549e+03   0.339 0.734432    
+KitchenQual^4        2.370e+03  4.679e+03   0.506 0.612642    
+ExterQual.L          2.726e+04  8.360e+03   3.260 0.001156 ** 
+ExterQual.Q          1.413e+04  5.862e+03   2.410 0.016169 *  
+ExterQual.C          7.616e+03  3.011e+03   2.529 0.011622 *  
+BsmtQual.L           6.495e+03  5.697e+03   1.140 0.254571    
+BsmtQual.Q           8.444e+03  3.568e+03   2.366 0.018179 *  
+BsmtQual.C          -1.227e+03  2.187e+03  -0.561 0.574775    
+NeighborhoodBlueste  6.948e+03  1.412e+04   0.492 0.622800    
+NeighborhoodBrDale   1.225e+04  1.309e+04   0.936 0.349704    
+NeighborhoodBrkSide  2.783e+04  1.146e+04   2.428 0.015390 *  
+NeighborhoodClearCr  3.002e+04  1.207e+04   2.488 0.013039 *  
+NeighborhoodCollgCr  1.826e+04  9.608e+03   1.900 0.057769 .  
+NeighborhoodCrawfor  4.416e+04  1.102e+04   4.007 6.68e-05 ***
+NeighborhoodEdwards  1.093e+04  1.057e+04   1.034 0.301540    
+NeighborhoodGilbert  1.947e+04  9.870e+03   1.973 0.048829 *  
+NeighborhoodGreens   2.904e+04  1.764e+04   1.646 0.100111    
+NeighborhoodIDOTRR   1.492e+04  1.273e+04   1.172 0.241389    
+NeighborhoodMeadowV  4.914e+03  1.359e+04   0.362 0.717767    
+NeighborhoodMitchel  1.888e+04  1.041e+04   1.813 0.070182 .  
+NeighborhoodNAmes    1.810e+04  1.008e+04   1.795 0.072940 .  
+NeighborhoodNoRidge  5.200e+04  1.100e+04   4.729 2.64e-06 ***
+NeighborhoodNPkVill  1.624e+04  1.176e+04   1.381 0.167502    
+NeighborhoodNridgHt  3.271e+04  1.006e+04   3.252 0.001190 ** 
+NeighborhoodNWAmes   1.722e+04  1.025e+04   1.680 0.093289 .  
+NeighborhoodOldTown  1.097e+04  1.120e+04   0.979 0.327649    
+NeighborhoodSawyer   2.200e+04  1.054e+04   2.087 0.037202 *  
+NeighborhoodSawyerW  1.575e+04  9.929e+03   1.586 0.113146    
+NeighborhoodSomerst  2.729e+04  9.755e+03   2.797 0.005267 ** 
+NeighborhoodStoneBr  5.049e+04  1.165e+04   4.334 1.64e-05 ***
+NeighborhoodSWISU    2.222e+04  1.228e+04   1.809 0.070806 .  
+NeighborhoodTimber   7.131e+03  1.093e+04   0.652 0.514353    
+NeighborhoodVeenker  1.833e+04  1.598e+04   1.147 0.251660    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 25200 on 857 degrees of freedom
+  (78 observations deleted due to missingness)
+Multiple R-squared:  0.9026,	Adjusted R-squared:  0.8966 
+F-statistic: 149.9 on 53 and 857 DF,  p-value: < 2.2e-16
+```

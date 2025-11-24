@@ -734,7 +734,7 @@ This confirms that the dataset indeed contains an exact linear relationship amon
 %     \item \texttt{YearRemodAdd} and \texttt{YearBuilt}.
 % \end{itemize}
 
-\paragraph{Imperfect Multicollinearity.}
+% \paragraph{Imperfect Multicollinearity.}
 
 Imperfect, or near, multicollinearity arises when two or more explanatory variables are highly correlated, although not perfectly linearly dependent.
 In this situation, OLS estimation is still feasible, but the variance of the affected coefficients becomes inflated.
@@ -744,12 +744,10 @@ Inferences about the individual significance of regressors may therefore become 
 A common solution consists in removing or combining regressors that are strongly correlated with others.
 To detect the presence and severity of near-collinearity, we rely on the \textit{Variance Inflation Factor} (VIF), which corresponds to the second term in the variance of an OLS coefficient and serves as an alternative to examining pairwise sample correlations among regressors.
 
-
-To quantify the severity of imperfect multicollinearity, we computed the \textit{Variance Inflation Factor} (VIF) for all regressors in the model.
 For a given regressor $X_j$, the VIF is defined as:
 
 \[
-    \text{VIF}_j = \frac{1}{1 - R_j^2},
+    \text{VIF}_j = \frac{1}{1 - R_j^2}
 \]
 
 where $R_j^2$ is the coefficient of determination from the auxiliary regression of $X_j$ on the remaining regressors.
@@ -784,7 +782,7 @@ BsmtQual      7.135004  4        1.278422
 Neighborhood 41.329522 27        1.071348
 \end{lstlisting}
 
-\paragraph{VIF, GVIF, and Thresholds.}
+% \paragraph{VIF, GVIF, and Thresholds.}
 
 The literature offers different threshold values for interpreting VIFs, with common rules of thumb ranging from 5 to 10 as indicators of problematic multicollinearity.
 In models including categorical variables with more than two levels, \texttt{R} reports the \textit{Generalized Variance Inflation Factor} (GVIF), an extension of the VIF that properly accounts for multiple degrees of freedom.
@@ -794,7 +792,7 @@ For variables with one degree of freedom, GVIF coincides with the standard VIF.
 For categorical regressors with more than one degree of freedom, GVIF must be transformed using the formula:
 
 \[
-    \text{GVIF}^{\,1/(2\,\text{df})},
+    \text{GVIF}^{\,1/(2\,\text{df})}
 \]
 
 which yields a value comparable to the standard VIF.
@@ -803,12 +801,176 @@ This explains why some categorical variables appear to have extremely high GVIFs
 For example, \texttt{Neighborhood} exhibits a very large GVIF (572.17), but once transformed it corresponds to a reasonable VIF of approximately 1.72.
 Similarly, \texttt{MSZoning} shows a GVIF of 26.42 but a transformed VIF of just 1.39.
 
-Since none of the transformed VIF values exceeds the common threshold of 10 — nor comes close to it — we conclude that multicollinearity is not a serious concern for our current specification, and all the included regressors can be safely retained.
+Since none of the transformed VIF values exceeds the common threshold of 10, nor comes close to it, we conclude that multicollinearity is not a serious concern for our current specification, and all the included regressors can be safely retained.
 
 
 % ---------------------------------------
 
+\subsection{Structural Stability: Chow Test around the 2008 Financial Crisis}
 
+\paragraph{Discussion of the Chow Test.}
+
+In this section we investigate whether the relationship between the explanatory variables and \texttt{SalePrice} remained stable over time.
+Structural changes in the coefficients may arise for several reasons, and sharp economic events---such as financial crises---are among the most common sources of such instability.
+Since our dataset covers housing transactions between 2006 and 2010, it is natural to test for a structural break around 2008, the year associated with the outbreak of the Global Financial Crisis.
+
+The Chow test evaluates precisely this hypothesis.
+The test yields a very large p-value, so we fail to reject the null hypothesis of parameter stability.
+At first sight, this may appear counter-intuitive, given that the financial crisis was closely linked to a speculative bubble in housing markets.
+However, this result suggests an important distinction: the crisis may have shifted the \emph{level} of house prices without altering the \emph{structure} of the underlying pricing relationship.
+
+To assess this interpretation, we estimate two separate regressions:
+
+\begin{enumerate}
+    \item houses sold between 2006 and 2008;
+    \item houses sold between 2009 and 2010.
+\end{enumerate}
+
+Comparing the estimated intercepts across the two models shows that they differ substantially, with the post-crisis regression exhibiting a markedly lower intercept.
+This indicates that the crisis primarily caused a downward shift in the overall price level, while the marginal effects of structural and qualitative characteristics remained broadly stable.
+
+In other words, the crisis affected \emph{how much} houses sold for, but not \emph{why} certain houses sold for more than others.
+The fundamental price determinants captured by our model appear structurally robust before and after 2008.
+
+
+The period covered by the dataset includes the years of the 2008 financial crisis, which may have affected the housing market and, consequently, the relationship between the explanatory variables and \texttt{SalePrice}.
+To assess whether the regression coefficients are stable over time, we perform a Chow test for a structural break with respect to the year of sale (\texttt{Yr.Sold}).
+
+We split the sample into two subperiods:
+\begin{itemize}
+    \item \textbf{pre-crisis period}: transactions in 2006--2007;
+    \item \textbf{crisis and post-crisis period}: transactions in 2008--2010.
+\end{itemize}
+
+Let $RSS_P$ and $RSS_C$ denote the residual sum of squares of the model estimated separately on the pre-crisis and the crisis/post-crisis subsamples, and let $RSS_{P \cup C}$ be the residual sum of squares of the model estimated on the full pooled sample. Denoting by $k$ the number of estimated parameters (including the intercept), and by $n_P$ and $n_C$ the sample sizes of the two subsamples, the Chow test statistic is:
+
+\[
+    F \;=\;
+    \frac{
+        RSS_{P \cup C} - \bigl(RSS_P + RSS_C\bigr)
+    }{
+        k
+    }
+    \Bigg/
+    \frac{
+        RSS_P + RSS_C
+    }{
+        n_P + n_C - 2k
+    },
+\]
+
+which, under the null hypothesis of parameter stability, follows an $F$-distribution with $(k, n_P + n_C - 2k)$ degrees of freedom.
+
+In practice, we rely on the implementation provided by the \texttt{strucchange} package in \texttt{R}, which evaluates a Chow-type test at the break point corresponding to the first sale in 2008.
+
+% ---------------------------------------
+
+\begin{lstlisting}[style=rstyle]
+# Chow-type structural stability test
+library(sandwich)
+library(strucchange)
+
+# Ensure ordered factors for quality variables
+ames_clean$OverallQual <- ordered(ames_clean$OverallQual, levels = 1:10)
+
+ames_clean$KitchenQual <- ordered(
+  ames_clean$KitchenQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_clean$ExterQual <- ordered(
+  ames_clean$ExterQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+ames_clean$BsmtQual <- ordered(
+  ames_clean$BsmtQual,
+  levels = c("Po", "Fa", "TA", "Gd", "Ex")
+)
+
+# Order data by year of sale
+ames_ordered <- ames_clean[order(ames_clean$Yr.Sold), ]
+
+# Baseline model for structural break test (without Neighborhood)
+modelordered <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual,
+  data = ames_ordered
+)
+
+# Break point: first observation with Yr.Sold == 2008
+break_point <- min(which(ames_ordered$Yr.Sold == 2008))
+
+# Chow-type test at the given break point
+chow_test <- sctest(modelordered, type = "Chow", point = break_point)
+print(chow_test)
+
+# Separate models pre- and post-2008 (including Neighborhood)
+model_pre2008 <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood,
+  data = subset(ames_clean, Yr.Sold <= 2008)
+)
+
+model_post2008 <- lm(
+  SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + LotArea +
+    FullBath + GarageArea + GarageCars + GarageYrBlt +
+    YearBuilt + YearRemodAdd + OverallQual +
+    KitchenQual + ExterQual + BsmtQual +
+    Neighborhood,
+  data = subset(ames_clean, Yr.Sold > 2008)
+)
+
+summary(model_pre2008)
+summary(model_post2008)
+\end{lstlisting}
+
+% ---------------------------------------
+
+\begin{lstlisting}[style=routput]
+M-fluctuation test
+
+data:  modelordered
+f(efp) = 1.3035, p-value = 0.8746
+
+
+Call:
+lm(formula = SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + 
+    LotArea + FullBath + GarageArea + GarageCars + GarageYrBlt + 
+    YearBuilt + YearRemodAdd + OverallQual + KitchenQual + ExterQual + 
+    BsmtQual + Neighborhood, data = subset(ames_clean, Yr.Sold <= 2008))
+
+...
+Residual standard error: 31660 on 1738 degrees of freedom
+Multiple R-squared:  0.8485,  Adjusted R-squared:  0.8438 
+
+Call:
+lm(formula = SalePrice ~ GrLivArea + FirstFlrSF + TotalBsmtSF + 
+    LotArea + FullBath + GarageArea + GarageCars + GarageYrBlt + 
+    YearBuilt + YearRemodAdd + OverallQual + KitchenQual + ExterQual + 
+    BsmtQual + Neighborhood, data = subset(ames_clean, Yr.Sold > 2008))
+
+...
+Residual standard error: 25200 on 857 degrees of freedom
+Multiple R-squared:  0.9026,  Adjusted R-squared:  0.8966 
+\end{lstlisting}
+
+% ---------------------------------------
+
+\paragraph{Interpretation.}
+
+The Chow-type test implemented via \texttt{sctest} yields a test statistic $f(\text{efp}) = 1.30$ with a p-value of 0.8746.
+Therefore, we fail to reject the null hypothesis of parameter stability at any conventional significance level: there is no statistical evidence of a structural break in the relationship between \texttt{SalePrice} and the selected regressors around the 2008 financial crisis.
+
+The separate subsample regressions provide additional insight.
+The pre-2008 model attains an adjusted $R^2$ of approximately 0.844, while the post-2008 model reaches an adjusted $R^2$ close to 0.897, indicating a somewhat better fit in the later period.
+However, the signs and magnitudes of the main structural coefficients (such as those on \texttt{GrLivArea}, \texttt{TotalBsmtSF}, \texttt{LotArea}, and \texttt{OverallQual}) remain broadly consistent across the two subsamples.
+Taken together, these results suggest that, although the crisis may have affected the overall volatility of the housing market, the underlying price determinants captured by our model are structurally stable over time.
 
 
 
