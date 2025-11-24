@@ -40,9 +40,15 @@
     language=R,
     backgroundcolor=\color{backcolour},
     basicstyle=\ttfamily\small,
+    % commentstyle=\color{codegray}\itshape,
+    % keywordstyle=\color{blue}\bfseries,
     commentstyle=\itshape\color{rcomment},
+    % keywordstyle=\bfseries\color{green!40!black},
     keywordstyle=\color{.},
     stringstyle=\color{rstring},
+    % literate=
+    %   {\$}{{\$}}1
+    %   {_}{{\_}}1,
     numbers=none,
     showstringspaces=false,
     tabsize=4,
@@ -137,6 +143,15 @@ Similar evidence is reported in \cite{Han2023}, where overall quality consistent
 % ----------------------------------------------------------
 \subsubsection{Above-Ground Living Area (\texttt{Gr Liv Area}) Is Positively Associated with Sale Price}
 
+% The hedonic pricing literature traditionally recognizes physical size as a primary contributor to housing value.
+
+% \begin{quote}
+%     The \textbf{hedonic pricing model} is an economic model that explains the price of a good as the combination of the values of its attributes.
+%     A complex good is “decomposed’’ into its components, and the total price reflects the contribution of each of them.
+
+%     The concept was introduced by Lancaster (1966) in consumer theory and was first applied to housing prices by Rosen (1974).
+% \end{quote}
+
 \cite{Abdulhafedh2022} highlights that the main livable area is among the variables with the highest explanatory power.
 Studies on the Ames dataset by \cite{Ye2024} and \cite{Han2023} similarly identify \texttt{Gr Liv Area} as one of the strongest continuous predictors.
 
@@ -178,6 +193,11 @@ Previous studies \cite{DeCock2011, Ye2024} demonstrate that location dummies rem
 % ================================
 % Literature Review
 % ================================
+% \section{Literature Review}
+
+% Discuss previous literature regarding housing price determinants and justify your hypotheses using academic references.
+
+
 \subsection{Variables We Remove}
 
 We begin by removing the variables \texttt{Pool QC}, \texttt{Alley}, \texttt{Fence}, and \texttt{Misc Feature}, since they contain a large proportion of missing observations (\texttt{NaN}).
@@ -217,6 +237,9 @@ In its full version, the dataset includes 82 explanatory variables describing st
 \subsection{General Structure of the Dataset}
 
 Each row of the dataset corresponds to a single residential property, while columns represent the attributes listed above.
+
+% Numerical variables are measured either in square feet or in calendar years, whereas qualitative assessments use an ordinal scale.
+% The dataset does not contain missing values for the variables selected in our analysis, and therefore no imputation was required.
 
 The dependent variable of the regression is \texttt{SalePrice} (expressed in US dollars) and the selected explanatory variables fall into the four following categories.
 
@@ -360,6 +383,7 @@ This condition ensures the applicability of asymptotic results and prevents extr
 
 Here we report the full R code used for the estimation of the baseline multiple linear regression model, including data preparation and variable renaming.
 
+% \begin{lstlisting}[caption={R code for the regression model}, label={lst:regression}]
 \begin{lstlisting}[style=rstyle]
 library(dplyr)
 
@@ -399,6 +423,8 @@ model <- lm(
 summary(model)
 \end{lstlisting}
 
+
+% \subsection{Model Output}
 
 \begin{lstlisting}[style=routput]
 Call:
@@ -555,6 +581,9 @@ In this specification, zoning categories (\texttt{MS~Zoning}) and utility types 
 
 \subsection{Perfect Collinearity}
 
+% Before conducting the diagnostic tests, we first verify whether the regressors suffer from \textit{exact linear dependence}.
+% One variable that naturally raises concerns in the \textit{Ames Housing Dataset} is \texttt{GrLivArea} (above-ground living area), which is theoretically defined as the sum of three components:
+
 Perfect collinearity arises when one explanatory variable can be expressed as an exact linear combination of others.
 Among all possible specification errors, this is the most severe, because perfect collinearity makes the OLS estimator \textit{impossible} to compute: the design matrix becomes singular and the matrix $(X^\top X)^{-1}$ required for OLS does not exist.
 Other specification issues (such as omitted variables, functional form errors, or heteroskedasticity) typically affect the desirable properties of the OLS estimator under the Gauss–Markov assumptions, but do not prevent its computation. Perfect collinearity, instead, makes estimation itself undefined.
@@ -569,6 +598,36 @@ Consider the four area variables:
 
 If all observations satisfy this identity exactly, which is almost always the case in the dataset, then including all four variables simultaneously in a regression introduces an exact linear dependence.
 In such a case, OLS cannot distinguish the marginal contribution of each component because they lie on the same hyperplane in the regressor space.
+
+% \[
+%     \texttt{GrLivArea}
+%     =
+%     \texttt{1stFlrSF}
+%     + \texttt{2ndFlrSF}
+%     + \texttt{LowQualFinSF}
+% \]
+
+% If this identity holds for all observations, then including all four variables in a regression model would generate \textit{perfect multicollinearity}.
+% In such a case, the design matrix becomes rank-deficient and $X^\top X$ is not invertible, meaning that the OLS estimator is not uniquely defined.
+
+% To test whether perfect collinearity exists in the data, we compute:
+
+% \[
+%     d_i
+%     =
+%     \texttt{GrLivArea}_i
+%     -
+%     \bigl(
+%     \texttt{1stFlrSF}_i
+%     +
+%     \texttt{2ndFlrSF}_i
+%     +
+%     \texttt{LowQualFinSF}_i
+%     \bigr).
+% \]
+
+% If $d_i = 0$ for all observations, the linear dependence is exact, and one regressor must be removed.
+
 
 % ---------------------------------------
 
@@ -675,6 +734,19 @@ This confirms that the dataset indeed contains an exact linear relationship amon
 
 \subsection{Imperfect Multicollinearity: Variance Inflation Factors}
 
+% After ruling out exact linear dependencies, we examined the presence of \textit{imperfect multicollinearity} among regressors that are, a priori, expected to be strongly correlated.
+% In particular, we focused on the following pairs of variables:
+
+% \begin{itemize}
+%     \item \texttt{GarageArea} and \texttt{GarageCars};
+%     \item \texttt{YearBuilt} and \texttt{GarageYrBlt};
+%     \item \texttt{1stFlrSF} and \texttt{TotalBsmtSF};
+%     \item \texttt{GrLivArea} and \texttt{FullBath};
+%     \item \texttt{YearRemodAdd} and \texttt{YearBuilt}.
+% \end{itemize}
+
+% \paragraph{Imperfect Multicollinearity.}
+
 Imperfect, or near, multicollinearity arises when two or more explanatory variables are highly correlated, although not perfectly linearly dependent.
 In this situation, OLS estimation is still feasible, but the variance of the affected coefficients becomes inflated.
 As a consequence, standard errors increase, leading to wider confidence intervals and less informative hypothesis tests.
@@ -721,6 +793,8 @@ BsmtQual      7.135004  4        1.278422
 Neighborhood 41.329522 27        1.071348
 \end{lstlisting}
 
+% \paragraph{VIF, GVIF, and Thresholds.}
+
 The literature offers different threshold values for interpreting VIFs, with common rules of thumb ranging from 5 to 10 as indicators of problematic multicollinearity.
 In models including categorical variables with more than two levels, \texttt{R} reports the \textit{Generalized Variance Inflation Factor} (GVIF), an extension of the VIF that properly accounts for multiple degrees of freedom.
 This adjustment is necessary because a categorical variable with $k$ levels expands into $(k{-}1)$ dummy variables, for which the classical VIF cannot be computed directly.
@@ -734,6 +808,7 @@ For variables with one degree of freedom, GVIF coincides with the standard VIF. 
 This yields a value comparable to the standard VIF, which explains why some categorical variables appear to have extremely high GVIFs: the large values simply reflect their number of dummy variables rather than true collinearity issues.
 
 For example, \texttt{Neighborhood} exhibits a very large GVIF (41.32), but once transformed it corresponds to a reasonable VIF of approximately 1.07.
+% Similarly, \texttt{MSZoning} shows a GVIF of 26.42 but a transformed VIF of just 1.39.
 
 Since, in our model, none of the transformed VIF values exceeds the common threshold of 10, nor comes close to it, we conclude that multicollinearity is not a serious concern for our current specification, and all the included regressors can be safely retained.
 
@@ -746,6 +821,15 @@ Since, in our model, none of the transformed VIF values exceeds the common thres
 In this section we investigate whether the relationship between the explanatory variables and \texttt{SalePrice} remained stable over time.
 Structural changes in the coefficients may arise for several reasons, and sharp economic events, such as financial crises, are among the most common sources of such instability.
 Since our dataset covers housing transactions between 2006 and 2010, it is natural to test for a structural break around 2008, the year associated with the outbreak of the Global Financial Crisis. The Chow test evaluates precisely this hypothesis.
+
+% The period covered by the dataset includes the years of the 2008 financial crisis, which may have affected the housing market and, consequently, the relationship between the explanatory variables and \texttt{SalePrice}.
+% To assess whether the regression coefficients are stable over time, we perform a Chow test for a structural break with respect to the year of sale (\texttt{Yr.Sold}).
+
+% We split the sample into two subperiods:
+% \begin{itemize}
+%     \item \textbf{pre-crisis period}: transactions in 2006--2007;
+%     \item \textbf{crisis and post-crisis period}: transactions in 2008--2010.
+% \end{itemize}
 
 Let $RSS_P$ and $RSS_C$ denote the residual sum of squares of the model estimated separately on the pre-crisis and the crisis/post-crisis subsamples, and let $RSS_{P \cup C}$ be the residual sum of squares of the model estimated on the full pooled sample. Denoting by $k$ the number of estimated parameters (including the intercept), and by $n_P$ and $n_C$ the sample sizes of the two subsamples, the Chow test statistic is:
 
@@ -928,9 +1012,15 @@ Taken together, these considerations support the conclusion that the baseline li
 \paragraph{Interaction Terms.}
 
 To address additional sources of nonlinearity, we also introduce the following economically motivated interaction term: \(\texttt{GrLivArea} \times \texttt{OverallQual}\).
+% \[
+%     \texttt{GrLivArea} \times \texttt{OverallQual},
+%     \qquad
+%     \texttt{GarageArea} \times \texttt{GarageCars}.
+% \]
 
 This interaction has a clear economic interpretation.
 A large but low-quality house may be worth less than a smaller but high-quality one; without the interaction between livable area and quality, this effect would be entirely missed by a linear model.
+% Similarly, the value contributed by a large garage depends on its capacity: a wide two-car garage is typically worth more than a very large one-car garage.
 
 % ---------------------------------------
 
@@ -970,7 +1060,6 @@ resettest(model)
 RESET test for model:
 RESET = 235.08, df1 = 2, df2 = 2646, p-value < 2.2e-16
 \end{lstlisting}
-
 % ---------------------------------------
 
 
@@ -991,7 +1080,6 @@ resettest(model_log)
 RESET test for log-model:
 RESET = 30.217, df1 = 2, df2 = 2646, p-value = 1.058e-13
 \end{lstlisting}
-
 % ---------------------------------------
 
 \begin{lstlisting}[style=rstyle]
@@ -1012,8 +1100,20 @@ resettest(model_transformato_reset)
 RESET test for log-model with interactions:
 RESET = 0.064315, df1 = 2, df2 = 2780, p-value = 0.9377
 \end{lstlisting}
-
 % ---------------------------------------
+
+
+
+
+% \paragraph{Interpretation.}
+
+% The Chow-type test implemented via \texttt{sctest} yields a test statistic $f(\text{efp}) = 1.30$ with a p-value of 0.8746.
+% Therefore, we fail to reject the null hypothesis of parameter stability at any conventional significance level: there is no statistical evidence of a structural break in the relationship between \texttt{SalePrice} and the selected regressors around the 2008 financial crisis.
+
+% The separate subsample regressions provide additional insight.
+% The pre-2008 model attains an adjusted $R^2$ of approximately 0.844, while the post-2008 model reaches an adjusted $R^2$ close to 0.897, indicating a somewhat better fit in the later period.
+% However, the signs and magnitudes of the main structural coefficients (such as those on \texttt{GrLivArea}, \texttt{TotalBsmtSF}, \texttt{LotArea}, and \texttt{OverallQual}) remain broadly consistent across the two subsamples.
+% Taken together, these results suggest that, although the crisis may have affected the overall volatility of the housing market, the underlying price determinants captured by our model are structurally stable over time.
 
 
 \subsection{Heteroskedasticity and Independence of Residuals}
@@ -1145,58 +1245,15 @@ For these reasons, we take this transformed and augmented specification as our f
 % ================================
 \section{Conclusions}
 
-This work analysed the determinants of residential property prices in Ames (Iowa) using the \textit{Ames Housing Dataset}, which provides a rich and heterogeneous set of structural, qualitative and locational characteristics for nearly 3{,}000 properties sold between 2006 and 2010. Our objective was to identify which features have a statistically and economically significant impact on sale prices, and to construct a regression model consistent with the assumptions of the classical linear model.
+Summarize findings and relate them back to your initial hypotheses.
 
-\subsection*{Summary of Empirical Findings}
+% ================================
+% Appendix
+% ================================
+% \appendix
+% \section{R Code}
 
-Our baseline specification (a multiple linear regression including structural size variables, quality measures, and neighbourhood indicators) exhibited a high explanatory power, with an adjusted $R^2$ of about $0.85$. This confirms the central idea underlying hedonic pricing models: the price of real estate can be decomposed into the implicit prices of its attributes. In particular:
-
-\begin{itemize}
-    \item \textbf{Size and structural attributes} such as \texttt{GrLivArea}, \texttt{TotalBsmtSF}, and \texttt{LotArea} display strong and significant effects on prices. Above-ground living area emerges as one of the strongest continuous predictors.
-    \item \textbf{Quality indicators}, notably \texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, and \texttt{BsmtQual}, play a decisive role. Lower-quality categories consistently carry substantial price discounts relative to top-quality units.
-    \item \textbf{Construction and renovation year} (\texttt{YearBuilt} and \texttt{YearRemodAdd}) contribute positively and significantly, reflecting depreciation effects and the value buyers assign to modernized structures.
-    \item \textbf{Neighbourhood} remains a powerful determinant even in fully specified models, confirming the importance of locational amenities, socio-economic characteristics, and spatial desirability.
-\end{itemize}
-
-\subsection*{Diagnostic Analysis and Model Adequacy}
-
-A thorough set of diagnostic tests was conducted to assess the validity of our specification:
-
-\begin{itemize}
-    \item \textbf{Perfect multicollinearity} was identified when including all area components (\texttt{GrLivArea}, \texttt{FirstFlrSF}, \texttt{SecondFlrSF}, \texttt{LowQualFinSF}) simultaneously. As expected, \texttt{R} removes one of the collinear variables automatically. The issue disappears when any one of the dependent variables is excluded.
-    \item \textbf{Imperfect multicollinearity} was evaluated using VIF and GVIF indices. After proper transformation of categorical variables, none of the regressors exhibited problematic values. We therefore ruled out near-collinearity as a major source of estimation distortion.
-    \item \textbf{Structural stability} was tested using the Chow test with a breakpoint in 2008, the year associated with the Global Financial Crisis. The test provided no evidence of a structural break: the pricing mechanism appears stable over time, although the intercept shifts downward in post-crisis years. This suggests that the crisis affected the \textit{level} of prices but not the \textit{structure} of price determination.
-    \item \textbf{Heteroskedasticity} was strongly detected via the White test, consistent with expectations for cross-sectional data. HAC robust standard errors can be employed to ensure reliable inference.
-    \item \textbf{Autocorrelation of residuals} was not present, and no repeated sales were found in the dataset to justify a more formal panel-like treatment.
-    \item \textbf{Functional form misspecification} emerged as the most relevant issue: the RESET test rejected the null hypothesis for both the baseline linear model and the log-linear variant. This indicates that relevant nonlinearities or omitted interactions were missing in the original specification.
-\end{itemize}
-
-\subsection*{Final Model and Economic Interpretation}
-
-Guided by the diagnostic evidence and economic intuition, we refined the model by:
-
-\begin{itemize}
-    \item applying log-transformations to \texttt{SalePrice} and key continuous regressors,
-    \item treating quality variables as \emph{ordered} factors to capture nonlinear differences across quality levels,
-    \item introducing an economically meaningful interaction (\texttt{GrLivArea} $\times$ \texttt{OverallQual}).
-\end{itemize}
-
-This enriched specification successfully passed the RESET test, indicating a correct functional form.
-Moreover, its structure aligns with widely used formulations in hedonic housing price modelling, particularly semi-log and log--log specifications where coefficients may be interpreted as elasticities.
-
-\subsection*{Overall Assessment}
-
-In conclusion, the modelling exercise demonstrates that:
-
-\begin{itemize}
-    \item house prices in Ames are primarily driven by a combination of structural size, overall and specific quality indicators, and neighbourhood attributes;
-    \item nonlinear relationships and interactions are essential to correctly capture the economic mechanisms behind property valuation;
-    \item the refined specification provides a flexible, statistically sound and economically interpretable model;
-    \item the 2008 financial crisis did not alter the structural relationship between housing attributes and prices, but did affect the absolute level of prices.
-\end{itemize}
-
-The final model therefore offers a robust and insightful representation of the housing market in Ames, and lays the groundwork for potential extensions such as spatial econometric models, non-parametric approaches, or regularized regression methods for high-dimensional settings.
-
+% Include clean, well-formatted R code used for the analysis.
 
 \bibliographystyle{alpha}
 \bibliography{references}

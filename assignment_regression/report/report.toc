@@ -18,14 +18,13 @@
 \contentsline {paragraph}{Linearity of the conditional mean.}{7}{section*.2}%
 \contentsline {paragraph}{Independent and identically distributed observations.}{7}{section*.3}%
 \contentsline {paragraph}{Finite fourth moments.}{7}{section*.4}%
-\contentsline {subsection}{\numberline {3.3}R Code}{7}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Model Output}{8}{subsection.3.4}%
-\contentsline {subsection}{\numberline {3.5}Interpretation of the Regression Output}{10}{subsection.3.5}%
-\contentsline {subsubsection}{\numberline {3.5.1}Overall Fit of the Model}{10}{subsubsection.3.5.1}%
-\contentsline {subsubsection}{\numberline {3.5.2}Interpretation of the Main Coefficients}{10}{subsubsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.3}Model implementation and Estimation}{7}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Interpretation of the Regression Output}{10}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Overall Fit of the Model}{10}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Interpretation of the Main Coefficients}{10}{subsubsection.3.4.2}%
 \contentsline {paragraph}{Living Area and Basement Space.}{10}{section*.5}%
 \contentsline {paragraph}{Lot Size.}{10}{section*.6}%
-\contentsline {paragraph}{Bathrooms and Garage Capacity.}{11}{section*.7}%
+\contentsline {paragraph}{Bathrooms and Garage Capacity.}{10}{section*.7}%
 \contentsline {paragraph}{Construction and Renovation Year.}{11}{section*.8}%
 \contentsline {paragraph}{Quality Indicators.}{11}{section*.9}%
 \contentsline {paragraph}{Neighbourhood Effects.}{11}{section*.10}%

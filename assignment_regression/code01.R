@@ -255,3 +255,8 @@ ames_multi_sales <- ames_clean %>%
   group_by(PID) %>%
   filter(n_distinct(Yr.Sold) >= 2) %>%
   ungroup()
+
+
+
+
+dwtest(model_transformato_reset)
