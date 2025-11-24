@@ -46,3 +46,6 @@
 \contentsline {paragraph}{Perfect collinearity.}{24}{section*.15}%
 \contentsline {paragraph}{Imperfect collinearity.}{25}{section*.16}%
 \contentsline {paragraph}{Structural stability.}{25}{section*.17}%
+\contentsline {paragraph}{Functional form.}{25}{section*.18}%
+\contentsline {paragraph}{Heteroskedasticity, independence and normality of residuals.}{26}{section*.19}%
+\contentsline {subsection}{\numberline {6.3}Overall Assessment}{26}{subsection.6.3}%

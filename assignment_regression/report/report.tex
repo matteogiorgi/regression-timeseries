@@ -1316,6 +1316,40 @@ Near multicollinearity was assessed using VIF and GVIF indices. After the approp
 \paragraph{Structural stability.}
 Structural stability was evaluated through a \textit{Chow test} with a breakpoint at 2008, the year of the global financial crisis. Despite expectations of instability, the test provides no evidence of a structural break: the pricing mechanism appears stable over time. While this may seem counter--intuitive, a closer look reveals that only the intercept shifts downward in the post--crisis period. This indicates that the crisis affected the general level of house prices but did not change the structure of the relationship between the explanatory variables and the dependent variable. Therefore, our estimated model remains coherent across the entire time span considered.
 
+\paragraph{Functional form.}
+Functional form misspecification emerged as the most relevant issue in our baseline model. The \textit{RESET test} rejected the null hypothesis at the 1\% significance level for both the standard linear specification and its log--linear variant, indicating that relevant nonlinearities or omitted interaction terms were not adequately captured.
+
+For this reason, our final model was constructed by combining three key modifications:
+
+\begin{itemize}
+    \item the application of \emph{log--transformations} to \texttt{SalePrice} and to the main continuous regressors, producing a log--log specification in which coefficients can be interpreted as elasticities (i.e., percentage changes in price associated with percentage changes in regressors), and allowing us to capture diminishing marginal effects
+    \item the treatment of quality variables (\texttt{OverallQual}, \texttt{KitchenQual}, \texttt{ExterQual}, \texttt{BsmtQual}) as \emph{ordered factors}, thereby modelling potentially nonlinear differences across quality levels rather than assuming equidistant or cardinal effects
+    \item the introduction of an economically meaningful interaction term, \(\texttt{GrLivArea} \times \texttt{OverallQual}\), which captures the intuitive idea that additional square footage has a different marginal value depending on the perceived overall quality of the dwelling. For example, increasing the size of a low--quality house may contribute less to its value than increasing the size of a high--quality house. This effect would be completely missed in a purely additive linear model.
+\end{itemize}
+
+This enriched specification successfully passed the \textit{RESET test}, confirming that the functional form is now consistent with the maintained hypotheses.
+
+\paragraph{Heteroskedasticity, independence and normality of residuals.}
+Using this final model, heteroskedasticity was strongly detected via the \textit{White test}, the most appropriate diagnostic tool in cross--sectional settings. As a remedy, we adopted HAC (heteroskedasticity and autocorrelation consistent) robust standard errors to ensure valid statistical inference.
+
+We also explored whether it was possible to test for serial correlation using repeated observations of the same house over time. To do this, we attempted to construct a smaller panel--like dataset including only properties sold more than once (same \texttt{PID}) across different years. However, the Ames dataset contains no repeated sales between 2006 and 2010, making this approach infeasible. For completeness, we still computed the \textit{Durbin--Watson test} on the cross--sectional residuals; the statistic (1.84) suggests no evidence of autocorrelation, consistent with the nature of the data.
+
+Finally, we computed the \textit{Jarque--Bera test} for normality of residuals, which rejects the null hypothesis. However, this does not pose a substantive problem for our analysis, since the classical linear model does not require residuals to be normally distributed unless one is interested in exact small--sample inference. In our context, inference relies on asymptotic theory and robust standard errors, and therefore does not depend on gaussianity of the errors.
+
+\subsection{Overall Assessment}
+
+In conclusion, the modelling exercise demonstrates that:
+
+\begin{itemize}
+    \item house prices in Ames are primarily driven by a combination of structural size variables, overall and specific quality indicators, and neighbourhood attributes
+    \item nonlinear relationships and interaction effects are essential to correctly capture the economic mechanisms underlying property valuation
+    \item the refined specification provides a flexible, statistically sound, and economically interpretable model
+    \item the 2008 financial crisis did not alter the structural relationship between housing characteristics and prices, but did shift the overall level of prices downward
+\end{itemize}
+
+The final model therefore offers a robust and insightful representation of the housing market in Ames, and provides a solid foundation for possible extensions such as spatial econometric models, non--parametric approaches, or regularised regression methods suited for high--dimensional settings.
+
+
 
 
 \bibliographystyle{alpha}

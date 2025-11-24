@@ -274,3 +274,10 @@ library(sandwich)
 library(lmtest)
 vcov_hac <- vcovHAC(model)
 coeftest(model_transformato_reset, vcov. = vcov_hac)
+
+
+
+#normality of residuals
+install.packages("tseries")
+library(tseries)
+jarque.bera.test(residuals(model_transformato_reset ))
