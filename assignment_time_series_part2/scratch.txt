@@ -1,0 +1,3 @@
+Time series forecast:
+use the series of your colleagues (series_1) to do forecasting.
+Use the value you have to check the effectiveness of the estimates.
