@@ -1,0 +1,35 @@
+Ti ho passato il file con la serie storica (noi siamo il gruppo 10, quindi la serie storica è nella colonna K indicata con Group 10)
+Potresti risolvere il task che ti ho messo in screenshot?
+
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import scipy as sp
+import seaborn as sns
+import statsmodels.api as sm
+
+%cd "C:\Users\super\Desktop\Proj"
+
+# Caricamento del nuovo dataset
+data = pd.read_csv('arma12_seasonal_controlled_15series.csv')
+
+# Selezione della serie 'series_10' (equivalente a Group 10)
+G10 = data['series_10']
+
+# 1. Plot the series
+plt.figure(figsize=(10, 6))
+plt.plot(G10)
+plt.title('Series 10 Plot')
+plt.grid(True)
+plt.show()
+
+# 2. Stationarity
+#series_clean = G10.replace([np.inf, -np.inf], np.nan).dropna()
+
+print("ADF Test")
+# H0: Non stazionaria (Unit Root) vs H1: Stazionaria
+
+adf_result = sm.tsa.stattools.adfuller(G10, autolag='AIC')
+print(f'ADF Statistic: {adf_result[0]}')
+print(f'p-value: {adf_result[1]}')
